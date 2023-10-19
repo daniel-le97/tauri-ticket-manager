@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import { dbService, type User } from "./db/service.js";
   import Greet from "./lib/Greet.svelte";
   import SideBar from "./lib/Components/SideBar.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
@@ -10,14 +9,14 @@
 
   let notesTextarea: string;
   let clipBoardText: string | null;
-  let users: User;
+
 
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
   }, 1000);
 
   onMount(async () => {
-    users = await dbService.getUsers();
+   
     copyClipBoard();
   });
 
