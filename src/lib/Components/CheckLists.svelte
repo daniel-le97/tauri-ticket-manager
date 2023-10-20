@@ -1,16 +1,15 @@
 <!-- Checklist.svelte -->
 <script lang="ts">
-  import { clipboard , dialog} from "@tauri-apps/api";
+  import { clipboard , notification} from "@tauri-apps/api";
   import {
     Popover,
     GradientButton,
   } from "flowbite-svelte";
-    import { title, content, tag } from "../store.js";
-    import { Template, type ITemplate, type TemplateDTO } from "../../db/types.js";
-    import { onMount } from "svelte";
+    import { title, content, tag } from "../stores/template.js";
+    import { Template, type ITemplate } from "../../db/types.js";
     import { dbService } from "../../db/service.js";
-    import type { MouseEventHandler } from "svelte/elements";
-
+    import { templateService } from "../services/template.js";
+    
   const templatesPromise = dbService.templates.getAll()
 
   async function copyToClipboard(Template: string) {
@@ -20,24 +19,6 @@
     } catch (error) {
       console.error("Error copying to clipboard:", error);
     }
-  }
-
-  async function addTemplate(){
-    try {
-      
-      const newTemplate = {
-        title: $title,
-        tag: $tag,
-        content: $content
-      } as ITemplate
-      
-      const made = new Template(newTemplate)
-      //  await dbService.templates.create(new Template(newTemplate))
-      dialog.message('made: ' + JSON.stringify(made))
-    } catch (error) {
-      
-    }
-      
   }
 
 </script>
@@ -74,7 +55,7 @@
         id="new-Template"
         />
       </div>
-      <button type="submit" class=" bg-blue-400" on:click|preventDefault|stopPropagation={addTemplate}>add template</button>
+      <button type="submit" class=" bg-blue-400" on:click|preventDefault|stopPropagation={templateService.addTemplate}>add template</button>
     </form>
     </div>
     

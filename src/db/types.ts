@@ -22,7 +22,7 @@ export class Template implements Omit<ITemplate, 'id' | 'created_at' | 'updated_
     title: string;
     content: string;
     tag: string;
-    constructor(fields: ITemplate){
+    constructor(fields: Omit<ITemplate, 'id' | 'created_at' | 'updated_at'>){
         this.tag = fields.tag
         this.content = fields.content
         this.title = fields.title
@@ -38,7 +38,7 @@ export class Note implements Omit<INote, 'id' | 'created_at' | 'updated_at'> {
     description: string;
     ipv4: string;
 
-    constructor(fields: INote) {
+    constructor(fields: Omit<INote, 'id' | 'created_at' | 'updated_at'>) {
         this.phone = fields.phone;
         this.asset = fields.asset;
         this.email = fields.email;
