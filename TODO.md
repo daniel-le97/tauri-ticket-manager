@@ -1,5 +1,5 @@
 # TODO List for Svelte Tauri Ticket Manager
-
+source "$HOME/.cargo/env"
 ## Overview
 This project is a ticket manager built with Svelte and Tauri. It needs the following tasks to be completed for the database:
 

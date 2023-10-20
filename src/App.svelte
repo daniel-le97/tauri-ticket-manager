@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import Greet from "./lib/Greet.svelte";
+  import Greet from "./lib/Components/Greet.svelte";
   import SideBar from "./lib/Components/SideBar.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
@@ -43,6 +43,7 @@
 <span class="notes-title">
   Ticket Manager
 </span>
+
       <SideBar />
     </div>
     <div class="menu-container">
