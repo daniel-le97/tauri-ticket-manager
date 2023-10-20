@@ -13,6 +13,10 @@
 </script>
 
 <div data-tauri-drag-region class="titlebar">
+
+  <div class=" text-white">
+  <img src="src-tauri\icons\icon.png" alt="" width="20">
+  </div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="titlebar-button" id="titlebar-minimize" on:click={minimize}>

@@ -71,7 +71,7 @@
 
 <style>
   .main-container {
-    height: 94vh;
+    height: 94.30vh;
     display: flex;
     flex-direction: column;
   }
