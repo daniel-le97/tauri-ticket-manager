@@ -2,7 +2,7 @@
   import { clipboard } from "@tauri-apps/api";
   import { readText, writeText } from "@tauri-apps/api/clipboard";
   import { Button, Input } from "flowbite-svelte";
-
+let scrollingModal = false;
   let noteHeader = {
     ipv4: "IPV4",
     phone: "Phone#",
@@ -78,8 +78,8 @@ Ipv4: ${noteHeader.ipv4}`;
   }
 </script>
 
-<div class="menu-section  p-1">
-  <ul class="line-row space-x-1 flex-wrap">
+<div class="menu-section py-0 pt-2 p-1">
+  <ul class="line-row space-x-1 flex justify-start  flex-wrap">
     <li class="line-item">
       <input
         type="text"
@@ -108,13 +108,7 @@ Ipv4: ${noteHeader.ipv4}`;
         on:input={handlePhoneNumberInput}
       />
     </li>
-    <!-- <li class="flex items-center">
-      <Input
-        size="sm"
-        placeholder="UserEmail"
-        class=" rounded-sm"
-      />
-    </li> -->
+
   </ul>
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
@@ -141,16 +135,14 @@ Ipv4: ${noteHeader.ipv4}`;
 <style>
   input {
     outline: none;
-    padding: 3px;
 
-    border-radius: 0px;
+    border-radius: 2px;
     outline: none;
     border: none;
     font-weight: 400;
-
     cursor: pointer;
     width: auto; /* Set the width to automatically grow as needed */
-    max-width: 100px;
+    max-width: 140px;
   }
   input:focus {
     border: #ff5733 1px solid;
@@ -162,12 +154,14 @@ Ipv4: ${noteHeader.ipv4}`;
     justify-content: space-between;
   }
 
-  .line-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+ 
   .line-item {
     cursor: pointer;
   }
+
+  @media (max-width: 768px) {
+  .line-row {
+    flex-direction: column;
+  }
+}
 </style>

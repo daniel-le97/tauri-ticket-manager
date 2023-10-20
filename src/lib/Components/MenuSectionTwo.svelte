@@ -1,41 +1,70 @@
 <script lang="ts">
-  import { Button } from "flowbite-svelte";
+  import { dialog } from "@tauri-apps/api";
+  import { Badge, Button, Modal } from "flowbite-svelte";
   import CheckLists from "./CheckLists.svelte";
-  import Modal from "./Modal.svelte";
-
-  let showModal = false;
+  import Timer from "./Timer.svelte";
+  let defaultModal = false;
+  let scrollingModal = false;
+  let size;
 </script>
 
-<div class="menu-section  p-1 pt-0">
+<div class="menu-section pt-5 px-1">
   <ul class="line-row space-x-1">
     <li class="line-item">
       <Button
         color="blue"
-        class=" rounded-sm p-1.5"
-        on:click={() => (showModal = true)}>CheckList</Button
+        class=" rounded-sm "
+        on:click={() => (scrollingModal = true)}>Templates</Button
       >
     </li>
     <li class="line-item">
       <Button
-        color="blue"
-        class=" rounded-sm p-1.5"
-        on:click={() => (showModal = true)}>ESC</Button
+        color="red"
+        class=" rounded-sm "
+        on:click={() => (defaultModal = true)}>ESC</Button
+      >
+    </li>
+
+    <li class="line-item">
+      <Button
+        color="yellow"
+        class=" rounded-sm "
+        on:click={() => (scrollingModal = true)}>Templates</Button
       >
     </li>
     <li class="line-item">
       <Button
-        color="blue"
-        class=" rounded-sm p-1.5"
-        on:click={() => (showModal = true)}>Toggle</Button
+        color="green"
+        class=" rounded-sm "
+        on:click={() => (defaultModal = true)}>ESC</Button
+      >
+    </li>
+    <li class="line-item">
+      <Button
+        color="purple"
+        class=" rounded-sm "
+        on:click={() => (defaultModal = true)}>Toggle</Button
       >
     </li>
   </ul>
+  <Badge large>
+    <Timer />
+  </Badge>
+  <Modal size="xl" title="Templates" bind:open={scrollingModal} autoclose>
+    <CheckLists />
+    <svelte:fragment slot="footer">
+      <Button on:click={() => dialog.message("Handled Success")}
+        >I accept</Button
+      >
+      <Button color="alternative">Decline</Button>
+    </svelte:fragment>
+  </Modal>
 
-  <Modal bind:showModal>
+  <!-- <Modal bind:showModal>
     <h2 slot="header">CheckLists</h2>
 
     <CheckLists />
-  </Modal>
+  </Modal> -->
 </div>
 
 <style>

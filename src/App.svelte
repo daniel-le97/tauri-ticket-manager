@@ -1,11 +1,10 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import Greet from "./lib/Components/Greet.svelte";
   import SideBar from "./lib/Components/SideBar.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
-  import MenuSectionThree from "./lib/Components/MenuSectionThree.svelte";
+  
 
   let notesTextarea: string;
   let clipBoardText: string | null;
@@ -60,10 +59,10 @@
 
       <SideBar />
     </div>
-    <div class="menu-container border-2  border-amber-400 justify-between bg-zinc-800">
+    <div class="menu-container border-2  border-amber-400  bg-zinc-800">
       <MenuSectionOne {clipBoardText} />
       <MenuSectionTwo />
-      <MenuSectionThree {clipBoardText} />
+   
     </div>
   </div>
 </main>

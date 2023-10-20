@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.0",
+    "flowbite-svelte-icons": "^0.4.4",
     "tauri-plugin-sql-api": "https://github.com/tauri-apps/tauri-plugin-sql#v1"
   },
   "devDependencies": {
