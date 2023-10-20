@@ -13,13 +13,21 @@
 </script>
 
 <div data-tauri-drag-region class="titlebar">
-
-  <div class=" text-white">
-  <img src="src-tauri\icons\icon.png" alt="" width="20">
+  <div
+    data-tauri-drag-region
+    class=" absolute left-3 space-x-4 flex items-center"
+  >
+    <img
+      data-tauri-drag-region
+      src="src-tauri\icons\icon.png"
+      alt=""
+      width="20"
+    />
+    <span data-tauri-drag-region class="text-white">Tauri NoteTaker</span>
   </div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="titlebar-button" id="titlebar-minimize" on:click={minimize}>
+  <div class="titlebar-button" id="titlebar-minimize" on:click="{minimize}">
     <svg
       width="20"
       height="20"
@@ -32,13 +40,16 @@
         stroke="#fff"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        stroke-linejoin="round"></path>
     </svg>
   </div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="titlebar-button" id="titlebar-maximize" on:click={toggleMaximize}>
+  <div
+    class="titlebar-button"
+    id="titlebar-maximize"
+    on:click="{toggleMaximize}"
+  >
     <svg
       width="16"
       height="16"
@@ -51,34 +62,30 @@
         stroke="#ffffff"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        stroke-linejoin="round"></path>
       <path
         d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9"
         stroke="#ffffff"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        stroke-linejoin="round"></path>
       <path
         d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16"
         stroke="#ffffff"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        stroke-linejoin="round"></path>
       <path
         d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15"
         stroke="#ffffff"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        stroke-linejoin="round"></path>
     </svg>
   </div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="titlebar-button" id="titlebar-close" on:click={close}>
+  <div class="titlebar-button" id="titlebar-close" on:click="{close}">
     <svg
       width="16"
       height="16"
@@ -93,8 +100,7 @@
           id="close"
           fill="none"
           fill-rule="evenodd"
-          stroke="none"
-        />
+          stroke="none"></path>
         <g id="close">
           <path
             d="M2 22L22 2"
@@ -104,8 +110,7 @@
             stroke="#fff"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke-linejoin="round"></path>
           <path
             d="M22 22L2 2"
             id="Vector"
@@ -114,15 +119,13 @@
             stroke="#fff"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+            stroke-linejoin="round"></path>
           <path
             d="M24 0L24 24L0 24L0 0L24 0Z"
             id="Vector"
             fill="none"
             fill-rule="evenodd"
-            stroke="none"
-          />
+            stroke="none"></path>
         </g>
       </g>
     </svg>

@@ -13,6 +13,7 @@
     timerStart = setInterval(() => {
       totalSeconds++;
     }, 1000);
+ 
   }
 
   function pauseTimer() {
@@ -33,12 +34,12 @@
 <Button
   color="alternative"
   class="space-x-2 rounded-sm p-2"
-  on:click={$timer ? pauseTimer : startTimer}
+  on:click="{$timer ? pauseTimer : startTimer}"
 >
   {#if $timer}
     <CirclePauseSolid />
   {:else}
     <ClockOutline />
   {/if}
-  <p class="{$timer? 'text-green-700' : 'text-orange-500'}">{formattedTime}</p>
+  <p class="{$timer ? 'text-green-700' : 'text-orange-500'}">{formattedTime}</p>
 </Button>

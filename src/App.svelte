@@ -8,6 +8,7 @@
   import { window } from "@tauri-apps/api";
 
   import TitleBar from "./lib/Components/TitleBar.svelte";
+  import { timer } from "./lib/stores/timer";
   let notesTextarea: string;
   let clipBoardText: string | null;
 
@@ -22,12 +23,13 @@
   });
 
   async function handleKeyDown(event: any) {
+    $timer = true;
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";
 
     if (ctrlPressed && shiftPressed && backspacePressed) {
-      if ( await confirm("Are you sure?")) {
+      if (await confirm("Are you sure?")) {
         notesTextarea = ""; // Clear the textarea
       }
     }
@@ -54,17 +56,16 @@
   <TitleBar />
   <div class="main-container">
     <div
-      class="notes-and-sidebar-container border-2  border-y-0 border-zinc-400"
+      class="notes-and-sidebar-container border-2 border-y-0 border-zinc-400"
     >
       <textarea
-        on:keydown={handleKeyDown}
+        on:keydown="{handleKeyDown}"
         class="notes-area bg-zinc-900"
         id="notes-area"
-        bind:value={notesTextarea}
-      />
+        bind:value="{notesTextarea}"></textarea>
     </div>
     <div class="menu-container border-2 border-amber-400 bg-zinc-800">
-      <MenuSectionOne {clipBoardText} />
+      <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>
   </div>

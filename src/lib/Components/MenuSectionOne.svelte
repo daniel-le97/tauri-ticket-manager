@@ -8,7 +8,6 @@
     ChevronRightSolid,
     ClipboardCheckSolid,
   } from "flowbite-svelte-icons";
-  let scrollingModal = false;
   let noteHeader = {
     ipv4: "",
     phone: "",
@@ -109,23 +108,23 @@ Ipv4: ${noteHeader.ipv4}`;
 
     <li class="line-item">
       <input
-        type="text"
-        placeholder="Asset#"
+        type="text" 
+        placeholder="Asset # "
         bind:value={noteHeader.assetTag}
       />
     </li>
     <li class="line-item">
-      <input type="text" bind:value={noteHeader.ipv4} />
+      <input type="text" placeholder="Ipv4 Address" bind:value={noteHeader.ipv4} />
     </li>
 
     <li class="line-item">
-      <input type="text" bind:value={noteHeader.ticketNumber} />
+      <input type="text" placeholder="Ticket #" bind:value={noteHeader.ticketNumber} />
     </li>
     <li class="line-item">
       <input
         type="text"
         bind:value={noteHeader.phone}
-        placeholder="Phone Number"
+        placeholder="Phone #"
         on:input={handlePhoneNumberInput}
       />
     </li>
