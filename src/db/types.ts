@@ -1,4 +1,4 @@
-type Notes = {
+export type Notes = {
     id: string,
     phone: string,
     asset: string,
@@ -7,7 +7,7 @@ type Notes = {
     ipv4: string
 }
 
-type CheckList = {
+export type CheckLists = {
     id: string;
     title: string;
     questions: string;
