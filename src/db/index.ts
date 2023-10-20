@@ -1,16 +1,30 @@
 import Database from "tauri-plugin-sql-api";
+import * as tauri from "@tauri-apps/api"
 
-// sqlite. The path is relative to `tauri::api::path::BaseDirectory::App`.
-// const db = await Database.load("sqlite:test.db");
-let db: Database | null = null
-
-export const useDB = async() => {
-    if (!db) {
-        
-        db = await Database.load("sqlite:test.db");
-        console.log(db.path);
-        
-        db.execute(`CREATE TABLE IF NOT EXISTS users (name TEXT, age INTEGER);INSERT INTO users VALUES ('steve', 42);`)
+export class DB {
+    db: Promise<Database>
+    constructor(){
+        this.db = Database.load("sqlite:test.db")
+        this.applyShemas(this.db)
     }
-    return db
+    async select<T>(query:string, bindValues?: unknown[] | undefined){
+        return (await this.db).select<T>(query, bindValues ? bindValues : undefined)
+    }
+    async execute(query:string, bindValues?: unknown[] | undefined){
+        return (await this.db).execute(query, bindValues ? bindValues : undefined)
+    }
+   private async applyShemas(db: Promise<Database>){
+       console.log('applying schemas');
+       
+        
+    }
+}
+
+const schemas = {
+    "notes": `CREATE TABLE IF NOT EXISTS notes (
+        id INTEGER
+        description TEXT,
+        phone INTEGER,
+        asset TEXT,
+        machine TEXT);`
 }
