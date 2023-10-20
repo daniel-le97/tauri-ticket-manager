@@ -61,8 +61,7 @@
     </div>
     <div class="menu-container border-2  border-amber-400  bg-zinc-800">
       <MenuSectionOne {clipBoardText} />
-      <MenuSectionTwo />
-   
+      <MenuSectionTwo  />
     </div>
   </div>
 </main>
