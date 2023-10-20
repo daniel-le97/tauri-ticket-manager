@@ -1,31 +1,17 @@
 <!-- Checklist.svelte -->
 <script lang="ts">
-  import { clipboard } from "@tauri-apps/api";
+  import { clipboard , dialog} from "@tauri-apps/api";
   import {
     Popover,
     GradientButton,
-    Button,
-    Toggle,
-    AccordionItem,
-    Accordion,
   } from "flowbite-svelte";
-  let template = [
-    {
-      title: "General Call Template",
-      template: `User's Stated Issue:
-When did it last work:
-How many users are affected: 
+    import { title, content, tag } from "../store.js";
+    import { Template, type ITemplate, type TemplateDTO } from "../../db/types.js";
+    import { onMount } from "svelte";
+    import { dbService } from "../../db/service.js";
+    import type { MouseEventHandler } from "svelte/elements";
 
-
-Troubleshooting Steps:
--------------------------------`,
-    },
-  ];
-  let newTemplate = {
-    title: "",
-
-    template: "",
-  };
+  const templatesPromise = dbService.templates.getAll()
 
   async function copyToClipboard(Template: string) {
     const textToCopy = Template;
@@ -36,60 +22,86 @@ Troubleshooting Steps:
     }
   }
 
-  $: {
-    newTemplate;
+  async function addTemplate(){
+    try {
+      
+      const newTemplate = {
+        title: $title,
+        tag: $tag,
+        content: $content
+      } as ITemplate
+      
+      const made = new Template(newTemplate)
+      //  await dbService.templates.create(new Template(newTemplate))
+      dialog.message('made: ' + JSON.stringify(made))
+    } catch (error) {
+      
+    }
+      
   }
+
 </script>
 
 <div class="  flex flex-col p-3 bg-red-50">
   <span>Create Template</span>
+  
   <div class="flex flex-col space-y-3">
-    <div class="flex">
-      <input
+    <form>
+      <div class="flex">
+        <input
         type="text"
-        bind:value={newTemplate.title}
+        bind:value={$title}
         placeholder="Title"
         id="new-title"
-      />
-    </div>
-
-    <div>
-      <textarea
+        />
+        
+      </div>
+      <div class="flex">
+        <input
+        type="text"
+        bind:value={$tag}
+        placeholder="Tag"
+        id="new-tag"
+        />
+      </div>
+      
+      <div>
+        <textarea
         cols="70"
         rows="7"
-        bind:value={newTemplate.template}
-        placeholder="Add Item"
+        bind:value={$content}
+        placeholder="Add Content"
         id="new-Template"
-      />
-    </div>
-
-    <div class="template-preview my-3 flex flex-col">
-      <span class="text-lg font-semibold"> Title: {newTemplate.title}</span>
-
-      <div class=" w-72 max-h-56 overflow-y-scroll">
-        <pre>{@html newTemplate.template}</pre>
+        />
       </div>
+      <button type="submit" class=" bg-blue-400" on:click|preventDefault|stopPropagation={addTemplate}>add template</button>
+    </form>
     </div>
-  </div>
-
-  <div class="mt-4">
+    
+    <div class="mt-4">
     <span class="text=xl font-semibold mb-4">Templates:</span>
-    <ul class="mt-4">
-      <li>
-        {#each template as c}
-          <GradientButton
-            shadow
-            color="blue"
-            on:click={() => copyToClipboard(c.template)}
-          >
-            {c.title}</GradientButton
-          >
-          <Popover placement="top" class="w-80 text-sm">
-            <div><pre>{@html c.template}</pre></div>
-          </Popover>
-        {/each}
-      </li>
-    </ul>
+    {#await templatesPromise}
+	<p>...getting templates</p>
+{:then templates}
+<ul class="mt-4">
+    <li>
+      {#each templates as template}
+        <GradientButton
+          shadow
+          color="blue"
+          on:click={() => copyToClipboard(template.content)}
+        >
+          {template.title}</GradientButton
+        >
+        <Popover placement="top" class="w-80 text-sm">
+          <div><pre>{@html template.content}</pre></div>
+        </Popover>
+      {/each}
+    </li>
+  </ul>
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
   </div>
 </div>
 

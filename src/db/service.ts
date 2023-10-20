@@ -1,7 +1,7 @@
 
 
 import { db } from "../main.js";
-import type { Template, Note, Common } from "./types.js";
+import type { TemplateDTO, Template, Note, Common } from "./types.js";
 // import { useDB } from "./index.js";
 
 class DBService {
@@ -22,15 +22,15 @@ class DBService {
     }
     templates = {
         async getAll(){
-            return await db.select<Template[]>(`SELECT * FROM templates`)
+            return await db.select<TemplateDTO[]>(`SELECT * FROM templates`)
         },
         async getById(id: string | number){
-            return await db.select<Template>(`SELECT * FROM template where id = $1`, [id])
+            return await db.select<TemplateDTO>(`SELECT * FROM template where id = $1`, [id])
         },
         async deleteById(id: string) {
             return await db.execute(`DELETE FROM template where id = $1`, [id])
         },
-        async update(checklist: Template){
+        async update(checklist: TemplateDTO){
             const foundChecklist = await this.getById(checklist.id)
             return await db.execute(
            `UPDATE 

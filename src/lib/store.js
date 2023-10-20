@@ -1,13 +1,12 @@
 import { writable } from 'svelte/store';
 
-export const noteState = {
-    phone: writable(''),
-    asset: writable(''),
-    email: writable(''),
-    description: writable('')
-}
-export const templateState = {
-    content: writable(''),
-    tag: writable(''),
-    title: writable('')
-}
+// For noteState
+export const phone = writable('');
+export const asset = writable('');
+export const email = writable('');
+export const description = writable('');
+
+// For templateState
+export const content = writable('');
+export const tag = writable('');
+export const title = writable('');
