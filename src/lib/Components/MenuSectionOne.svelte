@@ -119,6 +119,8 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background: #000;
+  
   }
 
   .change-ticket-buttons {

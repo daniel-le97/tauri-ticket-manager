@@ -1,82 +1,34 @@
 <!-- Checklist.svelte -->
 <script lang="ts">
   import { clipboard } from "@tauri-apps/api";
-  import { Popover, GradientButton, Button } from "flowbite-svelte";
-  let checkLists = [
+  import {
+    Popover,
+    GradientButton,
+    Button,
+    Toggle,
+    AccordionItem,
+    Accordion,
+  } from "flowbite-svelte";
+  let template = [
     {
       title: "General Call Template",
-      list: [
-        `User's Stated Issue:`,
-        "When did it last work:",
-        "How many users are affected: ",
-        "",
-        "",
-        "Troubleshooting Steps:",
-        "-------------------------------",
-      ],
-    },
-    {
-      title: "Software Installation",
-      list: [
-        `User's Stated Issue:`,
-        "Operating System:",
-        "Installation Date:",
-        "Error Message:",
-        "Troubleshooting Steps:",
-        "-------------------------------",
-      ],
-    },
-    {
-      title: "Network Connection",
-      list: [
-        `User's Stated Issue:`,
-        "Wired or Wireless:",
-        "Router Model:",
-        "IP Address:",
-        "Troubleshooting Steps:",
-        "-------------------------------",
-      ],
-    },
-    {
-      title: "Password Reset",
-      list: [
-        `User's Stated Issue:`,
-        "Account Username:",
-        "Last Successful Login:",
-        "Security Questions:",
-        "Troubleshooting Steps:",
-        "-------------------------------",
-      ],
-    },
-    {
-      title: "Hardware Issue",
-      list: [
-        `User's Stated Issue:`,
-        "Device Type:",
-        "Serial Number:",
-        "Description of Issue:",
-        "Troubleshooting Steps:",
-        "-------------------------------",
-      ],
+      template: `User's Stated Issue:
+When did it last work:
+How many users are affected: 
+
+
+Troubleshooting Steps:
+-------------------------------`,
     },
   ];
-  let newCheckList = {
+  let newTemplate = {
     title: "",
-    list: [""],
+
+    template: "",
   };
 
-  let newListItem = "";
-
-  function addListItem() {
-    if (newListItem) {
-      newCheckList.list = [...newCheckList.list, newListItem];
-
-      newListItem = ""; // Clear the input field after adding
-    }
-  }
-
-  async function copyToClipboard(list: string[]) {
-    const textToCopy = list.join("\n");
+  async function copyToClipboard(Template: string) {
+    const textToCopy = Template;
     try {
       await clipboard.writeText(textToCopy);
     } catch (error) {
@@ -85,55 +37,68 @@
   }
 
   $: {
-    newCheckList;
+    newTemplate;
   }
 </script>
 
-<div class=" my-10 flex flex-col p-3">
+<div class="  flex flex-col p-3 bg-red-50 ">
+ 
+
+
+
+<Accordion>
+  <AccordionItem>
+    <span slot="header">Create Template</span>
   <div class="flex flex-col space-y-3">
     <div class="flex">
       <input
         type="text"
-        bind:value={newCheckList.title}
+        bind:value={newTemplate.title}
         placeholder="Title"
         id="new-title"
       />
     </div>
 
-    <div class="flex space-x-3">
+    <div>
       <textarea
-        cols="30"
-        bind:value={newListItem}
+        cols="70"
+        rows="7"
+        bind:value={newTemplate.template}
         placeholder="Add Item"
-        id="new-item"
+        id="new-Template"
       />
-      <Button color="dark" disabled={newListItem === ""} on:click={addListItem}
-        >Add list Item</Button
-      >
     </div>
 
-    <div class="checklist-preview my-3">
-      <span class="text-lg font-semibold"> Title: {newCheckList.title}</span>
-      <br />
+    <div class="template-preview my-3 flex flex-col">
+      <span class="text-lg font-semibold"> Title: {newTemplate.title}</span>
 
-      <div>{@html newCheckList.list.join("<br>")}</div>
+      <div class=" w-72 max-h-56 overflow-y-scroll">
+        <pre>{@html newTemplate.template}</pre>
+      </div>
     </div>
   </div>
+  </AccordionItem>
+ 
+</Accordion>
 
-  <div class="my-10">
-    <span class="text=xl font-semibold mb-4"> CheckLists | Templates</span>
+
+
+
+
+  <div class="mt-4">
+    <span class="text=xl font-semibold mb-4">Templates:</span>
     <ul class="mt-4">
       <li>
-        {#each checkLists as c}
+        {#each template as c}
           <GradientButton
             shadow
             color="blue"
-            on:click={() => copyToClipboard(c.list)}
+            on:click={() => copyToClipboard(c.template)}
           >
             {c.title}</GradientButton
           >
           <Popover placement="top" class="w-80 text-sm">
-            <div>{@html c.list.join("<br>")}</div>
+            <div><pre>{@html c.template}</pre></div>
           </Popover>
         {/each}
       </li>

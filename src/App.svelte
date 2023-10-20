@@ -7,6 +7,7 @@
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import MenuSectionThree from "./lib/Components/MenuSectionThree.svelte";
 
+  
   let notesTextarea: string;
   let clipBoardText: string | null;
 
@@ -17,6 +18,18 @@
   onMount(async () => {
     copyClipBoard();
   });
+
+    function handleKeyDown(event) {
+    const ctrlPressed = event.ctrlKey;
+    const shiftPressed = event.shiftKey;
+    const backspacePressed = event.key === "Backspace";
+
+    if (ctrlPressed && shiftPressed && backspacePressed) {
+   if (window.confirm('Are you sure?')) {
+        notesTextarea = ""; // Clear the textarea
+      }
+    }
+  }
 
   async function copyClipBoard() {
     try {
@@ -39,16 +52,14 @@
 <main class="">
   <div class="main-container">
     <div class="notes-and-sidebar-container">
-      <textarea class="notes-area" id="notes-area" bind:value={notesTextarea} />
-<span class="notes-title">
-  Ticket Manager
-</span>
+      <textarea on:keydown={handleKeyDown} class="notes-area" id="notes-area" bind:value={notesTextarea} />
+      <span class="notes-title text-white"> Ticket Manager </span>
 
       <SideBar />
     </div>
     <div class="menu-container">
       <MenuSectionOne {clipBoardText} />
-      <MenuSectionTwo {clipBoardText} />
+      <MenuSectionTwo />
       <MenuSectionThree {clipBoardText} />
     </div>
   </div>
@@ -61,7 +72,7 @@
     flex-direction: column;
     justify-content: space-between;
     border: 2px solid #666;
-    background-color: #2196f3;
+
   }
 
   .notes-and-sidebar-container {
@@ -74,7 +85,7 @@
 
   .notes-area {
     font-size: 16pt;
-    width: 98%; /* Initially take up most of the width */
+    width: 100%; /* Initially take up most of the width */
     background-color: #000;
     color: white;
     padding: 5px;
@@ -87,7 +98,7 @@
     outline: none;
   }
 
-  .notes-title{
+  .notes-title {
     position: absolute;
     top: 1%;
     right: 3%;
@@ -97,9 +108,10 @@
     cursor: default;
   }
   .menu-container {
-    border-top: 4px black solid;
+
     display: flex;
     flex-direction: column;
+      border: rgb(255, 198, 43) 3px solid;
   }
 
   /* For Webkit-based browsers (Chrome, Safari) */

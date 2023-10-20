@@ -16,7 +16,9 @@
   <div on:click|stopPropagation>
     <slot name="header" />
     <hr />
-    <slot />
+
+     <slot />
+ 
     <hr />
     <!-- svelte-ignore a11y-autofocus -->
     <button class="absolute bottom-4 right-4" autofocus on:click={() => dialog.close()}>close modal</button>

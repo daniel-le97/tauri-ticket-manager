@@ -1,6 +1,6 @@
 <script>
   import CheckLists from "./CheckLists.svelte";
-import Modal from "./Modal.svelte";
+  import Modal from "./Modal.svelte";
 
   let showModal = false;
 </script>
@@ -8,43 +8,26 @@ import Modal from "./Modal.svelte";
 <div class="side-bar">
   <ul class="side-bar-menu">
     <li>
-      <div class="">
-        <button class="side-bar-button" on:click={() => (showModal = true)}>
-         CheckList
-        </button>
-      </div>
+      <button class="side-bar-button" on:click={() => (showModal = true)}>
+        About
+      </button>
     </li>
     <li>
-      <div class="">
-        <button class="side-bar-button" on:click={() => (showModal = true)}>
-          About
-        </button>
-      </div>
+      <button class="side-bar-button" on:click={() => (showModal = true)}>
+        About
+      </button>
     </li>
     <li>
-      <div class="">
-        <button class="side-bar-button" on:click={() => (showModal = true)}>
-          About
-        </button>
-      </div>
-    </li>
-    <li>
-      <div class="">
-
-    
-        <button class="side-bar-button" on:click={() => (showModal = true)}>
-          About
-        </button>
-      </div>
+      <button class="side-bar-button" on:click={() => (showModal = true)}>
+        About
+      </button>
     </li>
   </ul>
 
   <Modal bind:showModal>
     <h2 slot="header">CheckLists</h2>
 
-  
-
-    <CheckLists/>
+    <CheckLists />
   </Modal>
 </div>
 
@@ -56,6 +39,7 @@ import Modal from "./Modal.svelte";
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-bottom: none;
     transition: all 0.25s ease;
   }
 
@@ -65,17 +49,22 @@ import Modal from "./Modal.svelte";
   }
 
   .side-bar:hover .side-bar-menu {
-    /* Your styles for .side-bar-menu here */
-    width: auto; /* For example, change the width to 100% */
+    width: auto;
     transition: all 0.25s ease;
     opacity: 1;
+    display: flex;
+  }
+  .side-bar:hover .side-bar-button {
+    width: auto;
+    transition: all 0.1s ease;
+    opacity: 1;
+    display: flex;
   }
 
   .side-bar-menu {
-    display: none;
-
+    width: 0;
     opacity: 0;
-    padding-left: 0px;
+
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -85,6 +74,8 @@ import Modal from "./Modal.svelte";
   }
 
   .side-bar-button {
+    width: 0;
+    display: none;
     margin-top: 4px;
     margin-bottom: 4px;
     padding-left: 4px;
