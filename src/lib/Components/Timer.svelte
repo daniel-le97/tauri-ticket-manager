@@ -1,31 +1,53 @@
 <!-- Timer.svelte -->
 <script lang="ts">
-  import { ArrowKeyDown, Button } from "flowbite-svelte";
-  import { ArrowDownSolid, CirclePauseSolid, ClockOutline } from "flowbite-svelte-icons";
-  let isRunning = false;
-  let seconds = 0;
-  let timer: number | undefined;
+  import { Button } from "flowbite-svelte";
+  import { CirclePauseSolid, ClockOutline } from "flowbite-svelte-icons";
 
+  let totalSeconds = 0;
+  export let timerRunning: boolean;
+  console.log(timerRunning);
+
+  $: {
+    if (timerRunning) {
+      console.log(timerRunning);
+      timerRunning = !timerRunning;
+    }
+  }
+  let timer: number | undefined;
+  let formattedTime = "00:00:00";
   function startTimer() {
-    isRunning = true;
+    timerRunning = true;
     timer = setInterval(() => {
-      seconds++;
+      totalSeconds++;
     }, 1000);
   }
 
   function pauseTimer() {
-    isRunning = false;
+    timerRunning = false;
     clearInterval(timer);
+  }
+
+  $: {
+    timerRunning;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    formattedTime = `${hours < 10 ? "0" : ""}${hours}:${
+      minutes < 10 ? "0" : ""
+    }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }
 </script>
 
-<button on:click={isRunning ? pauseTimer : startTimer}>
-
-  {#if isRunning}
-  <CirclePauseSolid />
+<Button
+  color="alternative"
+  class="space-x-2 rounded-sm "
+  on:click={timerRunning ? pauseTimer : startTimer}
+>
+  {#if timerRunning}
+    <ClockOutline />
   {:else}
- <ClockOutline />
+    <CirclePauseSolid />
   {/if}
 
-</button>
-<p>{seconds} seconds</p>
+  <p>{formattedTime}</p>
+</Button>

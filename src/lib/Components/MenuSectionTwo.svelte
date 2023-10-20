@@ -1,14 +1,25 @@
 <script lang="ts">
   import { dialog } from "@tauri-apps/api";
-  import { Badge, Button, Modal } from "flowbite-svelte";
+  import { Badge, Button, Modal, Tooltip } from "flowbite-svelte";
   import CheckLists from "./CheckLists.svelte";
   import Timer from "./Timer.svelte";
+  import { InfoCircleSolid } from "flowbite-svelte-icons";
+  import UsageGuide from "./UsageGuide.svelte";
   let defaultModal = false;
   let scrollingModal = false;
+  let informationModal = false;
   let size;
+  export let timerRunning: boolean;
+  console.log(timerRunning);
+
+  $: {
+    if (timerRunning) {
+      timerRunning = !timerRunning;
+    }
+  }
 </script>
 
-<div class="menu-section pt-5 px-1">
+<div class="menu-section pt-4 px-1">
   <ul class="line-row space-x-1">
     <li class="line-item">
       <Button
@@ -27,29 +38,32 @@
 
     <li class="line-item">
       <Button
-        color="yellow"
+        color="purple"
         class=" rounded-sm "
-        on:click={() => (scrollingModal = true)}>Templates</Button
+        on:click={() => (defaultModal = true)}>Tickets</Button
       >
     </li>
     <li class="line-item">
       <Button
         color="green"
         class=" rounded-sm "
-        on:click={() => (defaultModal = true)}>ESC</Button
-      >
-    </li>
-    <li class="line-item">
-      <Button
-        color="purple"
-        class=" rounded-sm "
-        on:click={() => (defaultModal = true)}>Toggle</Button
+        on:click={() => (defaultModal = true)}>Settings</Button
       >
     </li>
   </ul>
-  <Badge large>
-    <Timer />
-  </Badge>
+
+  <div class="flex items-end space-x-2">
+    <Button
+      color="yellow"
+      class=" p-0 m-0 bg-transparent  "
+      on:click={() => (informationModal = true)}
+    >
+      <InfoCircleSolid size="lg" />
+      <Tooltip color="blue">How To Use</Tooltip>
+    </Button>
+    <Timer {timerRunning} />
+  </div>
+
   <Modal size="xl" title="Templates" bind:open={scrollingModal} autoclose>
     <CheckLists />
     <svelte:fragment slot="footer">
@@ -58,6 +72,15 @@
       >
       <Button color="alternative">Decline</Button>
     </svelte:fragment>
+  </Modal>
+
+  <Modal
+    size="xl"
+    title="Application Usage Information"
+    bind:open={informationModal}
+    autoclose
+  >
+    <UsageGuide />
   </Modal>
 
   <!-- <Modal bind:showModal>

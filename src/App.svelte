@@ -4,11 +4,10 @@
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
-  
 
   let notesTextarea: string;
   let clipBoardText: string | null;
-
+  export let timerRunning: boolean = false;
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
   }, 1000);
@@ -17,7 +16,14 @@
     copyClipBoard();
   });
 
+  $: {
+    if (timerRunning) {
+      console.log("two", timerRunning);
+    }
+  }
   function handleKeyDown(event: any) {
+    timerRunning = true;
+
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";
@@ -27,6 +33,7 @@
         notesTextarea = ""; // Clear the textarea
       }
     }
+  
   }
 
   async function copyClipBoard() {
@@ -48,21 +55,20 @@
 
 <main class="">
   <div class="main-container">
-    <div class="notes-and-sidebar-container">
+    <div class="notes-and-sidebar-container border-2 border-b-0 border-zinc-400">
       <textarea
         on:keydown={handleKeyDown}
-        class="notes-area bg-zinc-900"
+        class="notes-area bg-zinc-900 focus:border-none border-none outline-none focus:outline-none focus-within:outline-none"
         id="notes-area"
         bind:value={notesTextarea}
       />
       <span class="notes-title text-white"> Ticket Manager </span>
 
-      <SideBar />
+      <!-- <SideBar /> -->
     </div>
-    <div class="menu-container border-2  border-amber-400  bg-zinc-800">
+    <div class="menu-container border-2 border-amber-400 bg-zinc-800">
       <MenuSectionOne {clipBoardText} />
-      <MenuSectionTwo />
-   
+      <MenuSectionTwo {timerRunning} />
     </div>
   </div>
 </main>
@@ -75,7 +81,6 @@
   }
 
   .notes-and-sidebar-container {
-    
     display: flex;
     justify-content: space-between;
     background-color: #4caf50;

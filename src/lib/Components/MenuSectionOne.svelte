@@ -1,8 +1,13 @@
 <script lang="ts">
-  import { clipboard } from "@tauri-apps/api";
+  import { clipboard, dialog } from "@tauri-apps/api";
   import { readText, writeText } from "@tauri-apps/api/clipboard";
-  import { Button, Input } from "flowbite-svelte";
-let scrollingModal = false;
+  import { Button, Input, Tooltip } from "flowbite-svelte";
+  import {
+    ChevronLeftSolid,
+    ChevronRightSolid,
+    ClipboardCheckSolid,
+  } from "flowbite-svelte-icons";
+  let scrollingModal = false;
   let noteHeader = {
     ipv4: "IPV4",
     phone: "Phone#",
@@ -70,6 +75,14 @@ Ipv4: ${noteHeader.ipv4}`;
     const numericInput = event.target.value.replace(/\D/g, "");
     noteHeader.phone = numericInput;
   }
+  async function saveNote() {
+    try {
+      const confirmed2 = confirm("Are you sure?");
+      if (confirmed2) {
+        console.log("Save ticket Note, create new Ticket No");
+      }
+    } catch (error) {}
+  }
 
   $: {
     if (clipBoardText) {
@@ -79,7 +92,7 @@ Ipv4: ${noteHeader.ipv4}`;
 </script>
 
 <div class="menu-section py-0 pt-2 p-1">
-  <ul class="line-row space-x-1 flex justify-start  flex-wrap">
+  <ul class="line-row space-x-1 flex justify-start">
     <li class="line-item">
       <input
         type="text"
@@ -108,27 +121,31 @@ Ipv4: ${noteHeader.ipv4}`;
         on:input={handlePhoneNumberInput}
       />
     </li>
-
   </ul>
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
-    <Button class="py-1 rounded-sm" on:click={copyEverything}>
-      Copy Everything
+    <Button
+      id="clipBoard"
+      color="primary"
+      class="!p-2 mr-4"
+      on:click={copyEverything}
+    >
+      <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
     </Button>
-  <Button class="!p-2" color="alternative">   <img
-        src="https://cdn-icons-png.flaticon.com/128/32/32766.png"
-        alt="button"
-        width="15"
-        height="15"
-      /></Button>
-  <Button class="!p-2" color="alternative">   <img
-        src="https://cdn-icons-png.flaticon.com/128/54/54366.png"
-        alt="button"
-        width="15"
-        height="15"
-      /></Button>
-    
-   
+    <Tooltip
+      placement="top"
+      color="green"
+      trigger="click"
+      triggeredBy="#clipBoard">Copied</Tooltip
+    >
+    <Button class="!p-2" color="alternative">
+      <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
+       <Tooltip color="blue">Previous</Tooltip>
+    </Button>
+    <Button class="!p-2" color="alternative" on:click={saveNote}>
+      <ChevronRightSolid class="cursor-pointer outline-none border-none" />
+       <Tooltip color="blue">New</Tooltip>
+    </Button>
   </div>
 </div>
 
@@ -154,14 +171,17 @@ Ipv4: ${noteHeader.ipv4}`;
     justify-content: space-between;
   }
 
- 
   .line-item {
     cursor: pointer;
   }
 
-  @media (max-width: 768px) {
-  .line-row {
-    flex-direction: column;
+  @media (max-width: 900px) {
+    input {
+      max-width: 100px !important;
+    }
+
+    .line-row {
+      flex-wrap: wrap;
+    }
   }
-}
 </style>
