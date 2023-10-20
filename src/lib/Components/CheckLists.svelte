@@ -41,49 +41,40 @@ Troubleshooting Steps:
   }
 </script>
 
-<div class="  flex flex-col p-3 bg-red-50 ">
- 
+<div class="  flex flex-col p-3 bg-red-50">
+  <Accordion>
+    <AccordionItem>
+      <span slot="header">Create Template</span>
+      <div class="flex flex-col space-y-3">
+        <div class="flex">
+          <input
+            type="text"
+            bind:value={newTemplate.title}
+            placeholder="Title"
+            id="new-title"
+          />
+        </div>
 
+        <div>
+          <textarea
+            cols="70"
+            rows="7"
+            bind:value={newTemplate.template}
+            placeholder="Add Item"
+            id="new-Template"
+          />
+        </div>
 
+        <div class="template-preview my-3 flex flex-col">
+          <span class="text-lg font-semibold"> Title: {newTemplate.title}</span>
 
-<Accordion>
-  <AccordionItem>
-    <span slot="header">Create Template</span>
-  <div class="flex flex-col space-y-3">
-    <div class="flex">
-      <input
-        type="text"
-        bind:value={newTemplate.title}
-        placeholder="Title"
-        id="new-title"
-      />
-    </div>
-
-    <div>
-      <textarea
-        cols="70"
-        rows="7"
-        bind:value={newTemplate.template}
-        placeholder="Add Item"
-        id="new-Template"
-      />
-    </div>
-
-    <div class="template-preview my-3 flex flex-col">
-      <span class="text-lg font-semibold"> Title: {newTemplate.title}</span>
-
-      <div class=" w-72 max-h-56 overflow-y-scroll">
-        <pre>{@html newTemplate.template}</pre>
+          <div class=" w-72 max-h-56 overflow-y-scroll">
+            <pre>{@html newTemplate.template}</pre>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  </AccordionItem>
- 
-</Accordion>
-
-
-
-
+    </AccordionItem>
+  </Accordion>
 
   <div class="mt-4">
     <span class="text=xl font-semibold mb-4">Templates:</span>

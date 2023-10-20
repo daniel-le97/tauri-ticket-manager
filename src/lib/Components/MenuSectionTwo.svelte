@@ -1,16 +1,33 @@
 <script lang="ts">
+  import { Button } from "flowbite-svelte";
   import CheckLists from "./CheckLists.svelte";
   import Modal from "./Modal.svelte";
 
   let showModal = false;
 </script>
 
-<div class="menu-section1">
-  <ul class="line-row">
+<div class="menu-section  p-1 pt-0">
+  <ul class="line-row space-x-1">
     <li class="line-item">
-      <button class="bg-transparent py-1" on:click={() => (showModal = true)}>
-        CheckList
-      </button>
+      <Button
+        color="blue"
+        class=" rounded-sm p-1.5"
+        on:click={() => (showModal = true)}>CheckList</Button
+      >
+    </li>
+    <li class="line-item">
+      <Button
+        color="blue"
+        class=" rounded-sm p-1.5"
+        on:click={() => (showModal = true)}>ESC</Button
+      >
+    </li>
+    <li class="line-item">
+      <Button
+        color="blue"
+        class=" rounded-sm p-1.5"
+        on:click={() => (showModal = true)}>Toggle</Button
+      >
     </li>
   </ul>
 
@@ -22,25 +39,7 @@
 </div>
 
 <style>
-  input {
-    border: 2px solid #000;
-    outline: none;
-    padding: 6px;
-    background: transparent;
-    border-radius: 0px;
-    outline: none;
-    border: none;
-    font-weight: 400;
-    background-color: #8b5cf6;
-    cursor: pointer;
-    width: auto; /* Set the width to automatically grow as needed */
-    max-width: 100px;
-  }
-  input:focus {
-    border: #ff5733 2px solid;
-    outline: none;
-  }
-  .menu-section1 {
+  .menu-section {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -48,16 +47,14 @@
 
   .line-row {
     display: flex;
-    padding: 2.5px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    justify-content: center;
+    align-items: center;
+
     list-style: none;
   }
   .line-item {
     margin-left: 1px;
     margin-right: 1px;
-    background-color: #8b5cf6;
     cursor: pointer;
-    border: 2px solid #000;
   }
 </style>

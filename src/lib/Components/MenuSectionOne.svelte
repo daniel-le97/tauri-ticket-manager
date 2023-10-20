@@ -1,47 +1,76 @@
 <script lang="ts">
-  let fontsize = 24;
-  let notesTextarea = "";
-  let ipv4 = 0;
-  let phoneNumber = "Phone#";
-  let ticketNumber = "Ticket#";
-  let assetTag = "Asset#";
-  let userEmail = "User";
-  /**
-   * @type {string | null}
-   */
+  import { clipboard } from "@tauri-apps/api";
+  import { readText, writeText } from "@tauri-apps/api/clipboard";
+  import { Button, Input } from "flowbite-svelte";
+
+  let noteHeader = {
+    ipv4: "IPV4",
+    phone: "Phone#",
+    ticketNumber: "Ticket#",
+    assetTag: "Asset#",
+    userEmail: "Email",
+  };
+
   export let clipBoardText: string | null;
-  console.log(clipBoardText);
 
-  const phoneRegex = /(\+\d{1,2}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g; // Matches phone numbers
-  const ticketRegex = /Ticket:\s?(\w+)/g; // Matches ticket numbers (assuming a format like "Ticket: ABC123")
-  const emailRegex = /[\w.-]+@[\w.-]+\.\w+/g; // Matches email addresses
+  const phoneRegex = /(\+\d{1,2}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+  const ticketRegex = /^TN\d{8}$/;
+  const emailRegex = /[\w.-]+@[\w.-]+\.\w+/g;
+  const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+  const assetTagRegex = /^[A-Za-z]{4}\d{8}$/;
 
-  function watchClipboardChanges() {
-    // Check for changes in clipBoardText
-    if (clipBoardText) {
-      // Check and update phone number
-      const phoneMatches = clipBoardText.match(phoneRegex);
-      phoneNumber = phoneMatches ? phoneMatches[0] : "Phone#";
+  const watchClipboardChanges = async () => {
+    try {
+      const phoneMatches = clipBoardText?.match(phoneRegex);
+      if (noteHeader.phone === "Phone#" && phoneMatches) {
+        noteHeader.phone = phoneMatches[0];
+      }
 
-      // Check and update ticket number
-      const ticketMatches = clipBoardText.match(ticketRegex);
-      ticketNumber = ticketMatches ? ticketMatches[0] : "Ticket#";
+      const ticketMatches = clipBoardText?.match(ticketRegex);
+      if (ticketMatches && noteHeader.ticketNumber === "Ticket#") {
+        noteHeader.ticketNumber = ticketMatches[0].replace("Ticket: ", "");
+      }
 
-      // Check and update asset tag (you can add the asset tag regex and update logic here)
-      // const assetMatches = clipBoardText.match(assetRegex);
-      // assetTag = assetMatches ? assetMatches[0] : "Asset#";
+      const emailMatches = clipBoardText?.match(emailRegex);
+      if (emailMatches) {
+        noteHeader.userEmail = emailMatches[0];
+      }
 
-      // Check and update user email
-      const emailMatches = clipBoardText.match(emailRegex);
-      userEmail = emailMatches ? emailMatches[0] : "User";
+      const ipv4Matches = clipBoardText?.match(ipv4Regex);
+      if (ipv4Matches) {
+        noteHeader.ipv4 = ipv4Matches[0];
+      }
+
+      const assetTagMatches = clipBoardText?.match(assetTagRegex);
+      if (assetTagMatches) {
+        noteHeader.assetTag = assetTagMatches[0];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async function copyEverything() {
+    try {
+      let formattedNote = `Email: ${noteHeader.userEmail}
+Phone: ${noteHeader.phone}
+Asset: ${noteHeader.assetTag}
+Ticket: ${noteHeader.ticketNumber}
+Ipv4: ${noteHeader.ipv4}`;
+      console.log(formattedNote);
+
+      await writeText(formattedNote);
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
     }
   }
 
-  function handlePhoneNumberInput(event) {
-    const numericInput = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-    phoneNumber = numericInput;
+  function handlePhoneNumberInput(event: any) {
+    // Remove non-numeric characters
+    const numericInput = event.target.value.replace(/\D/g, "");
+    noteHeader.phone = numericInput;
   }
-  // Watch for changes in clipBoardText
+
   $: {
     if (clipBoardText) {
       watchClipboardChanges();
@@ -49,96 +78,96 @@
   }
 </script>
 
-<div class="menu-section1">
-  <ul class="line-row">
-    <li class="line-item"><input type="text" value="Classified?" /></li>
+<div class="menu-section  p-1">
+  <ul class="line-row space-x-1 flex-wrap">
     <li class="line-item">
-      <input type="text" bind:value={userEmail} />
+      <input
+        type="text"
+        bind:value={noteHeader.userEmail}
+        class={noteHeader.userEmail.match(emailRegex)
+          ? "bg-green-200"
+          : "bg-white"}
+      />
     </li>
 
     <li class="line-item">
-      <input type="text" bind:value={assetTag} />
+      <input type="text" bind:value={noteHeader.assetTag} />
     </li>
     <li class="line-item">
-      <input type="number" bind:value={ipv4} />
+      <input type="text" bind:value={noteHeader.ipv4} />
     </li>
 
     <li class="line-item">
-      <input type="text" bind:value={ticketNumber} />
+      <input type="text" bind:value={noteHeader.ticketNumber} />
     </li>
     <li class="line-item">
       <input
         type="text"
-        bind:value={phoneNumber}
+        bind:value={noteHeader.phone}
         placeholder="Phone Number"
         on:input={handlePhoneNumberInput}
       />
     </li>
+    <!-- <li class="flex items-center">
+      <Input
+        size="sm"
+        placeholder="UserEmail"
+        class=" rounded-sm"
+      />
+    </li> -->
   </ul>
 
-  <div class="change-ticket-buttons">
-    <button>
-      <img
+  <div class="change-ticket-buttons flex justify-center items-center space-x-1">
+    <Button class="py-1 rounded-sm" on:click={copyEverything}>
+      Copy Everything
+    </Button>
+  <Button class="!p-2" color="alternative">   <img
         src="https://cdn-icons-png.flaticon.com/128/32/32766.png"
         alt="button"
         width="15"
         height="15"
-      />
-    </button>
-    <button>
-      <img
+      /></Button>
+  <Button class="!p-2" color="alternative">   <img
         src="https://cdn-icons-png.flaticon.com/128/54/54366.png"
         alt="button"
         width="15"
         height="15"
-      />
-    </button>
+      /></Button>
+    
+   
   </div>
 </div>
 
 <style>
   input {
-    border: 2px solid #000;
     outline: none;
-    padding: 6px;
-    background: transparent;
+    padding: 3px;
+
     border-radius: 0px;
     outline: none;
     border: none;
     font-weight: 400;
-    background-color: #8b5cf6;
+
     cursor: pointer;
     width: auto; /* Set the width to automatically grow as needed */
     max-width: 100px;
   }
   input:focus {
-    border: #ff5733 2px solid;
+    border: #ff5733 1px solid;
     outline: none;
   }
-  .menu-section1 {
+  .menu-section {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    background: #000;
-  
   }
 
-  .change-ticket-buttons {
-    padding-top: 6.5px;
-    padding-right: 6px;
-  }
   .line-row {
     display: flex;
-    padding: 2.5px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    list-style: none;
+    justify-content: center;
+    align-items: center;
   }
   .line-item {
-    margin-left: 1px;
-    margin-right: 1px;
-    background-color: #8b5cf6;
     cursor: pointer;
-    border: 2px solid #000;
   }
 </style>
