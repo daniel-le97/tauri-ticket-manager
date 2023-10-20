@@ -72,7 +72,7 @@
 
 <style>
   .main-container {
-    height: 94.vh;
+    height: 94vh;
     display: flex;
     flex-direction: column;
   }
