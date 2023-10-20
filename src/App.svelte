@@ -10,13 +10,11 @@
   let notesTextarea: string;
   let clipBoardText: string | null;
 
-
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
   }, 1000);
 
   onMount(async () => {
-   
     copyClipBoard();
   });
 
@@ -42,7 +40,9 @@
   <div class="main-container">
     <div class="notes-and-sidebar-container">
       <textarea class="notes-area" id="notes-area" bind:value={notesTextarea} />
-
+<span class="notes-title">
+  Ticket Manager
+</span>
       <SideBar />
     </div>
     <div class="menu-container">
@@ -72,8 +72,10 @@
   }
 
   .notes-area {
+    font-size: 16pt;
     width: 98%; /* Initially take up most of the width */
-    background-color: #ffc107;
+    background-color: #000;
+    color: white;
     padding: 5px;
     padding-right: 10px;
     overflow-y: auto;
@@ -84,6 +86,15 @@
     outline: none;
   }
 
+  .notes-title{
+    position: absolute;
+    top: 1%;
+    right: 3%;
+    font-size: 16pt;
+    font-weight: 500;
+    opacity: 50%;
+    cursor: default;
+  }
   .menu-container {
     border-top: 4px black solid;
     display: flex;
