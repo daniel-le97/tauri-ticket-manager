@@ -1,5 +1,4 @@
-export type Notes = {
-    id: string,
+export interface Note extends Common {
     phone: string,
     asset: string,
     email: string,
@@ -7,10 +6,14 @@ export type Notes = {
     ipv4: string
 }
 
-export type CheckLists = {
-    id: string;
+export interface Template extends Common {
     title: string;
-    questions: string;
-    isTemplate: boolean
-    template: string
+    content: string;
+    tag: string
+}
+
+export interface Common {
+    id:  number;
+    created_at: Date
+    updated_at: Date
 }
