@@ -14,7 +14,11 @@ class DBService {
         },
         async deleteById(id: string) {
             return await db.execute(`DELETE FROM notes where id = $1`, [id])
-        }
+        },
+        async create(note: Omit<Note, 'id' | 'created_at' | 'updated_at'>) {
+            const { asset, description, email, ipv4, phone } = note
+            return (await db.execute("INSERT into notes (asset, description, email, ipv4, phone) VALUES ($1, $2, $3, $4, $5)", [asset,description,email,ipv4,phone]))
+        },
     }
     templates = {
         async getAll(){
