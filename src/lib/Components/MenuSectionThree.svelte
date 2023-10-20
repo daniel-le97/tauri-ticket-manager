@@ -44,7 +44,7 @@
   }
 </script>
 
-<div class="menu-section1">
+<div class="menu-section1 bg-white">
   <ul class="line-row">
     <li class="line-item"><input type="text" value="Classified?" /></li>
     <li class="line-item">

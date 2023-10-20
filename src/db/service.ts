@@ -9,7 +9,7 @@ class DBService {
         return await db.select<User>(`SELECT * FROM notes`)
     }
     async getNoteById(id: string){
-        return await db.select(`SELECT * FROM notes`)
+        return await db.select(`SELECT * FROM notes where id = ?1`, [id])
     }
 }
 
