@@ -2,6 +2,7 @@
 
 import { db } from "../main.js";
 import type { TemplateDTO, Template, Note, Common } from "./types.js";
+import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
 
 class DBService {
@@ -44,7 +45,11 @@ class DBService {
         },
         async create(template: Omit<Template, 'id' | 'created_at' | 'updated_at'>) {
             const { title, content, tag } = template
-            return (await db.execute("INSERT into templates (title, content, tag) VALUES ($1, $2, $3)", [title, content, tag]))
+            const response =  (await db.execute("INSERT into templates (title, content, tag) VALUES ($1, $2, $3)", [title, content, tag]))
+            if (response.rowsAffected === 0) {
+              dialog.message("there was an issue creating the template please submit again")
+            }
+            return response
         },
         
     }

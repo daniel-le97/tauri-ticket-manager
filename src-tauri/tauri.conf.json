@@ -20,6 +20,9 @@
       "clipboard": {
         "all": true
       },
+      "notification": {
+        "all": true
+      },
       "dialog": {
         "all": true
       },
