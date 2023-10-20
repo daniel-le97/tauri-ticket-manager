@@ -10,7 +10,7 @@ import Modal from "./Modal.svelte";
     <li>
       <div class="">
         <button class="side-bar-button" on:click={() => (showModal = true)}>
-          About
+         CheckList
         </button>
       </div>
     </li>

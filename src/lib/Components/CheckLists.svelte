@@ -1,43 +1,54 @@
 <!-- Checklist.svelte -->
 <script lang="ts">
-  let items: string[];
-  let newItem: string;
+  import { clipboard } from "@tauri-apps/api";
+
+  let checklist: string[] = [];
+  let newItem: string = "";
 
   function addItem() {
     if (newItem) {
-      items = [...items, newItem];
+      checklist = [...checklist, ` ${newItem}:`];
       newItem = "";
     }
   }
 
-  function copyToClipboard() {
-    const textToCopy = items.join("\n");
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      alert("Checklist copied to clipboard!");
-    });
+  async function copyToClipboard() {
+    const textToCopy = checklist.join("\n");
+    await clipboard.writeText(textToCopy);
   }
 </script>
 
-<div>
+<div class="Modal-Body">
   <input
     type="text"
     bind:value={newItem}
-    placeholder="Add an item"
-    on:keydown={(e) => e.key === "Enter" && addItem()}
+    placeholder="Question"
+    id="new-question"
   />
+
   <button on:click={addItem}>Add</button>
 </div>
 
 <div>
-  {#if items}
- <ul>
-    {#each items as item (item)}
-      <li>{item}</li>
+  <ul>
+    {#each checklist as c}
+      <li>
+        {c}
+      </li>
     {/each}
   </ul>
-  {/if}
 </div>
 
 <div>
   <button on:click={copyToClipboard}>Copy to Clipboard</button>
 </div>
+
+<style>
+  input {
+    color: black !important;
+  }
+
+  .Modal-Body {
+    width: 100%;
+  }
+</style>

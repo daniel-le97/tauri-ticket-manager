@@ -1,10 +1,11 @@
 <script lang="ts">
   let fontsize = 24;
   let notesTextarea = "";
+  let ipv4 = 0;
   let phoneNumber = "Phone#";
   let ticketNumber = "Ticket#";
   let assetTag = "Asset#";
-  let userEmail = "user";
+  let userEmail = "User";
   /**
    * @type {string | null}
    */
@@ -32,10 +33,14 @@
 
       // Check and update user email
       const emailMatches = clipBoardText.match(emailRegex);
-      userEmail = emailMatches ? emailMatches[0] : "user";
+      userEmail = emailMatches ? emailMatches[0] : "User";
     }
   }
 
+  function handlePhoneNumberInput(event) {
+    const numericInput = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    phoneNumber = numericInput;
+  }
   // Watch for changes in clipBoardText
   $: {
     if (clipBoardText) {
@@ -54,12 +59,20 @@
     <li class="line-item">
       <input type="text" bind:value={assetTag} />
     </li>
+    <li class="line-item">
+      <input type="number" bind:value={ipv4} />
+    </li>
 
     <li class="line-item">
       <input type="text" bind:value={ticketNumber} />
     </li>
     <li class="line-item">
-      <input type="text" bind:value={phoneNumber} />
+      <input
+        type="text"
+        bind:value={phoneNumber}
+        placeholder="Phone Number"
+        on:input={handlePhoneNumberInput}
+      />
     </li>
   </ul>
 

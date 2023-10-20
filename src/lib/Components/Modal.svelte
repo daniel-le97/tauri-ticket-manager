@@ -19,7 +19,7 @@
     <slot />
     <hr />
     <!-- svelte-ignore a11y-autofocus -->
-    <button autofocus on:click={() => dialog.close()}>close modal</button>
+    <button class="absolute bottom-4 right-4" autofocus on:click={() => dialog.close()}>close modal</button>
   </div>
 </dialog>
 
