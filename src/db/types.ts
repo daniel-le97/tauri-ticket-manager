@@ -3,10 +3,14 @@ type Notes = {
     phone: string,
     asset: string,
     email: string,
-    description: string
+    description: string,
+    ipv4: string
 }
 
 type CheckList = {
     id: string;
-    checks: string
+    title: string;
+    questions: string;
+    isTemplate: boolean
+    template: string
 }

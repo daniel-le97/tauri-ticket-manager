@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS checklists (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        description TEXT
-        );
-
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    questions JSON NOT NULL,
+    isTemplate INTEGER NOT NULL, -- 1 for true, 0 for false
+    template TEXT
+);
 CREATE TABLE IF NOT EXISTS notes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         description TEXT,
