@@ -4,10 +4,14 @@
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
+  import { window } from "@tauri-apps/api";
 
+  import TitleBar from "./lib/Components/TitleBar.svelte";
   let notesTextarea: string;
   let clipBoardText: string | null;
-  export let timerRunning: boolean = false;
+
+  window.appWindow.setDecorations(false);
+
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
   }, 1000);
@@ -16,14 +20,7 @@
     copyClipBoard();
   });
 
-  $: {
-    if (timerRunning) {
-      console.log("two", timerRunning);
-    }
-  }
   function handleKeyDown(event: any) {
-    timerRunning = true;
-
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";
@@ -33,7 +30,6 @@
         notesTextarea = ""; // Clear the textarea
       }
     }
-  
   }
 
   async function copyClipBoard() {
@@ -53,29 +49,29 @@
   });
 </script>
 
-<main class="">
+<main class="pt-9">
+  <TitleBar />
   <div class="main-container">
-    <div class="notes-and-sidebar-container border-2 border-b-0 border-zinc-400">
+    <div
+      class="notes-and-sidebar-container border-2  border-y-0 border-zinc-400"
+    >
       <textarea
         on:keydown={handleKeyDown}
-        class="notes-area bg-zinc-900 focus:border-none border-none outline-none focus:outline-none focus-within:outline-none"
+        class="notes-area bg-zinc-900"
         id="notes-area"
         bind:value={notesTextarea}
       />
-      <span class="notes-title text-white"> Ticket Manager </span>
-
-      <!-- <SideBar /> -->
     </div>
     <div class="menu-container border-2 border-amber-400 bg-zinc-800">
       <MenuSectionOne {clipBoardText} />
-      <MenuSectionTwo  {timerRunning} />
+      <MenuSectionTwo />
     </div>
   </div>
 </main>
 
 <style>
   .main-container {
-    height: 100vh;
+    height: 94vh;
     display: flex;
     flex-direction: column;
   }

@@ -2,33 +2,25 @@
 <script lang="ts">
   import { Button } from "flowbite-svelte";
   import { CirclePauseSolid, ClockOutline } from "flowbite-svelte-icons";
+  import { timer } from "../store";
 
   let totalSeconds = 0;
-  export let timerRunning: boolean;
-  console.log(timerRunning);
-
-  $: {
-    if (timerRunning) {
-      console.log(timerRunning);
-      timerRunning = !timerRunning;
-    }
-  }
-  let timer: number | undefined;
   let formattedTime = "00:00:00";
+  let timerStart: any;
+
   function startTimer() {
-    timerRunning = true;
-    timer = setInterval(() => {
+    $timer = true;
+    timerStart = setInterval(() => {
       totalSeconds++;
     }, 1000);
   }
 
   function pauseTimer() {
-    timerRunning = false;
-    clearInterval(timer);
+    $timer = false;
+    clearInterval(timerStart);
   }
 
   $: {
-    timerRunning;
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
@@ -40,14 +32,13 @@
 
 <Button
   color="alternative"
-  class="space-x-2 rounded-sm "
-  on:click={timerRunning ? pauseTimer : startTimer}
+  class="space-x-2 rounded-sm p-2"
+  on:click={$timer ? pauseTimer : startTimer}
 >
-  {#if timerRunning}
-    <ClockOutline />
-  {:else}
+  {#if $timer}
     <CirclePauseSolid />
+  {:else}
+    <ClockOutline />
   {/if}
-
-  <p>{formattedTime}</p>
+  <p class="{$timer? 'text-green-700' : 'text-orange-500'}">{formattedTime}</p>
 </Button>

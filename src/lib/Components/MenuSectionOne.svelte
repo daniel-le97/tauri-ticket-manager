@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { clipboard, dialog } from "@tauri-apps/api";
+  import { clipboard, dialog, notification } from "@tauri-apps/api";
   import { readText, writeText } from "@tauri-apps/api/clipboard";
   import { Button, Input, Tooltip } from "flowbite-svelte";
+  import { sendNotification } from "@tauri-apps/api/notification";
   import {
     ChevronLeftSolid,
     ChevronRightSolid,
@@ -9,11 +10,11 @@
   } from "flowbite-svelte-icons";
   let scrollingModal = false;
   let noteHeader = {
-    ipv4: "IPV4",
-    phone: "Phone#",
-    ticketNumber: "Ticket#",
-    assetTag: "Asset#",
-    userEmail: "Email",
+    ipv4: "",
+    phone: "",
+    ticketNumber: "",
+    assetTag: "",
+    userEmail: "",
   };
 
   export let clipBoardText: string | null;
@@ -78,6 +79,8 @@ Ipv4: ${noteHeader.ipv4}`;
   async function saveNote() {
     try {
       const confirmed2 = confirm("Are you sure?");
+      notification.sendNotification("Tauri is awesome");
+
       if (confirmed2) {
         console.log("Save ticket Note, create new Ticket No");
       }
@@ -96,6 +99,7 @@ Ipv4: ${noteHeader.ipv4}`;
     <li class="line-item">
       <input
         type="text"
+        placeholder="Email"
         bind:value={noteHeader.userEmail}
         class={noteHeader.userEmail.match(emailRegex)
           ? "bg-green-200"
@@ -104,7 +108,11 @@ Ipv4: ${noteHeader.ipv4}`;
     </li>
 
     <li class="line-item">
-      <input type="text" bind:value={noteHeader.assetTag} />
+      <input
+        type="text"
+        placeholder="Asset#"
+        bind:value={noteHeader.assetTag}
+      />
     </li>
     <li class="line-item">
       <input type="text" bind:value={noteHeader.ipv4} />
@@ -140,11 +148,11 @@ Ipv4: ${noteHeader.ipv4}`;
     >
     <Button class="!p-2" color="alternative">
       <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
-       <Tooltip color="blue">Previous</Tooltip>
+      <Tooltip color="blue">Previous</Tooltip>
     </Button>
     <Button class="!p-2" color="alternative" on:click={saveNote}>
       <ChevronRightSolid class="cursor-pointer outline-none border-none" />
-       <Tooltip color="blue">New</Tooltip>
+      <Tooltip color="blue">New</Tooltip>
     </Button>
   </div>
 </div>

@@ -20,8 +20,10 @@
 
 body,
 html {
-  margin: 0px;
+  @apply bg-zinc-900;
+ 
   height: 100%;
+  
 }
 
 .container {
@@ -117,3 +119,12 @@ button {
     background-color: #0f0f0f69;
   }
 }
+
+
+
+
+
+
+
+
+

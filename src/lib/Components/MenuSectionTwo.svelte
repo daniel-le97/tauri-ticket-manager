@@ -9,14 +9,9 @@
   let scrollingModal = false;
   let informationModal = false;
   let size;
-  export let timerRunning: boolean;
-  console.log(timerRunning);
 
-  $: {
-    if (timerRunning) {
-      timerRunning = !timerRunning;
-    }
-  }
+
+
 </script>
 
 <div class="menu-section pt-4 px-1">
@@ -61,7 +56,7 @@
       <InfoCircleSolid size="lg" />
       <Tooltip color="blue">How To Use</Tooltip>
     </Button>
-    <Timer {timerRunning} />
+    <Timer  />
   </div>
 
   <Modal size="xl" title="Templates" bind:open={scrollingModal} autoclose>
