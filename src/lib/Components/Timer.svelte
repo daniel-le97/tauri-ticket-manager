@@ -2,7 +2,7 @@
 <script lang="ts">
   import { Button } from "flowbite-svelte";
   import { CirclePauseSolid, ClockOutline } from "flowbite-svelte-icons";
-  import { timer } from "../store";
+  import { timer } from "../stores/timer.js";
 
   let totalSeconds = 0;
   let formattedTime = "00:00:00";

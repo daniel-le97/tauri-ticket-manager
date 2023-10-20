@@ -3,6 +3,7 @@
   import SideBar from "./lib/Components/SideBar.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
+  import { confirm } from "@tauri-apps/api/dialog";
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import { window } from "@tauri-apps/api";
 
@@ -20,13 +21,13 @@
     copyClipBoard();
   });
 
-  function handleKeyDown(event: any) {
+  async function handleKeyDown(event: any) {
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";
 
     if (ctrlPressed && shiftPressed && backspacePressed) {
-      if (window.confirm("Are you sure?")) {
+      if ( await confirm("Are you sure?")) {
         notesTextarea = ""; // Clear the textarea
       }
     }
