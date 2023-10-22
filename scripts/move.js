@@ -28,8 +28,8 @@ async function copyIfNotExists(
 }
 
 // Example usage
-const sourceDirContent = 'custom/skins/content';
-const sourceDirUI = 'custom/skins/ui';
+const sourceDirContent = 'skins/content/CUSTOM';
+const sourceDirUI = 'skins/ui/CUSTOM';
 const destinationDirContent = 'node_modules/tinymce/skins/content/CUSTOM';
 const destinationDirUI = 'node_modules/tinymce/skins/ui/CUSTOM';
 

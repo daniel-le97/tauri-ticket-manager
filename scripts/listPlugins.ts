@@ -14,6 +14,7 @@ function writeDirectoriesToFile(pathToRead: string, outputPath: string) {
   const directories = getDirectories(pathToRead);
     console.log(directories);
     
+    
 
 //   fs.writeFileSync(outputPath, directories, 'utf-8');
 }
