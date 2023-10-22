@@ -79,7 +79,7 @@
     <span class="text=xl font-semibold mb-4">Templates:</span>
  
   {#if templates}
-  <ul class="mt-4">
+  <ul class="mt-4 flex gap-2 flex-wrap">
     {#each templates as template (template.id)}
     <li>
       <GradientButton

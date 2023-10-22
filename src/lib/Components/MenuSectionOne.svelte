@@ -43,12 +43,12 @@
   const watchClipboardChanges = async () => {
     try {
       const phoneMatches = clipBoardText?.match(phoneRegex);
-      if (noteHeader.phone === "Phone#" && phoneMatches) {
+      if (phoneMatches) {
         $phone = phoneMatches[0];
       }
 
       const ticketMatches = clipBoardText?.match(ticketRegex);
-      if (ticketMatches && noteHeader.ticketNumber === "Ticket#") {
+      if (ticketMatches ) {
         $ticket = ticketMatches[0].replace("Ticket: ", "");
       }
 
