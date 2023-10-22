@@ -6,7 +6,7 @@
   import { appState } from "../stores/appState.js";
 
   let totalSeconds = 0;
-  let formattedTime = "00:00:00";
+  // let formattedTime = "00:00:00";
   let timerStart: any;
 
   function startTimer() {
@@ -19,17 +19,20 @@
   function pauseTimer() {
     $appState.timerOn = false;
     clearInterval(timerStart);
-    timerStart = null;
+  
   }
 
   $: {
+    if ($appState.timerOn == true) {
+     startTimer() 
+    }
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    formattedTime = `${hours < 10 ? "0" : ""}${hours}:${
+    $appState.formattedTime = `${hours < 10 ? "0" : ""}${hours}:${
       minutes < 10 ? "0" : ""
     }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    $appState.timerCount = formattedTime;
+    $appState.timerCount = $appState.formattedTime;
   }
 </script>
 
@@ -43,5 +46,5 @@
   {:else}
     <ClockOutline />
   {/if}
-  <p>{formattedTime}</p>
+  <p>{$appState.formattedTime}</p>
 </GradientButton>

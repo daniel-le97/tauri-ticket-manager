@@ -7,7 +7,7 @@
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import { window } from "@tauri-apps/api";
   import TitleBar from "./lib/Components/TitleBar.svelte";
- 
+ import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
   import {
     appState,
     resetAppState,
@@ -66,11 +66,14 @@
     <div
       class="notes-and-sidebar-container border-2 border-y-0 border-zinc-400"
     >
-      <textarea
+      <!-- <textarea
         on:keydown="{handleKeyDown}"
         class="notes-area bg-zinc-900"
         id="notes-area"
-        bind:value="{$appState.description}"></textarea>
+        bind:value="{$appState.description}"></textarea> -->
+
+
+      <MainNoteArea/>
     </div>
     <div class="menu-container border-2 border-amber-400 bg-zinc-800">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
