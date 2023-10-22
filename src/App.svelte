@@ -7,7 +7,7 @@
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import { window } from "@tauri-apps/api";
   import TitleBar from "./lib/Components/TitleBar.svelte";
-  import { timer } from "./lib/stores/timer";
+ 
   import {
     appState,
     resetAppState,
@@ -31,7 +31,7 @@
     $appState.description = notesTextarea;
   }
   async function handleKeyDown(event: any) {
-    $timer = true;
+    $appState.timerOn = true
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";

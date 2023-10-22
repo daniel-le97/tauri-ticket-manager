@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { clipboard, dialog, notification } from "@tauri-apps/api";
-  import { readText, writeText } from "@tauri-apps/api/clipboard";
+  import {  writeText } from "@tauri-apps/api/clipboard";
   import { Button, GradientButton, Input, Tooltip } from "flowbite-svelte";
-  import { sendNotification } from "@tauri-apps/api/notification";
   import {
     ChevronLeftSolid,
     ChevronRightSolid,
@@ -78,6 +76,10 @@ ${$appState.description}
     const numericInput = event.target.value.replace(/\D/g, "");
     $appState.phone = numericInput;
   }
+
+  async function handleDoubleClick(event: string) {
+   await writeText(event)
+  }
   async function saveNote() {
     try {
       // const confirmed2 = confirm("Are you sure?");
@@ -100,7 +102,7 @@ ${$appState.description}
     <li class="line-item">
       <input
         type="text"
-        on:dblclick="{() => console.log('dblclick')}"
+        on:dblclick="{() => handleDoubleClick($appState.email)}"
         placeholder="Email"
         bind:value="{$appState.email}"
         class="{$appState.email.match(emailRegex)
@@ -112,6 +114,7 @@ ${$appState.description}
     <li class="line-item">
       <input
         type="text"
+          on:dblclick="{() => handleDoubleClick($appState.asset)}"
         placeholder="Asset # "
         bind:value="{$appState.asset}"
         class="{$appState.asset.match(assetTagRegex)
@@ -130,6 +133,7 @@ ${$appState.description}
     <li class="line-item">
       <input
         type="text"
+          on:dblclick="{() => handleDoubleClick($appState.ticket)}"
         placeholder="Ticket #"
         bind:value="{$appState.ticket}"
         class="{$appState.ticket.match(ticketRegex)
@@ -141,6 +145,7 @@ ${$appState.description}
       <input
         type="text"
         bind:value="{$appState.phone}"
+          on:dblclick="{() => handleDoubleClick($appState.phone)}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
         class="{$appState.phone.match(phoneRegex)
