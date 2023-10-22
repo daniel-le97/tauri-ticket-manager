@@ -3,7 +3,7 @@
 
 import { db } from "./index.js";
 import type { TemplateDTO, Template, Note, Common } from "./types.js";
-import * as dialog from '@tauri-apps/api/dialog'
+// import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
 
 class DBService {
@@ -34,8 +34,8 @@ class DBService {
             
             return await db.execute(`DELETE FROM templates where id = $1`, [id])
         },
-        async update(checklist: TemplateDTO){
-            const foundChecklist = await this.getById(checklist.id)
+        async update(template: TemplateDTO){
+            const foundChecklist = await this.getById(template.id)
             return await db.execute(
            `UPDATE 
             template 
@@ -47,10 +47,14 @@ class DBService {
             id = $1;`, [])
         },
         async create(template: Omit<Template, 'id' | 'created_at' | 'updated_at'>) {
-            const { title, content, tag } = template
+            let { title, content, tag } = template
+            if (!tag) {
+                // @ts-ignore
+                tag = undefined
+            }
             const response =  (await db.execute("INSERT into templates (title, content, tag) VALUES ($1, $2, $3)", [title, content, tag]))
             if (response.rowsAffected === 0) {
-              dialog.message("there was an issue creating the template please submit again")
+            //   dialog.message("there was an issue creating the template please submit again")
             }
             return response
         },

@@ -1,22 +1,6 @@
 import { writable } from "svelte/store";
 
-export interface AppState {
-  email: string;
-  asset: string;
-  ticket: string;
-  phone: string;
-  description: string;
-  textEditorDescription: string;
-  textEditor: boolean;
-  timerCount: string;
-  timerOn: boolean;
-  date: Date;
-  id: string
-  formatted: string;
-  formattedTime: string;
-}
-
-export const initialAppState: AppState = {
+export const initialAppState= {
   id: "",
   email: "",
   asset: "",
@@ -31,6 +15,7 @@ export const initialAppState: AppState = {
   formatted: "",
   formattedTime: "00:00:00",
 };
+export type AppState = typeof initialAppState
 
 export const appState = writable(initialAppState);
 
@@ -51,3 +36,9 @@ export function resetAppState() {
     formattedTime: "00:00:00",
   });
 }
+
+export const templateState = writable({
+  content: '',
+  tag: '',
+  title: ''
+})

@@ -31,12 +31,20 @@
     templates = await dbService.templates.getAll();
   }
   async function addTemplate() {
-    const template = await templateService.addTemplate();
-    await getTemplates();
+    try {
+      const template = await templateService.addTemplate();
+      await getTemplates();
+    } catch (error) {
+      // handle errors
+    }
   }
 
-  async function editTemplate() {
-    console.log("edit");
+  async function handleEdit() {
+    try {
+      
+    } catch (error) {
+      
+    }
   }
   async function copyToClipboard(Template: string) {
     const textToCopy = Template;
@@ -47,7 +55,7 @@
     }
   }
 
-  function handleEdit(template: any) {
+  function editTemplate(template: Template) {
     ($title = template.title),
       ($content = template.content),
       ($tag = template.tag);
@@ -117,7 +125,7 @@
     <div class="sticky top-0">
   <div class="text-base font-semibold">Edit Template</div>
       <form
-        on:submit|preventDefault|stopPropagation="{editTemplate}"
+        on:submit|preventDefault|stopPropagation="{handleEdit}"
         class="flex flex-col space-y-1"
       >
         <div class="flex">
@@ -157,7 +165,7 @@
           />
         </div>
         <div class="">
-          <GradientButton type="submit" color="green">Edit</GradientButton>
+          <GradientButton type="submit" color="green">Save Edit</GradientButton>
         </div>
       </form>
 
@@ -178,7 +186,7 @@
             <GradientButton
               color="red"
               class=""
-              on:click="{ () => handleEdit(template)}"
+              on:click="{ () => editTemplate(template)}"
             >
               {template.title}</GradientButton
             >
