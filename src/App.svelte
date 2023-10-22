@@ -94,18 +94,7 @@
     <div
       class="notes-and-sidebar-container "
     >
-      <!-- <textarea
-        on:keydown="{handleKeyDown}"
-        class="notes-area bg-zinc-900"
-        id="notes-area"
-        bind:value="{$appState.description}"></textarea> -->
-<!-- {#await tinymce}
-  <p>loading...</p>
-{:then tiny} 
-
-{/await} -->
 <Editor></Editor>
-      <!-- <MainNoteArea/> -->
     </div>
     <div class="menu-container flex flex-col  fixed bottom-0 items-end justify-end w-full pb-2 bg-black">
       <MenuSectionOne clipBoardText="{clipBoardText}" />

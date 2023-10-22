@@ -1,12 +1,15 @@
-<script>
+<script lang="ts">
     import Editor from '@tinymce/tinymce-svelte';
-    import { tinymceConfig } from '../../tinymce';
+    import { tinymceConfig  as conf} from '../../tinymce';
     import { writable } from 'svelte/store';
-    let value =  writable('some nice content')
-    value.subscribe((value) => {
-        console.log(value);
+    import { appState } from '../stores/appState';
+    const value = writable('')
+    value.subscribe(value => {
+        appState.update((state) => ({...state, description: value}))
+        console.log($appState.description);
+        
     })
-    let conf = tinymceConfig
+    
 </script>
 <div>
       <Editor bind:value={$value}  {conf} scriptSrc="../../../node_modules/tinymce/tinymce.js"/>
