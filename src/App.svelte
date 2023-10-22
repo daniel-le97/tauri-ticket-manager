@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import Editor from '@tinymce/tinymce-svelte';
+  // import Editor from '@tinymce/tinymce-svelte';
   import SideBar from "./lib/Components/SideBar.svelte";
+  import Editor from "./lib/Components/Editor.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
   import { confirm } from "@tauri-apps/api/dialog";
@@ -14,6 +15,7 @@
     resetAppState,
   } from "./lib/stores/appState";
     import { tinymceConfig } from "./tinymce.js";
+ 
 
 
   let notesTextarea: string;
@@ -102,7 +104,7 @@
 {:then tiny} 
 
 {/await} -->
-<Editor scriptSrc="../node_modules/tinymce/tinymce.js" {conf} ></Editor>
+<Editor></Editor>
       <!-- <MainNoteArea/> -->
     </div>
     <div class="menu-container border-2 border-amber-400 bg-zinc-800">
