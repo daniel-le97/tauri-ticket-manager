@@ -9,8 +9,8 @@
   // let formattedTime = "00:00:00";
   let timerStart: any;
 
-  function startTimer() {
-    $appState.timerOn = true;
+ export const startTimer = ()=> {
+    // $appState.timerOn = true;
     timerStart = setInterval(() => {
       totalSeconds++;
     }, 1000);
@@ -23,9 +23,12 @@
   }
 
   $: {
-    if ($appState.timerOn == true) {
-     startTimer() 
-    }
+    // if ($appState.timerOn == true) {
+    //  startTimer() 
+    // }
+    // if ($appState.timerOn == false) {
+    //   pauseTimer()
+    // }
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;

@@ -16,9 +16,10 @@
   } from "flowbite-svelte-icons";
   import { appState, resetAppState } from "../stores/appState";
   
-
+import startTimer from './Timer.svelte'
 
   async function handleKeyDown(event: any) {
+    // startTimer
     $appState.timerOn = true;
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
@@ -33,9 +34,9 @@
 </script>
 
 {#if $appState.textEditor}
-  <form>
+  <form class="w-full h-full">
     <label for="editor" class="sr-only">Publish post</label>
-    <Textarea id="editor" rows="8" class="mb-4" placeholder="Write a comment">
+    <Textarea id="editor"  class="mb-4 h-full rounded-none" placeholder="Write a comment">
       <Toolbar slot="header" color="gray" embedded>
         <ToolbarGroup>
           <ToolbarButton name="Attach file"
@@ -61,7 +62,7 @@
         >
       </Toolbar>
     </Textarea>
-    <Button>Publish post</Button>
+
   </form>
 {:else}
   <textarea

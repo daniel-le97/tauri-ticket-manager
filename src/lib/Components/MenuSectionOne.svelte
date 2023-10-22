@@ -5,6 +5,7 @@
     ChevronLeftSolid,
     ChevronRightSolid,
     ClipboardCheckSolid,
+    PenSolid,
     XCompanySolid,
   } from "flowbite-svelte-icons";
 
@@ -157,6 +158,23 @@ ${$appState.description}
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
+   <GradientButton
+        id="reset"
+        color="teal"
+        class="!p-2 "
+        on:click="{()=> $appState.textEditor = !$appState.textEditor}"
+      >
+        <PenSolid/>
+      </GradientButton>
+      <Tooltip
+        placement="top"
+        color="green"
+        trigger="hover"
+        triggeredBy="#reset">Reset</Tooltip
+      >
+
+
+
       <GradientButton
         id="reset"
         color="lime"
