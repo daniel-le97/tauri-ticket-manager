@@ -1,9 +1,16 @@
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import tauri from "vite-plugin-tauri"; 
-
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 export default defineConfig({
-  plugins: [svelte(), tauri()],
+  plugins: [svelte(), tauri(),  viteStaticCopy({
+    targets: [
+      {
+        src: 'node_modules/tinymce/*',
+        dest: 'public/tinymce'
+      }
+    ]
+  })],
   // prevent vite from obscuring rust errors
   clearScreen: false,
   // Tauri expects a fixed port, fail if that port is not available

@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.0",
+    "@tinymce/tinymce-svelte": "^1.0.1",
     "flowbite-svelte-icons": "^0.4.4",
-    "tauri-plugin-sql-api": "https://github.com/tauri-apps/tauri-plugin-sql#v1"
+    "tauri-plugin-sql-api": "https://github.com/tauri-apps/tauri-plugin-sql#v1",
+    "tinymce": "^6.7.1"
   },
   "devDependencies": {
     "@popperjs/core": "^2.11.8",
@@ -32,6 +34,7 @@
     "tslib": "^2.6.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.4",
+    "vite-plugin-static-copy": "^0.17.0",
     "vite-plugin-tauri": "^3.3.0"
   }
 }

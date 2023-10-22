@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
+  import Editor from '@tinymce/tinymce-svelte';
   import SideBar from "./lib/Components/SideBar.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
@@ -12,6 +13,7 @@
     appState,
     resetAppState,
   } from "./lib/stores/appState";
+    import { tinymceConfig } from "./tinymce.js";
 
 
   let notesTextarea: string;
@@ -58,6 +60,30 @@
   onDestroy(() => {
     clearInterval(clipboardCheckInterval);
   });
+
+ 
+  // let conf = {
+  //       selector: "textarea",
+  //       height: "75vh",
+  //       width: "100vw",
+  //       statusbar: false,
+  //       resize: false,
+  //       min_height: 450,
+  //       max_height: 1000,
+  //       promotion:false,
+  //       autoresize_bottom_margin: 0,
+  //       plugins:
+  //         "ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss",
+  //       toolbar:
+  //         "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
+  //       tinycomments_mode: "embedded",
+  //       tinycomments_author: "Author name",
+  //       mergetags_list: [
+  //         { value: "First.Name", title: "First Name" },
+  //         { value: "Email", title: "Email" },
+  //       ]
+  //     }
+  const conf = tinymceConfig
 </script>
 
 <main class="pt-9">
@@ -71,9 +97,13 @@
         class="notes-area bg-zinc-900"
         id="notes-area"
         bind:value="{$appState.description}"></textarea> -->
+<!-- {#await tinymce}
+  <p>loading...</p>
+{:then tiny} 
 
-
-      <MainNoteArea/>
+{/await} -->
+<Editor scriptSrc="../node_modules/tinymce/tinymce.js" {conf} ></Editor>
+      <!-- <MainNoteArea/> -->
     </div>
     <div class="menu-container border-2 border-amber-400 bg-zinc-800">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
