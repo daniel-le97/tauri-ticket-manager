@@ -1,8 +1,7 @@
 import "./styles.css";
 import App from "./App.svelte";
-import { DB } from "./db/index.js";
-// import { dbService } from "./db/service.js";
- export const db = new DB()
+import { db } from "./db/index.js";
+let init = db
 //  console.log(await dbService.templates.getById(1));
  
 const app = new App({
