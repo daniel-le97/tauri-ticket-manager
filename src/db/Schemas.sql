@@ -27,7 +27,7 @@ Troubleshooting Steps:
 );
 
 drop TABLE notes;
-DROP TABLE checklists;
+DROP TABLE templates;
 
 
 

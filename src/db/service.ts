@@ -1,6 +1,7 @@
 
 
-import { db } from "../main.js";
+
+import { db } from "./index.js";
 import type { TemplateDTO, Template, Note, Common } from "./types.js";
 import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
