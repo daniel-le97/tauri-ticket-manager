@@ -7,6 +7,7 @@
     ChevronLeftSolid,
     ChevronRightSolid,
     ClipboardCheckSolid,
+    XCompanySolid,
   } from "flowbite-svelte-icons";
   import {
     description,
@@ -17,54 +18,34 @@
     ticket,
   } from "../stores/note";
 
-  let noteHeader = {
-    ipv4: "",
-    phone: "",
-    ticketNumber: "",
-    assetTag: "",
-    userEmail: "",
-  };
-
-  $: {
-    // $email = noteHeader.userEmail;
-    // $asset = noteHeader.assetTag;
-    // $phone = noteHeader.phone;
-    // $ticket = noteHeader.ticketNumber;
-  }
+  import { appState, resetAppState } from "../stores/everything";
+  import { confirm } from "@tauri-apps/api/dialog";
 
   export let clipBoardText: string | null;
 
   const phoneRegex = /(\+\d{1,2}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
   const ticketRegex = /^TN\d{8}$/;
   const emailRegex = /[\w.-]+@[\w.-]+\.\w+/g;
-  const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
   const assetTagRegex = /^[A-Za-z]{4}\d{8}$/;
 
   const watchClipboardChanges = async () => {
     try {
+      const emailMatches = clipBoardText?.match(emailRegex);
+      if (emailMatches) {
+        $appState.email = emailMatches[0];
+      }
       const phoneMatches = clipBoardText?.match(phoneRegex);
       if (phoneMatches) {
-        $phone = phoneMatches[0];
+        $appState.phone = phoneMatches[0];
       }
 
       const ticketMatches = clipBoardText?.match(ticketRegex);
-      if (ticketMatches ) {
-        $ticket = ticketMatches[0].replace("Ticket: ", "");
+      if (ticketMatches) {
+        $appState.ticket = ticketMatches[0];
       }
-
-      const emailMatches = clipBoardText?.match(emailRegex);
-      if (emailMatches) {
-        $email = emailMatches[0];
-      }
-
-      // const ipv4Matches = clipBoardText?.match(ipv4Regex);
-      // if (ipv4Matches) {
-      //   noteHeader.ipv4 = ipv4Matches[0];
-      // }
-
       const assetTagMatches = clipBoardText?.match(assetTagRegex);
       if (assetTagMatches) {
-        $asset = assetTagMatches[0];
+        $appState.asset = assetTagMatches[0];
       }
     } catch (error) {
       console.log(error);
@@ -73,16 +54,19 @@
 
   async function copyEverything() {
     try {
-      let formattedNote = `Email: ${noteHeader.userEmail}
-Phone: ${noteHeader.phone}
-Asset: ${noteHeader.assetTag}
-Ticket: ${noteHeader.ticketNumber}
-Ipv4: ${noteHeader.ipv4}
+      let formattedNote = `
+Time: ${$appState.timerCount}
+Date: ${new Date($appState.date).toLocaleString()}     
+Email: ${$appState.email}
+Phone: ${$appState.phone}
+Asset: ${$appState.asset}
+Ticket: ${$appState.ticket}
 -----------------------------------
+
 ${$description}
 
 `;
-      console.log(formattedNote);
+      // console.log(formattedNote);
 
       await writeText(formattedNote);
     } catch (error) {
@@ -90,19 +74,25 @@ ${$description}
     }
   }
 
+  async function resetNoteTaker() {
+    if (await confirm("Reset NoteTake?")) {
+      resetAppState();
+      await writeText("");
+    }
+  }
+
   function handlePhoneNumberInput(event: any) {
     // Remove non-numeric characters
     const numericInput = event.target.value.replace(/\D/g, "");
-    noteHeader.phone = numericInput;
+    $appState.phone = numericInput;
   }
   async function saveNote() {
     try {
-      const confirmed2 = confirm("Are you sure?");
-      notification.sendNotification("Tauri is awesome");
-
-      if (confirmed2) {
-        console.log("Save ticket Note, create new Ticket No");
-      }
+      // const confirmed2 = confirm("Are you sure?");
+      // notification.sendNotification("Tauri is awesome");
+      // if (confirmed2) {
+      //   console.log("Save ticket Note, create new Ticket No");
+      // }
     } catch (error) {}
   }
 
@@ -118,9 +108,10 @@ ${$description}
     <li class="line-item">
       <input
         type="text"
+        on:dblclick="{() => console.log('dblclick')}"
         placeholder="Email"
-        bind:value="{$email}"
-        class="{noteHeader.userEmail.match(emailRegex)
+        bind:value="{$appState.email}"
+        class="{$appState.email.match(emailRegex)
           ? 'bg-green-200'
           : 'bg-white'}"
       />
@@ -130,7 +121,10 @@ ${$description}
       <input
         type="text"
         placeholder="Asset # "
-        bind:value="{$asset}"
+        bind:value="{$appState.asset}"
+        class="{$appState.asset.match(assetTagRegex)
+          ? 'bg-green-200'
+          : 'bg-white'}"
       />
     </li>
     <!-- <li class="line-item">
@@ -145,20 +139,38 @@ ${$description}
       <input
         type="text"
         placeholder="Ticket #"
-        bind:value="{$ticket}"
+        bind:value="{$appState.ticket}"
+        class="{$appState.ticket.match(ticketRegex)
+          ? 'bg-green-200'
+          : 'bg-white'}"
       />
     </li>
     <li class="line-item">
       <input
         type="text"
-        bind:value="{$phone}"
+        bind:value="{$appState.phone}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
+        class="{$appState.phone.match(phoneRegex)
+          ? 'bg-green-200'
+          : 'bg-white'}"
       />
     </li>
   </ul>
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
+    <Button
+      id="reset"
+      color="primary"
+      class="!p-2 "
+      on:click="{resetNoteTaker}"
+    >
+      <XCompanySolid class="cursor-pointer outline-none border-none" />
+    </Button>
+    <Tooltip placement="top" color="green" trigger="click" triggeredBy="#reset"
+      >Reset</Tooltip
+    >
+
     <Button
       id="clipBoard"
       color="primary"

@@ -6,10 +6,14 @@
   import { confirm } from "@tauri-apps/api/dialog";
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import { window } from "@tauri-apps/api";
-
   import TitleBar from "./lib/Components/TitleBar.svelte";
   import { timer } from "./lib/stores/timer";
-  import { description } from "./lib/stores/note";
+  import {
+    appState,
+    resetAppState,
+  } from "./lib/stores/everything";
+
+  
   let notesTextarea: string;
   let clipBoardText: string | null;
 
@@ -23,9 +27,8 @@
     copyClipBoard();
   });
 
-
-  $:{
-    $description = notesTextarea
+  $: {
+    $appState.description = notesTextarea;
   }
   async function handleKeyDown(event: any) {
     $timer = true;
@@ -34,8 +37,8 @@
     const backspacePressed = event.key === "Backspace";
 
     if (ctrlPressed && shiftPressed && backspacePressed) {
-      if (await confirm("Are you sure?")) {
-        notesTextarea = ""; // Clear the textarea
+      if (await confirm("Reset NoteTaker?")) {
+        resetAppState();
       }
     }
   }
@@ -67,7 +70,7 @@
         on:keydown="{handleKeyDown}"
         class="notes-area bg-zinc-900"
         id="notes-area"
-        bind:value="{notesTextarea}"></textarea>
+        bind:value="{$appState.description}"></textarea>
     </div>
     <div class="menu-container border-2 border-amber-400 bg-zinc-800">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
