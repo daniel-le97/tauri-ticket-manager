@@ -11,9 +11,9 @@
   import {
     appState,
     resetAppState,
-  } from "./lib/stores/everything";
+  } from "./lib/stores/appState";
 
-  
+
   let notesTextarea: string;
   let clipBoardText: string | null;
 

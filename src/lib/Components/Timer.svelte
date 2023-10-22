@@ -1,9 +1,9 @@
 <!-- Timer.svelte -->
 <script lang="ts">
-  import { Button } from "flowbite-svelte";
+  import { Button, GradientButton } from "flowbite-svelte";
   import { CirclePauseSolid, ClockOutline } from "flowbite-svelte-icons";
   import { timer } from "../stores/timer.js";
-  import { appState } from "../stores/everything.js";
+  import { appState } from "../stores/appState.js";
 
   let totalSeconds = 0;
   let formattedTime = "00:00:00";
@@ -19,6 +19,7 @@
   function pauseTimer() {
     $appState.timerOn = false;
     clearInterval(timerStart);
+    timerStart = null
   }
 
   $: {
@@ -32,9 +33,10 @@
   }
 </script>
 
-<Button
-  color="alternative"
-  class="space-x-2 rounded-sm p-2"
+<GradientButton
+
+  color="{$appState.timerOn ? 'green' : 'red'}"
+  class="space-x-2  p-2  rounded-sm "
   on:click="{$appState.timerOn ? pauseTimer : startTimer}"
 >
   {#if $appState.timerOn}
@@ -42,5 +44,5 @@
   {:else}
     <ClockOutline />
   {/if}
-  <p class="{$timer ? 'text-green-700' : 'text-orange-500'}">{formattedTime}</p>
-</Button>
+  <p >{formattedTime}</p>
+</GradientButton>

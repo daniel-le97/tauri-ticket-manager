@@ -1,7 +1,7 @@
 <script lang="ts">
   import { clipboard, dialog, notification } from "@tauri-apps/api";
   import { readText, writeText } from "@tauri-apps/api/clipboard";
-  import { Button, Input, Tooltip } from "flowbite-svelte";
+  import { Button, GradientButton, Input, Tooltip } from "flowbite-svelte";
   import { sendNotification } from "@tauri-apps/api/notification";
   import {
     ChevronLeftSolid,
@@ -9,16 +9,8 @@
     ClipboardCheckSolid,
     XCompanySolid,
   } from "flowbite-svelte-icons";
-  import {
-    description,
-    asset,
-    timerCount,
-    email,
-    phone,
-    ticket,
-  } from "../stores/note";
 
-  import { appState, resetAppState } from "../stores/everything";
+  import { appState, resetAppState } from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
 
   export let clipBoardText: string | null;
@@ -63,7 +55,7 @@ Asset: ${$appState.asset}
 Ticket: ${$appState.ticket}
 -----------------------------------
 
-${$description}
+${$appState.description}
 
 `;
       // console.log(formattedNote);
@@ -159,40 +151,48 @@ ${$description}
   </ul>
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
-    <Button
-      id="reset"
-      color="primary"
-      class="!p-2 "
-      on:click="{resetNoteTaker}"
-    >
-      <XCompanySolid class="cursor-pointer outline-none border-none" />
-    </Button>
-    <Tooltip placement="top" color="green" trigger="click" triggeredBy="#reset"
-      >Reset</Tooltip
-    >
+    <div class="flex space-x-3">
+      <GradientButton
+        id="reset"
+        color="lime"
+        class="!p-2 "
+        on:click="{resetNoteTaker}"
+      >
+        <XCompanySolid class="cursor-pointer outline-none border-none" />
+      </GradientButton>
+      <Tooltip
+        placement="top"
+        color="green"
+        trigger="hover"
+        triggeredBy="#reset">Reset</Tooltip
+      >
 
-    <Button
-      id="clipBoard"
-      color="primary"
-      class="!p-2 mr-4"
-      on:click="{copyEverything}"
-    >
-      <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
-    </Button>
-    <Tooltip
-      placement="top"
-      color="green"
-      trigger="click"
-      triggeredBy="#clipBoard">Copied</Tooltip
-    >
-    <Button class="!p-2" color="alternative">
-      <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
+      <GradientButton
+        id="clipBoard"
+        color="pink"
+        class="!p-2 mr-4"
+        on:click="{copyEverything}"
+      >
+        <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
+      </GradientButton>
+      <Tooltip
+        placement="top"
+        color="pink"
+        trigger="hover"
+        triggeredBy="#clipBoard">Copied</Tooltip
+      >
+    </div>
+
+    <div class=" pl-2">
+      <Button class="!p-2" color="alternative">
+        <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
+      </Button>
       <Tooltip color="blue">Previous</Tooltip>
-    </Button>
-    <Button class="!p-2" color="alternative" on:click="{saveNote}">
-      <ChevronRightSolid class="cursor-pointer outline-none border-none" />
+      <Button class="!p-2" color="alternative" on:click="{saveNote}">
+        <ChevronRightSolid class="cursor-pointer outline-none border-none" />
+      </Button>
       <Tooltip color="blue">New</Tooltip>
-    </Button>
+    </div>
   </div>
 </div>
 

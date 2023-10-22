@@ -1,6 +1,6 @@
 <script lang="ts">
   import { dialog } from "@tauri-apps/api";
-  import { Badge, Button, Modal, Tooltip } from "flowbite-svelte";
+  import { Badge, Button, GradientButton, Modal, Tooltip } from "flowbite-svelte";
   import CheckLists from "./CheckLists.svelte";
   import Timer from "./Timer.svelte";
   import { InfoCircleSolid } from "flowbite-svelte-icons";
@@ -14,32 +14,32 @@
 <div class="menu-section pt-4 px-1">
   <ul class="line-row space-x-1">
     <li class="line-item">
-      <Button
+      <GradientButton
         color="blue"
         class=" rounded-sm "
-        on:click={() => (scrollingModal = true)}>Templates</Button
+        on:click={() => (scrollingModal = true)}>Templates</GradientButton
       >
     </li>
     <li class="line-item">
-      <Button
+      <GradientButton
         color="red"
         class=" rounded-sm "
-        on:click={() => (defaultModal = true)}>ESC</Button
+        on:click={() => (defaultModal = true)}>ESC</GradientButton
       >
     </li>
 
     <li class="line-item">
-      <Button
+      <GradientButton
         color="purple"
         class=" rounded-sm "
-        on:click={() => (defaultModal = true)}>Tickets</Button
+        on:click={() => (defaultModal = true)}>Tickets</GradientButton
       >
     </li>
     <li class="line-item">
-      <Button
+      <GradientButton
         color="green"
         class=" rounded-sm "
-        on:click={() => (defaultModal = true)}>Settings</Button
+        on:click={() => (defaultModal = true)}>Settings</GradientButton
       >
     </li>
   </ul>
@@ -58,12 +58,7 @@
 
   <Modal size="xl" title="Templates" bind:open={scrollingModal}>
     <CheckLists />
-    <svelte:fragment slot="footer">
-      <Button on:click={() => dialog.message("Handled Success")}
-        >I accept</Button
-      >
-      <Button color="alternative">Decline</Button>
-    </svelte:fragment>
+  
   </Modal>
 
   <Modal
