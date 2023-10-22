@@ -47,20 +47,22 @@
     }
   }
 
-  async function handleEdit(template: any) {
+  function handleEdit(template: any) {
     ($title = template.title),
       ($content = template.content),
       ($tag = template.tag);
-  }
+  } 
 
-  async function handleDelete(id: string) {
+  async function handleDelete(id: number) {
     try {
       if (await confirm("Delete?")) {
         await templateService.deleteTemplate(id);
 
-        getTemplates();
+       await getTemplates();
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }
   }
 </script>
 
@@ -176,7 +178,7 @@
             <GradientButton
               color="red"
               class=""
-              on:click="{handleEdit(template)}"
+              on:click="{ () => handleEdit(template)}"
             >
               {template.title}</GradientButton
             >
@@ -186,7 +188,7 @@
                 outline="{true}"
                 class="!p-2"
                 size="sm"
-                on:click="{handleDelete(template.id)}"
+                on:click="{() => handleDelete(template.id)}"
               >
                 <TrashBinSolid class="w-3 h-3 " />
               </Button>

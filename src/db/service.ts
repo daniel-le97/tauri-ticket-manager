@@ -29,7 +29,7 @@ class DBService {
         async getById(id: string | number){
             return await db.select<TemplateDTO>(`SELECT * FROM template where id = $1`, [id])
         },
-        async deleteById(id: string) {
+        async deleteById(id: number) {
           
             
             return await db.execute(`DELETE FROM templates where id = $1`, [id])

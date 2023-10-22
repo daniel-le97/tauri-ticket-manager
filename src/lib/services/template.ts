@@ -13,7 +13,7 @@ class TemplateService {
     return made;
   }
 
-  async deleteTemplate(id: string) {
+  async deleteTemplate(id: number) {
     const deleted = await dbService.templates.deleteById(id);
   }
 }
