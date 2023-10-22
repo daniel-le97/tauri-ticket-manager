@@ -30,7 +30,9 @@ class DBService {
             return await db.select<TemplateDTO>(`SELECT * FROM template where id = $1`, [id])
         },
         async deleteById(id: string) {
-            return await db.execute(`DELETE FROM template where id = $1`, [id])
+          
+            
+            return await db.execute(`DELETE FROM templates where id = $1`, [id])
         },
         async update(checklist: TemplateDTO){
             const foundChecklist = await this.getById(checklist.id)

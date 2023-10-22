@@ -1,12 +1,12 @@
 <script>
   import CheckLists from "./CheckLists.svelte";
-  import Modal from "./Modal.svelte";
 
-  let showModal = false;
+
+
 </script>
 
 <div class="side-bar">
-  <ul class="side-bar-menu">
+  <!-- <ul class="side-bar-menu">
     <li>
       <button class="side-bar-button" on:click={() => (showModal = true)}>
         About
@@ -22,13 +22,9 @@
         About
       </button>
     </li>
-  </ul>
+  </ul> -->
 
-  <Modal bind:showModal>
-    <h2 slot="header">CheckLists</h2>
 
-    <CheckLists />
-  </Modal>
 </div>
 
 <style>
