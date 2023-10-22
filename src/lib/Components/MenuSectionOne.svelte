@@ -96,7 +96,7 @@ ${$appState.description}
   }
 </script>
 
-<div class="menu-section py-0 pt-2 p-1">
+<div class="menu-section  p-1 py-2">
   <ul class="line-row space-x-1 flex justify-start">
     <li class="line-item">
       <input

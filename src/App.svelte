@@ -92,7 +92,7 @@
   <TitleBar />
   <div class="main-container">
     <div
-      class="notes-and-sidebar-container border-2 border-y-0 border-zinc-400"
+      class="notes-and-sidebar-container "
     >
       <!-- <textarea
         on:keydown="{handleKeyDown}"
@@ -107,7 +107,7 @@
 <Editor></Editor>
       <!-- <MainNoteArea/> -->
     </div>
-    <div class="menu-container border-2 border-amber-400 bg-zinc-800">
+    <div class="menu-container flex flex-col  fixed bottom-0 items-end justify-end w-full pb-2 bg-black">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>
@@ -151,11 +151,6 @@
     font-weight: 500;
     opacity: 50%;
     cursor: default;
-  }
-  .menu-container {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
   }
 
   /* For Webkit-based browsers (Chrome, Safari) */

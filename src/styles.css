@@ -20,7 +20,7 @@
 
 body,
 html {
-  @apply bg-zinc-900;
+  @apply bg-black;
  
   height: 100%;
   

@@ -53,7 +53,7 @@
   }
 </script>
 
-<div class="menu-section pt-4 px-1">
+<div class="menu-section px-1">
   <ul class="line-row space-x-1">
     <li class="line-item">
       <GradientButton
@@ -105,7 +105,7 @@
     <Timer />
   </div>
 
-  <Modal class="mt-8" size="xl"  bind:open="{scrollingModal}">
+  <Modal class="mt-8 " size="xl"  bind:open="{scrollingModal}">
     <CheckLists />
   </Modal>
 
