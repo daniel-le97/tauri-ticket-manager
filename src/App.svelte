@@ -9,6 +9,7 @@
 
   import TitleBar from "./lib/Components/TitleBar.svelte";
   import { timer } from "./lib/stores/timer";
+  import { description } from "./lib/stores/note";
   let notesTextarea: string;
   let clipBoardText: string | null;
 
@@ -22,6 +23,10 @@
     copyClipBoard();
   });
 
+
+  $:{
+    $description = notesTextarea
+  }
   async function handleKeyDown(event: any) {
     $timer = true;
     const ctrlPressed = event.ctrlKey;

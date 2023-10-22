@@ -8,6 +8,15 @@
     ChevronRightSolid,
     ClipboardCheckSolid,
   } from "flowbite-svelte-icons";
+  import {
+    description,
+    asset,
+    timerCount,
+    email,
+    phone,
+    ticket,
+  } from "../stores/note";
+
   let noteHeader = {
     ipv4: "",
     phone: "",
@@ -15,6 +24,13 @@
     assetTag: "",
     userEmail: "",
   };
+
+  $: {
+    // $email = noteHeader.userEmail;
+    // $asset = noteHeader.assetTag;
+    // $phone = noteHeader.phone;
+    // $ticket = noteHeader.ticketNumber;
+  }
 
   export let clipBoardText: string | null;
 
@@ -28,27 +44,27 @@
     try {
       const phoneMatches = clipBoardText?.match(phoneRegex);
       if (noteHeader.phone === "Phone#" && phoneMatches) {
-        noteHeader.phone = phoneMatches[0];
+        $phone = phoneMatches[0];
       }
 
       const ticketMatches = clipBoardText?.match(ticketRegex);
       if (ticketMatches && noteHeader.ticketNumber === "Ticket#") {
-        noteHeader.ticketNumber = ticketMatches[0].replace("Ticket: ", "");
+        $ticket = ticketMatches[0].replace("Ticket: ", "");
       }
 
       const emailMatches = clipBoardText?.match(emailRegex);
       if (emailMatches) {
-        noteHeader.userEmail = emailMatches[0];
+        $email = emailMatches[0];
       }
 
-      const ipv4Matches = clipBoardText?.match(ipv4Regex);
-      if (ipv4Matches) {
-        noteHeader.ipv4 = ipv4Matches[0];
-      }
+      // const ipv4Matches = clipBoardText?.match(ipv4Regex);
+      // if (ipv4Matches) {
+      //   noteHeader.ipv4 = ipv4Matches[0];
+      // }
 
       const assetTagMatches = clipBoardText?.match(assetTagRegex);
       if (assetTagMatches) {
-        noteHeader.assetTag = assetTagMatches[0];
+        $asset = assetTagMatches[0];
       }
     } catch (error) {
       console.log(error);
@@ -61,7 +77,11 @@
 Phone: ${noteHeader.phone}
 Asset: ${noteHeader.assetTag}
 Ticket: ${noteHeader.ticketNumber}
-Ipv4: ${noteHeader.ipv4}`;
+Ipv4: ${noteHeader.ipv4}
+-----------------------------------
+${$description}
+
+`;
       console.log(formattedNote);
 
       await writeText(formattedNote);
@@ -99,33 +119,41 @@ Ipv4: ${noteHeader.ipv4}`;
       <input
         type="text"
         placeholder="Email"
-        bind:value={noteHeader.userEmail}
-        class={noteHeader.userEmail.match(emailRegex)
-          ? "bg-green-200"
-          : "bg-white"}
+        bind:value="{$email}"
+        class="{noteHeader.userEmail.match(emailRegex)
+          ? 'bg-green-200'
+          : 'bg-white'}"
       />
     </li>
 
     <li class="line-item">
       <input
-        type="text" 
+        type="text"
         placeholder="Asset # "
-        bind:value={noteHeader.assetTag}
+        bind:value="{$asset}"
       />
     </li>
-    <li class="line-item">
-      <input type="text" placeholder="Ipv4 Address" bind:value={noteHeader.ipv4} />
-    </li>
+    <!-- <li class="line-item">
+      <input
+        type="text"
+        placeholder="Ipv4 Address"
+        bind:value="{noteHeader.ipv4}"
+      />
+    </li> -->
 
     <li class="line-item">
-      <input type="text" placeholder="Ticket #" bind:value={noteHeader.ticketNumber} />
+      <input
+        type="text"
+        placeholder="Ticket #"
+        bind:value="{$ticket}"
+      />
     </li>
     <li class="line-item">
       <input
         type="text"
-        bind:value={noteHeader.phone}
+        bind:value="{$phone}"
         placeholder="Phone #"
-        on:input={handlePhoneNumberInput}
+        on:input="{handlePhoneNumberInput}"
       />
     </li>
   </ul>
@@ -135,7 +163,7 @@ Ipv4: ${noteHeader.ipv4}`;
       id="clipBoard"
       color="primary"
       class="!p-2 mr-4"
-      on:click={copyEverything}
+      on:click="{copyEverything}"
     >
       <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
     </Button>
@@ -149,7 +177,7 @@ Ipv4: ${noteHeader.ipv4}`;
       <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
       <Tooltip color="blue">Previous</Tooltip>
     </Button>
-    <Button class="!p-2" color="alternative" on:click={saveNote}>
+    <Button class="!p-2" color="alternative" on:click="{saveNote}">
       <ChevronRightSolid class="cursor-pointer outline-none border-none" />
       <Tooltip color="blue">New</Tooltip>
     </Button>
