@@ -17,6 +17,7 @@
   import { appState, resetAppState } from "../stores/appState";
   
 import startTimer from './Timer.svelte'
+  import { noteService } from "../services/notes";
 
   async function handleKeyDown(event: any) {
     // startTimer
@@ -32,9 +33,9 @@ import startTimer from './Timer.svelte'
     }
   }
 
-  async function handleSave (){
+  async function handleSave (event:KeyboardEvent){
 try {
-  
+  await noteService.handleSave(event)
 } catch (error) {
   
 }
