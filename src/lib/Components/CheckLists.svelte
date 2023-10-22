@@ -20,7 +20,7 @@
     templates = (await dbService.templates.getAll())
   }
   async function addTemplate(){
-    const template = templateService.addTemplate()
+    const template = await templateService.addTemplate()
     await getTemplates()
   }
   async function copyToClipboard(Template: string) {
