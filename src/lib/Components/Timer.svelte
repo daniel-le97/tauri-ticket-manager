@@ -10,7 +10,7 @@
   let timerStart: any;
 
  export const startTimer = ()=> {
-    // $appState.timerOn = true;
+    $appState.timerOn = true;
     timerStart = setInterval(() => {
       totalSeconds++;
     }, 1000);

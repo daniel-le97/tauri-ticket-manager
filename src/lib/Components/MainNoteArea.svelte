@@ -31,12 +31,20 @@ import startTimer from './Timer.svelte'
       }
     }
   }
+
+  async function handleSave (){
+try {
+  
+} catch (error) {
+  
+}
+  }
 </script>
 
 {#if $appState.textEditor}
   <form class="w-full h-full">
     <label for="editor" class="sr-only">Publish post</label>
-    <Textarea id="editor"  class="mb-4 h-full rounded-none" placeholder="Write a comment">
+    <Textarea  on:keydown="{handleSave}" id="editor"  class="mb-4 h-full rounded-none bg-zinc-900" placeholder="Write a comment">
       <Toolbar slot="header" color="gray" embedded>
         <ToolbarGroup>
           <ToolbarButton name="Attach file"
