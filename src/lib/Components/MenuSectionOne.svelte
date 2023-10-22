@@ -52,12 +52,10 @@ Email: ${$appState.email}
 Phone: ${$appState.phone}
 Asset: ${$appState.asset}
 Ticket: ${$appState.ticket}
------------------------------------
 
 ${$appState.description}
 
 `;
-      // console.log(formattedNote);
 
       await writeText(formattedNote);
     } catch (error) {
@@ -193,7 +191,7 @@ ${$appState.description}
       <GradientButton
         id="clipBoard"
         color="pink"
-        class="!p-2 mr-4"
+        class="!p-2 mr-4  "
         on:click="{copyEverything}"
       >
         <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />

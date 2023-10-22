@@ -20,6 +20,9 @@
   let templates: TemplateDTO[];
   let editMode: boolean = false;
 
+  
+ 
+
   onMount(async () => {
     await getTemplates();
   });
@@ -61,8 +64,8 @@
   }
 </script>
 
-<div class="  flex flex-col p-3">
-  <div class="flex flex-col space-y-3">
+<div class="  flex  p-3 space-x-3 relative ">
+  <div class=" w-1/2 flex flex-col space-y-3  ">
     {#if !editMode}
       <div class="text-base font-semibold">Create Template</div>
       <form
@@ -109,7 +112,8 @@
         </div>
       </form>
     {:else}
-      <div class="text-base font-semibold">Edit Template</div>
+    <div class="sticky top-0">
+  <div class="text-base font-semibold">Edit Template</div>
       <form
         on:submit|preventDefault|stopPropagation="{editTemplate}"
         class="flex flex-col space-y-1"
@@ -154,33 +158,18 @@
           <GradientButton type="submit" color="green">Edit</GradientButton>
         </div>
       </form>
+
+    </div>
     {/if}
   </div>
 
-  <div class="mt-4">
+  <div class="mt-4 w-1/2">
     <span class="text=xl font-semibold mb-4">Templates:</span>
     <Button color="red" on:click="{() => (editMode = !editMode)}"
       >Edit Templates</Button
     >
 
-    {#if templates && !editMode}
-      <ul class="mt-4 flex gap-2 flex-wrap">
-        {#each templates as template (template.id)}
-          <li>
-            <GradientButton
-              shadow
-              color="blue"
-              on:click="{() => copyToClipboard(template.content)}"
-            >
-              {template.title}</GradientButton
-            >
-            <Popover  placement="top" class="w-80 text-sm">
-              <div><pre>{@html template.content}</pre></div>
-            </Popover>
-          </li>
-        {/each}
-      </ul>
-    {:else if templates && editMode}
+   {#if  editMode}
       <ul class="mt-4 flex gap-2 flex-wrap">
         {#each templates as template (template.id)}
           <li>
@@ -205,11 +194,37 @@
           </li>
         {/each}
       </ul>
-    {:else}
+    {:else if !templates && editMode}
       <Spinner />
     {/if}
   </div>
 </div>
 
+
+
+
+<!-- 
+
+
+ {#if templates && !editMode}
+      <ul class="mt-4 flex gap-2 flex-wrap">
+        {#each templates as template (template.id)}
+          <li>
+            <GradientButton
+              shadow
+              color="blue"
+              on:click="{() => copyToClipboard(template.content)}"
+            >
+              {template.title}</GradientButton
+            >
+            <Popover  placement="top" class="w-80 text-sm">
+              <div><pre>{@html template.content}</pre></div>
+            </Popover>
+          </li>
+        {/each}
+      </ul>
+    {:else }
+
+ -->
 <style>
 </style>
