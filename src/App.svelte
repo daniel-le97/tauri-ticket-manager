@@ -92,7 +92,7 @@
   .notes-and-sidebar-container {
     display: flex;
     justify-content: space-between;
-    background-color: #4caf50;
+    background-color:white;
 
     height: 80%;
   }
