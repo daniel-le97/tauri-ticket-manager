@@ -29,8 +29,6 @@ export class Template implements Omit<ITemplate, 'id' | 'created_at' | 'updated_
     }
 }
 
-
-
 export class Note implements Omit<INote, 'id' | 'created_at' | 'updated_at'> {
     phone: string;
     asset: string;

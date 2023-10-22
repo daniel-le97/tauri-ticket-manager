@@ -6,12 +6,23 @@
     GradientButton,
   } from "flowbite-svelte";
     import { title, content, tag } from "../stores/template.js";
-    import { Template, type ITemplate } from "../../db/types.js";
+    import { Template, type ITemplate, TemplateDTO } from "../../db/types.js";
     import { dbService } from "../../db/service.js";
     import { templateService } from "../services/template.js";
+    import { onMount } from "svelte";
     
-  const templatesPromise = dbService.templates.getAll()
+  let templates: TemplateDTO[];
+  onMount(async() => {
+    await getTemplates()
+  })
 
+  async function getTemplates(){
+    templates = (await dbService.templates.getAll())
+  }
+  async function addTemplate(){
+    const template = templateService.addTemplate()
+    await getTemplates()
+  }
   async function copyToClipboard(Template: string) {
     const textToCopy = Template;
     try {
@@ -27,10 +38,13 @@
   <span>Create Template</span>
   
   <div class="flex flex-col space-y-3">
-    <form>
+    <form on:submit|preventDefault|stopPropagation={addTemplate}>
       <div class="flex">
         <input
         type="text"
+        required
+        min="1"
+        minlength="1"
         bind:value={$title}
         placeholder="Title"
         id="new-title"
@@ -50,24 +64,25 @@
         <textarea
         cols="70"
         rows="7"
+        required
+        minlength="1"
         bind:value={$content}
         placeholder="Add Content"
         id="new-Template"
         />
       </div>
-      <button type="submit" class=" bg-blue-400" on:click|preventDefault|stopPropagation={templateService.addTemplate}>add template</button>
+      <button type="submit" class=" bg-blue-400" >add template</button>
     </form>
     </div>
     
     <div class="mt-4">
     <span class="text=xl font-semibold mb-4">Templates:</span>
-    {#await templatesPromise}
-	<p>...getting templates</p>
-{:then templates}
-<ul class="mt-4">
+ 
+  {#if templates}
+  <ul class="mt-4">
+    {#each templates as template (template.id)}
     <li>
-      {#each templates as template}
-        <GradientButton
+      <GradientButton
           shadow
           color="blue"
           on:click={() => copyToClipboard(template.content)}
@@ -77,12 +92,12 @@
         <Popover placement="top" class="w-80 text-sm">
           <div><pre>{@html template.content}</pre></div>
         </Popover>
-      {/each}
     </li>
+    {/each}
   </ul>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
+{:else}
+  <p>Loading data...</p>
+{/if}
   </div>
 </div>
 

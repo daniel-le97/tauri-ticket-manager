@@ -9,9 +9,6 @@
   let scrollingModal = false;
   let informationModal = false;
   let size;
-
-
-
 </script>
 
 <div class="menu-section pt-4 px-1">
@@ -59,7 +56,7 @@
     <Timer  />
   </div>
 
-  <Modal size="xl" title="Templates" bind:open={scrollingModal} autoclose>
+  <Modal size="xl" title="Templates" bind:open={scrollingModal}>
     <CheckLists />
     <svelte:fragment slot="footer">
       <Button on:click={() => dialog.message("Handled Success")}
@@ -77,12 +74,6 @@
   >
     <UsageGuide />
   </Modal>
-
-  <!-- <Modal bind:showModal>
-    <h2 slot="header">CheckLists</h2>
-
-    <CheckLists />
-  </Modal> -->
 </div>
 
 <style>
