@@ -8,7 +8,9 @@ class NoteService {
     async handleSave(event: KeyboardEvent){
         if ((event.metaKey || event.ctrlKey) && event.key === 's') {
             const state = get(appState)
-            console.log('state', state);
+            
+            const noteInDb = await dbService.notes.getAll()
+            console.log(noteInDb);
             
             
           }
