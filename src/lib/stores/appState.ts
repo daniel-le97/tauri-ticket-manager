@@ -11,12 +11,13 @@ export interface AppState {
   timerCount: string;
   timerOn: boolean;
   date: Date;
-
+  id: string
   formatted: string;
   formattedTime: string;
 }
 
 export const initialAppState: AppState = {
+  id: "",
   email: "",
   asset: "",
   ticket: "",
@@ -35,6 +36,7 @@ export const appState = writable(initialAppState);
 
 export function resetAppState() {
   appState.set({
+    id: "",
     email: "",
     asset: "",
     ticket: "",
