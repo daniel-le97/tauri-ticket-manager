@@ -110,10 +110,11 @@
   </Modal>
 
   <Modal
-    size="lg"
-    title="Application Usage Information"
+    size="xl"
+    class="mt-12"
+   
     bind:open="{informationModal}"
-    autoclose
+    outsideclose
   >
     <UsageGuide />
   </Modal>
@@ -128,10 +129,10 @@
     transitionParams="{transitionParamsRight}"
     bind:hidden="{hiddenDrawer}"
     id="sidebar6"
-    class="pt-10 overflow-x-auto"
+    class="pt-10 overflow-x-auto bg-black"
     backdrop="{false}"
   >
-    <div class=" flex flex-col space-y-2 pt-2">
+    <div class=" flex flex-col space-y-2 pt-20">
       {#each templates as template (template.id)}
         <GradientButton shadow color="blue"  on:click={() => copyToClipboard(template.content)}>
           {template.title}</GradientButton

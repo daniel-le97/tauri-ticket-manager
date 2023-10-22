@@ -4,7 +4,7 @@
 
 <div>
   <section>
-    <h2 class="text-2xl font-semibold mb-2">Basic Usage</h2>
+    <h2 class="text-2xl font-semibold mb-2 pt-8">Basic Usage</h2>
     <p>
       MyNoteTaker is a simple and intuitive note-taking application. Follow
       these steps to get started:
