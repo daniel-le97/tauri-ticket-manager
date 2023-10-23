@@ -14,7 +14,7 @@ updated_at DATERIME DEFAULT CURRENT_TIMESTAMP,
         description TEXT,
         phone INTEGER,
         asset TEXT,
-        current INTEGER DEFAULT 1,
+        current INTEGER DEFAULT 0,
         email TEXT
         );
 

@@ -10,25 +10,43 @@ import { defu } from 'defu'
 class DBService {
     notes = {
         async getAll(){
-            return await db.select<Note[]>(`SELECT * FROM notes`)
+            return await db.select<NoteDTO[]>(`SELECT * FROM notes`)
         },
         async getById(id: string | number){
-            return await db.select<NoteDTO>(`SELECT * FROM notes where id = $1`, [id])
+            const note = (await db.select<NoteDTO[]>(`SELECT * FROM notes where id = $1`, [id]))[0]
+            if (!note) {
+                console.error('[DB:note:getById] Error: there was a problem finding id ' + id);
+            }
+            return note
         },
         async deleteById(id: string) {
-            return await db.execute(`DELETE FROM notes where id = $1`, [id])
+            const note = await this.getById(id)
+            return await db.execute(`DELETE FROM notes where id = $1`, [note.id])
         },
         async create(note: Omit<Note, 'id' | 'created_at' | 'updated_at'>) {
             const { asset, description, email, phone } = note
-            return (await db.execute("INSERT into notes (asset, description, email, phone) VALUES ($1, $2, $3, $4)", [asset,description,email,phone]))
+            const newNote = (await db.execute("INSERT into notes (asset, description, email, phone) VALUES ($1, $2, $3, $4)", [asset,description,email,phone]))
+            return this.getById(newNote.lastInsertId)
         },
         async getCurrent(){
             return (await db.select<NoteDTO[]>(`SELECT * from notes where current = 1`))[0]
         },
         async update(note: NoteDTO){
-            const oldNote = await this.getById(note.id)
-            const merged = defu(oldNote, note)
-            console.log(merged, oldNote);
+            const updated = await db.execute(`update 
+            notes 
+          set 
+            description = $2,
+            phone = $3,
+            asset = $4,
+            email = $5,
+            current = $6
+          where 
+            id = $1;`, [note.id, note.description, note.phone, note.asset, note.email, note.current])
+            if (updated.rowsAffected !== 1) {
+                console.error('[DB:note:update] Error: there was a problem updating the note id ' + note.id )
+            }
+            return updated
+            
         }
     }
     templates = {
@@ -71,29 +89,3 @@ class DBService {
 
 export const dbService = new DBService()
 
-// class Service<T>{
-//     table: "notes" | "template";
- 
-//     constructor(table: "notes" | "template") {
-//         this.table = table;
-
-//     }
-//     async getAll() {
-//         return await db.select<T>(`SELECT * FROM ${this.table}`);
-//     }
-
-//     async getById(id: string) {
-//         return await db.select<T>(`SELECT * FROM ${this.table} where id = ?1`, [id] );
-//     }
-
-//     async deleteById(id: string) {
-//         return await db.execute(`DELETE FROM ${this.table} where id = ?1`, [id])
-//     }
-// }
-
-// class NOTES extends Service<Notes>{
-//     constructor(){
-//         super('notes')
-//     }
-
-// }

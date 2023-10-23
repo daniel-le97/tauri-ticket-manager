@@ -82,7 +82,7 @@ ${$appState.description}
   }
   async function saveNote() {
     try {
-      noteService.next()
+      await noteService.next()
       
     } catch (error) {}
   }

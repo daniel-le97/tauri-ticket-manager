@@ -18,6 +18,8 @@
   
 import startTimer from './Timer.svelte'
   import { noteService } from "../services/notes";
+    import { onMount } from "svelte";
+    import { dbService } from "../../db/service.js";
 
   async function handleKeyDown(event: any) {
     // startTimer
@@ -40,6 +42,15 @@ try {
   
 }
   }
+
+  onMount(async() => {
+    try {
+      const response = await noteService.getCurrentNote()
+      appState.set(response)
+    } catch (error) {
+      
+    }
+  })
 </script>
 
 {#if $appState.textEditor}

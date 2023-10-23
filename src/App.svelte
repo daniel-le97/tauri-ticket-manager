@@ -14,6 +14,7 @@
   } from "./lib/stores/appState";
     import { noteService } from "./lib/services/notes.js";
     import { get } from "svelte/store";
+    import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
      
 
 
@@ -96,7 +97,8 @@
       class="notes-and-sidebar-container "
     >
  
- <Editor></Editor>
+ <!-- <Editor></Editor> -->
+    <MainNoteArea></MainNoteArea>
     </div>
     <div class="menu-container flex flex-col  fixed bottom-0 items-end justify-end w-full pb-2 bg-black">
       <MenuSectionOne clipBoardText="{clipBoardText}" />

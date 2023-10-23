@@ -35,12 +35,12 @@ export class Note implements Omit<INote, 'id' | 'created_at' | 'updated_at'> {
     email: string;
     description: string;
     current: number;
-    constructor(fields: any) {
-        this.phone = fields.phone;
-        this.asset = fields.asset;
-        this.email = fields.email;
-        this.description = fields.description;
-        this.current = fields.current
+    constructor(fields?: any) {
+        this.phone = fields?.phone ?? '';
+        this.asset = fields?.asset ?? '';
+        this.email = fields?.email ?? '';
+        this.description = fields?.description ?? '';
+        this.current = fields?.current ?? 1
     }
 }
 
