@@ -17,15 +17,23 @@
   import { sineIn } from "svelte/easing";
   import type { TemplateDTO } from "../../db/types";
   import { dbService } from "../../db/service";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { appState } from "../stores/appState";
   import TicketHistory from "./TicketHistory.svelte";
+  import { writable } from "svelte/store";
   let defaultModal = false;
   let scrollingModal = false;
   let informationModal = false;
   let ticketModal = false;
   let hiddenDrawer = true;
   let size;
+  // Create a writable store for the current time
+  let currentTime = writable(new Date());
+
+  // Function to update the time every second
+  function updateCurrentTime() {
+    currentTime.set(new Date());
+  }
 
   let transitionParamsRight = {
     x: 320,
@@ -34,8 +42,6 @@
   };
 
   let templates: TemplateDTO[];
-
-
 
   async function getTemplates() {
     templates = await dbService.templates.getAll();
@@ -51,6 +57,22 @@
       console.error("Error copying to clipboard:", error);
     }
   }
+
+
+
+
+
+
+    // Set up the interval to update the time
+  let interval: string | number | NodeJS.Timeout | undefined;
+  onMount(() => {
+    interval = setInterval(updateCurrentTime, 1000); // 1000 milliseconds = 1 second
+  });
+
+  // Clear the interval when the component is unmounted
+  onDestroy(() => {
+    clearInterval(interval);
+  });
 </script>
 
 <div class="menu-section px-1">
@@ -93,6 +115,10 @@
     </li>
   </ul>
 
+  <Badge class=" badge ">
+ {currentTime}
+
+  </Badge>
   <div class="flex items-end space-x-2">
     <Button
       color="yellow"
@@ -105,17 +131,11 @@
     <Timer />
   </div>
 
-  <Modal class="mt-8 " size="xl"  bind:open="{scrollingModal}">
+  <Modal class="mt-8 " size="xl" bind:open="{scrollingModal}">
     <CheckLists />
   </Modal>
 
-  <Modal
-    size="xl"
-    class="mt-12"
-   
-    bind:open="{informationModal}"
-    outsideclose
-  >
+  <Modal size="xl" class="mt-12" bind:open="{informationModal}" outsideclose>
     <UsageGuide />
   </Modal>
 
@@ -134,7 +154,11 @@
   >
     <div class=" flex flex-col space-y-2 pt-20">
       {#each templates as template (template.id)}
-        <GradientButton shadow color="blue"  on:click={() => copyToClipboard(template.content)}>
+        <GradientButton
+          shadow
+          color="blue"
+          on:click="{() => copyToClipboard(template.content)}"
+        >
           {template.title}</GradientButton
         >
         <Popover placement="top" class="text-sm ">
