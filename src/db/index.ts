@@ -14,6 +14,9 @@ class DBInit {
     async execute(query:string, bindValues?: unknown[] | undefined){
         return (await this._db).execute(query, bindValues ? bindValues : undefined)
     }
+   async resetDb(){
+        return ((await this._db).execute(`DROP table notes;DROP table templates`))
+    }
    private async applyShemas(db: Promise<Database>){
     const isMade = await (await db)
     .select(`SELECT name FROM sqlite_master WHERE type="table"`) as {name:string}[]
