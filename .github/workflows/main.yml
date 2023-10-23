@@ -47,8 +47,8 @@ jobs:
       # - name: build frontend
       #   run: npm run build
 
-      # - name: Sync node version and setup cache
-      #   uses: oven-sh/setup-bun@v1
+      - name: Sync node version and setup cache
+        uses: oven-sh/setup-bun@v1
 
 
       - name: Install frontend dependencies
