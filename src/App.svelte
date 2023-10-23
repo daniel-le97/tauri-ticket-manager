@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  // import Editor from '@tinymce/tinymce-svelte';
-  import Editor from "./lib/Components/Editor.svelte";
+
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
   import { confirm } from "@tauri-apps/api/dialog";
@@ -12,8 +11,7 @@
     appState,
     resetAppState,
   } from "./lib/stores/appState";
-    import { noteService } from "./lib/services/notes.js";
-    import { get } from "svelte/store";
+
     import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
      
 
