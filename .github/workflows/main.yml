@@ -44,8 +44,8 @@ jobs:
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: npm install # Change this to npm, yarn or pnpm.
 
-      - name: build frontend
-        run: npm run build
+      # - name: build frontend
+      #   run: npm run build
 
       # - name: Sync node version and setup cache
       #   uses: oven-sh/setup-bun@v1
