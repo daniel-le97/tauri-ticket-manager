@@ -24,6 +24,7 @@ class DBInit {
     if (isMade.length === 3) {
         // console.log('not running');
         return 
+        
     }
     console.log('creating database');
     
