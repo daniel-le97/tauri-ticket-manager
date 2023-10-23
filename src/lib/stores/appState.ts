@@ -1,7 +1,8 @@
 import { writable } from "svelte/store";
 
 export const initialAppState= {
-  id: "",
+  current: 0,
+  id: 0,
   email: "",
   asset: "",
   ticket: "",
@@ -21,7 +22,8 @@ export const appState = writable(initialAppState);
 
 export function resetAppState() {
   appState.set({
-    id: "",
+    current: 0,
+    id: 0,
     email: "",
     asset: "",
     ticket: "",

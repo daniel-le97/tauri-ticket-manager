@@ -11,6 +11,7 @@
 
   import { appState, resetAppState } from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
+    import { noteService } from "../services/notes.js";
 
   export let clipBoardText: string | null;
 
@@ -81,11 +82,8 @@ ${$appState.description}
   }
   async function saveNote() {
     try {
-      // const confirmed2 = confirm("Are you sure?");
-      // notification.sendNotification("Tauri is awesome");
-      // if (confirmed2) {
-      //   console.log("Save ticket Note, create new Ticket No");
-      // }
+      noteService.next()
+      
     } catch (error) {}
   }
 

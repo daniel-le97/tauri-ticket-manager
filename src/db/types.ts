@@ -3,7 +3,7 @@ export interface INote extends Common {
     asset: string,
     email: string,
     description: string,
-    ipv4: string
+    current: number
 }
 
 export interface ITemplate extends Common {
@@ -34,14 +34,13 @@ export class Note implements Omit<INote, 'id' | 'created_at' | 'updated_at'> {
     asset: string;
     email: string;
     description: string;
-    ipv4: string;
-
-    constructor(fields: Omit<INote, 'id' | 'created_at' | 'updated_at'>) {
+    current: number;
+    constructor(fields: any) {
         this.phone = fields.phone;
         this.asset = fields.asset;
         this.email = fields.email;
         this.description = fields.description;
-        this.ipv4 = fields.ipv4;
+        this.current = fields.current
     }
 }
 
@@ -50,20 +49,19 @@ export class NoteDTO implements INote {
     asset: string;
     email: string;
     description: string;
-    ipv4: string;
     id: number;
     created_at: Date;
     updated_at: Date;
-
-    constructor(fields: INote) {
-        this.id = fields.id;
-        this.phone = fields.phone;
-        this.asset = fields.asset;
-        this.email = fields.email;
-        this.description = fields.description;
-        this.ipv4 = fields.ipv4;
-        this.created_at = fields.created_at;
-        this.updated_at = fields.updated_at;
+    current: number;
+    constructor(fields: any) {
+        this.id = fields.id ?? '';
+        this.current = fields.current ?? 0
+        this.phone = fields.phone ?? '';
+        this.asset = fields.asset ?? '';
+        this.email = fields.email?? '';
+        this.description = fields.description ?? '';
+        this.created_at = fields.created_at ?? new Date(Date.now());
+        this.updated_at = fields.updated_at ?? new Date(Date.now());
     }
 }
 

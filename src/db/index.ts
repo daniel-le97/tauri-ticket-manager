@@ -17,10 +17,10 @@ class DBInit {
     .select(`SELECT name FROM sqlite_master WHERE type="table"`) as {name:string}[]
 
     if (isMade.length === 3) {
-        console.log('not running');
+        // console.log('not running');
         return 
     }
-    console.log('running');
+    console.log('creating database');
     
         
     const createTemplates = await (await db).execute(`CREATE TABLE IF NOT EXISTS templates (

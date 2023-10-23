@@ -2,7 +2,8 @@
 
 
 import { db } from "./index.js";
-import type { TemplateDTO, Template, Note, Common } from "./types.js";
+import { type TemplateDTO, type Template, type Note, NoteDTO, type Common } from "./types.js";
+import { defu } from 'defu'
 // import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
 
@@ -12,15 +13,23 @@ class DBService {
             return await db.select<Note[]>(`SELECT * FROM notes`)
         },
         async getById(id: string | number){
-            return await db.select<Note>(`SELECT * FROM notes where id = $1`, [id])
+            return await db.select<NoteDTO>(`SELECT * FROM notes where id = $1`, [id])
         },
         async deleteById(id: string) {
             return await db.execute(`DELETE FROM notes where id = $1`, [id])
         },
         async create(note: Omit<Note, 'id' | 'created_at' | 'updated_at'>) {
-            const { asset, description, email, ipv4, phone } = note
-            return (await db.execute("INSERT into notes (asset, description, email, ipv4, phone) VALUES ($1, $2, $3, $4, $5)", [asset,description,email,ipv4,phone]))
+            const { asset, description, email, phone } = note
+            return (await db.execute("INSERT into notes (asset, description, email, phone) VALUES ($1, $2, $3, $4)", [asset,description,email,phone]))
         },
+        async getCurrent(){
+            return (await db.select<NoteDTO[]>(`SELECT * from notes where current = 1`))[0]
+        },
+        async update(note: NoteDTO){
+            const oldNote = await this.getById(note.id)
+            const merged = defu(oldNote, note)
+            console.log(merged, oldNote);
+        }
     }
     templates = {
         async getAll(){
@@ -48,10 +57,7 @@ class DBService {
         },
         async create(template: Omit<Template, 'id' | 'created_at' | 'updated_at'>) {
             let { title, content, tag } = template
-            if (!tag) {
-                // @ts-ignore
-                tag = undefined
-            }
+          
             const response =  (await db.execute("INSERT into templates (title, content, tag) VALUES ($1, $2, $3)", [title, content, tag]))
             if (response.rowsAffected === 0) {
             //   dialog.message("there was an issue creating the template please submit again")

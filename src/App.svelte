@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   // import Editor from '@tinymce/tinymce-svelte';
-  import SideBar from "./lib/Components/SideBar.svelte";
   import Editor from "./lib/Components/Editor.svelte";
   import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
@@ -9,16 +8,16 @@
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import { window } from "@tauri-apps/api";
   import TitleBar from "./lib/Components/TitleBar.svelte";
- import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
-  import {
+ import {
     appState,
     resetAppState,
   } from "./lib/stores/appState";
-    import { tinymceConfig } from "./tinymce.js";
- 
+    import { noteService } from "./lib/services/notes.js";
+    import { get } from "svelte/store";
+     
 
 
-  let notesTextarea: string;
+    let notesTextarea: string
   let clipBoardText: string | null;
 
   window.appWindow.setDecorations(false);
@@ -26,14 +25,16 @@
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
   }, 1000);
+  
+
 
   onMount(async () => {
     copyClipBoard();
+
+    
   });
 
-  $: {
-    $appState.description = notesTextarea;
-  }
+
   async function handleKeyDown(event: any) {
     $appState.timerOn = true
     const ctrlPressed = event.ctrlKey;
@@ -85,7 +86,7 @@
   //         { value: "Email", title: "Email" },
   //       ]
   //     }
-  const conf = tinymceConfig
+
 </script>
 
 <main class="pt-9">
@@ -94,7 +95,8 @@
     <div
       class="notes-and-sidebar-container "
     >
-<Editor></Editor>
+ 
+ <Editor></Editor>
     </div>
     <div class="menu-container flex flex-col  fixed bottom-0 items-end justify-end w-full pb-2 bg-black">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
