@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.1",
-    "tauri-plugin-sql-api": "https://github.com/tauri-apps/tauri-plugin-sql#v1"
+    "@tauri-apps/cli": "^1.5.5",
+    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1"
   },
   "devDependencies": {
     "@popperjs/core": "^2.11.8",
     "@sveltejs/vite-plugin-svelte": "^2.4.6",
-    "@tauri-apps/cli": "^1.5.5",
     "@tsconfig/svelte": "^5.0.2",
     "@types/fs-extra": "^11.0.3",
     "autoprefixer": "^10.4.16",
