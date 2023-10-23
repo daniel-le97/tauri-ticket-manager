@@ -7,16 +7,14 @@
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import { window } from "@tauri-apps/api";
   import TitleBar from "./lib/Components/TitleBar.svelte";
- import {
-    appState,
-    resetAppState,
-  } from "./lib/stores/appState";
+  import { appState, resetAppState } from "./lib/stores/appState";
+  import { noteService } from "./lib/services/notes.js";
+  import { get } from "svelte/store";
+  import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
+  import { Alert } from "flowbite-svelte";
+  import Notification from "./lib/Components/Notification.svelte";
 
-    import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
-     
-
-
-    let notesTextarea: string
+  let notesTextarea: string;
   let clipBoardText: string | null;
 
   window.appWindow.setDecorations(false);
@@ -24,18 +22,13 @@
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
   }, 1000);
-  
-
 
   onMount(async () => {
     copyClipBoard();
-
-    
   });
 
-
   async function handleKeyDown(event: any) {
-    $appState.timerOn = true
+    $appState.timerOn = true;
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";
@@ -63,7 +56,6 @@
     clearInterval(clipboardCheckInterval);
   });
 
- 
   // let conf = {
   //       selector: "textarea",
   //       height: "75vh",
@@ -86,24 +78,28 @@
   //       ]
   //     }
 
+  let alertData = {
+    color: "red",
+    text: "ALERT",
+  };
 </script>
 
 <main class="pt-9">
   <TitleBar />
   <div class="main-container">
-    <div
-      class="notes-and-sidebar-container "
-    >
- 
- <!-- <Editor></Editor> -->
-    <MainNoteArea></MainNoteArea>
+    <div class="notes-and-sidebar-container">
+      <!-- <Editor></Editor> -->
+      <MainNoteArea />
     </div>
-    <div class="menu-container flex flex-col  fixed bottom-0 items-end justify-end w-full pb-2 bg-black">
+    <div
+      class="menu-container flex flex-col fixed bottom-0 items-end justify-end w-full pb-2 bg-black"
+    >
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>
   </div>
 </main>
+<Notification alertData="{alertData}" />
 
 <style>
   .main-container {
@@ -115,7 +111,7 @@
   .notes-and-sidebar-container {
     display: flex;
     justify-content: space-between;
-    background-color:white;
+    background-color: white;
 
     height: 80%;
   }

@@ -1,6 +1,12 @@
 <script lang="ts">
-  import {  writeText } from "@tauri-apps/api/clipboard";
-  import { Button, GradientButton, Input, Tooltip } from "flowbite-svelte";
+  import { writeText } from "@tauri-apps/api/clipboard";
+  import {
+    Badge,
+    Button,
+    GradientButton,
+    Input,
+    Tooltip,
+  } from "flowbite-svelte";
   import {
     ChevronLeftSolid,
     ChevronRightSolid,
@@ -9,10 +15,20 @@
     XCompanySolid,
   } from "flowbite-svelte-icons";
 
-  import { appState, resetAppState , timingButton} from "../stores/appState";
+  import {
+    appState,
+    dbNotesLength,
+    getTicketLength,
+    resetAppState,
+    timingButton,
+  } from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
-    import { noteService } from "../services/notes.js";
-    import { writable } from "svelte/store";
+  import { noteService } from "../services/notes.js";
+  import { writable } from "svelte/store";
+  import { dbService } from "../../db/service";
+  import { onMount } from "svelte";
+  import { dialog } from "@tauri-apps/api";
+  import { alertState } from "../stores/alert";
 
   export let clipBoardText: string | null;
 
@@ -59,6 +75,12 @@ ${$appState.description}
 
 `;
 
+      alertState.set({
+        color: "green",
+        text: "Copied!",
+
+        visible: true,
+      });
       await writeText(formattedNote);
     } catch (error) {
       console.error("Error copying to clipboard:", error);
@@ -68,7 +90,31 @@ ${$appState.description}
   async function resetNoteTaker() {
     if (await confirm("Reset NoteTake?")) {
       resetAppState();
+      // await getTicketLength();
+      const response = await noteService.getCurrentNote();
+      appState.set(response);
+      appState.set({
+        current: response.current,
+        id: response.id,
+        email: "",
+        asset: "",
+        ticket: "",
+        phone: "",
+        description: "",
+        textEditorDescription: "",
+        textEditor: false,
+        timerCount: "",
+        timerOn: false,
+        date: response.date,
+        formatted: "",
+        formattedTime: "",
+      });
       await writeText("");
+      alertState.set({
+        color: "green",
+        text: "Note Taker Reset",
+        visible: true,
+      });
     }
   }
 
@@ -79,35 +125,19 @@ ${$appState.description}
   }
 
   async function handleDoubleClick(event: string) {
-   await writeText(event)
+    await writeText(event);
   }
 
-  // async function saveNote() {
-  //   try {
-  //     await noteService.next()
-      
-  //   } catch (error) {}
-  // }
+  async function saveNote() {
+    if ($timingButton) {
+      return; // Exit the function if the button is disabled
+    }
 
-
-async function saveNote() {
-  if ($timingButton) {
-    return; // Exit the function if the button is disabled
+    try {
+      await noteService.next();
+      await getTicketLength();
+    } catch (error) {}
   }
-
-  
-  try {
-    await noteService.next();
-  } catch (error) {
-    // Handle errors here if needed
-  } 
-  // finally {
-  //   // Enable the button after a delay (e.g., 1 second)
-  //   setTimeout(() => {
-  //     isButtonDisabled = false;
-  //   }, 1000); // 1000 milliseconds = 1 second
-  // }
-}
 
   $: {
     if (clipBoardText) {
@@ -115,17 +145,18 @@ async function saveNote() {
     }
   }
 
-
-  async function prevNote(){
+  async function prevNote() {
     try {
-      await noteService.prev()
-    } catch (error) {
-      
-    }
+      await noteService.prev();
+    } catch (error) {}
   }
+
+  onMount(() => {
+    getTicketLength();
+  });
 </script>
 
-<div class="menu-section  p-1 py-2">
+<div class="menu-section p-1 py-2">
   <ul class="line-row space-x-1 flex justify-start">
     <li class="line-item">
       <input
@@ -142,7 +173,7 @@ async function saveNote() {
     <li class="line-item">
       <input
         type="text"
-          on:dblclick="{() => handleDoubleClick($appState.asset)}"
+        on:dblclick="{() => handleDoubleClick($appState.asset)}"
         placeholder="Asset # "
         bind:value="{$appState.asset}"
         class="{$appState.asset.match(assetTagRegex)
@@ -150,18 +181,11 @@ async function saveNote() {
           : 'bg-white'} text-black"
       />
     </li>
-    <!-- <li class="line-item">
-      <input
-        type="text"
-        placeholder="Ipv4 Address"
-        bind:value="{noteHeader.ipv4}"
-      />
-    </li> -->
 
     <li class="line-item">
       <input
         type="text"
-          on:dblclick="{() => handleDoubleClick($appState.ticket)}"
+        on:dblclick="{() => handleDoubleClick($appState.ticket)}"
         placeholder="Ticket #"
         bind:value="{$appState.ticket}"
         class="{$appState.ticket.match(ticketRegex)
@@ -173,7 +197,7 @@ async function saveNote() {
       <input
         type="text"
         bind:value="{$appState.phone}"
-          on:dblclick="{() => handleDoubleClick($appState.phone)}"
+        on:dblclick="{() => handleDoubleClick($appState.phone)}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
         class="{$appState.phone.match(phoneRegex)
@@ -182,16 +206,18 @@ async function saveNote() {
       />
     </li>
   </ul>
-<p>{$appState.id}</p>
+
+  <Badge class="font-1 font-semibold text-base">Id:{$appState.id}</Badge>
+
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
-   <GradientButton
+      <GradientButton
         id="reset"
         color="teal"
         class="!p-2 "
-        on:click="{()=> $appState.textEditor = !$appState.textEditor}"
+        on:click="{() => ($appState.textEditor = !$appState.textEditor)}"
       >
-        <PenSolid/>
+        <PenSolid />
       </GradientButton>
       <Tooltip
         placement="top"
@@ -199,8 +225,6 @@ async function saveNote() {
         trigger="hover"
         triggeredBy="#reset">Reset</Tooltip
       >
-
-
 
       <GradientButton
         id="reset"
@@ -225,12 +249,6 @@ async function saveNote() {
       >
         <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
       </GradientButton>
-      <Tooltip
-        placement="top"
-        color="pink"
-        trigger="hover"
-        triggeredBy="#clipBoard">Copied</Tooltip
-      >
     </div>
 
     <div class=" pl-2">
@@ -238,7 +256,12 @@ async function saveNote() {
         <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
       </Button>
       <Tooltip color="blue">Previous</Tooltip>
-      <Button class="!p-2" color="alternative" on:click="{saveNote}">
+      <Button
+        class="!p-2"
+        color="alternative"
+        on:click="{saveNote}"
+        disabled="{$timingButton}"
+      >
         <ChevronRightSolid class="cursor-pointer outline-none border-none" />
       </Button>
       <Tooltip color="blue">New</Tooltip>

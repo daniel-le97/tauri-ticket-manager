@@ -27,13 +27,8 @@
   let ticketModal = false;
   let hiddenDrawer = true;
   let size;
-  // Create a writable store for the current time
-  let currentTime = writable(new Date());
-
-  // Function to update the time every second
-  function updateCurrentTime() {
-    currentTime.set(new Date());
-  }
+  
+  
 
   let transitionParamsRight = {
     x: 320,
@@ -63,13 +58,17 @@
 
 
 
-    // Set up the interval to update the time
+  let currentTime = new Date().toLocaleString()
+
+  function updateCurrentTime() {
+    currentTime = new Date().toLocaleString()
+  }
+
   let interval: string | number | NodeJS.Timeout | undefined;
   onMount(() => {
-    interval = setInterval(updateCurrentTime, 1000); // 1000 milliseconds = 1 second
+    interval = setInterval(updateCurrentTime, 1000);
   });
 
-  // Clear the interval when the component is unmounted
   onDestroy(() => {
     clearInterval(interval);
   });
@@ -85,13 +84,7 @@
         >Configure Templates</GradientButton
       >
     </li>
-    <!-- <li class="line-item">
-      <GradientButton
-        color="red"
-        class=" rounded-sm "
-        on:click="{() => (defaultModal = true)}">ESC</GradientButton
-      >
-    </li> -->
+
 
     <li class="line-item">
       <GradientButton
@@ -115,8 +108,8 @@
     </li>
   </ul>
 
-  <Badge class=" badge ">
- {currentTime}
+  <Badge large class=" badge ">
+  {currentTime}
 
   </Badge>
   <div class="flex items-end space-x-2">

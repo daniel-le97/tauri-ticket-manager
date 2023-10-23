@@ -1,7 +1,8 @@
 import { writable } from "svelte/store";
 import type { NoteDTO } from "../../db/types.js";
+import { dbService } from "../../db/service.js";
 
-export const initialAppState= {
+export const initialAppState = {
   current: 0,
   id: 0,
   email: "",
@@ -17,7 +18,7 @@ export const initialAppState= {
   formatted: "",
   formattedTime: "00:00:00",
 };
-export type AppState = typeof initialAppState
+export type AppState = typeof initialAppState;
 
 export const appState = writable(initialAppState);
 
@@ -25,11 +26,11 @@ export function resetAppState(note?: NoteDTO) {
   appState.set({
     current: note?.current ?? 0,
     id: note?.id ?? 0,
-    email: note?.email ?? '',
-    asset: note?.asset ?? '',
+    email: note?.email ?? "",
+    asset: note?.asset ?? "",
     ticket: "",
-    phone: note?.phone ?? '',
-    description: note?.description ?? '',
+    phone: note?.phone ?? "",
+    description: note?.description ?? "",
     textEditorDescription: "",
     textEditor: false,
     timerCount: "",
@@ -40,11 +41,19 @@ export function resetAppState(note?: NoteDTO) {
   });
 }
 
+export const dbNotesLength = writable(0);
+
+export async function getTicketLength() {
+  try {
+    const notes = await dbService.notes.getAll();
+    dbNotesLength.set(notes.length);
+  } catch (error) {}
+}
+
 export const templateState = writable({
-  content: '',
-  tag: '',
-  title: ''
-})
+  content: "",
+  tag: "",
+  title: "",
+});
 
-
-export const timingButton = writable(false)
+export const timingButton = writable(false);
