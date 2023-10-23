@@ -45,3 +45,6 @@ export const templateState = writable({
   tag: '',
   title: ''
 })
+
+
+export const timingButton = writable(false)

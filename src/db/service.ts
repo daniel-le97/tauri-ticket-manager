@@ -31,7 +31,26 @@ class DBService {
         async getCurrent(){
             return (await db.select<NoteDTO[]>(`SELECT * from notes where current = 1`))[0]
         },
-        async update(note: NoteDTO){
+        async getPrevious () {
+            const response = ( await db.select<NoteDTO[]>( `SELECT n1.*
+            FROM notes AS n1
+            JOIN notes AS n2 ON n1.created_at < n2.created_at
+            WHERE n2.current = 1
+            ORDER BY n1.created_at DESC;`) )[ 0 ];
+            return response;
+        },
+        async getNext () {
+            const response = (await db.select<NoteDTO[]>(`SELECT n1.*
+    FROM notes AS n1
+    JOIN notes AS n2 ON n1.created_at > n2.created_at
+    WHERE n2.current = 1
+       OR (n2.current = 1 AND n1.id > n2.id)
+       OR (n2.current = 1 AND n1.id = n2.id)  -- Include the same ID
+    ORDER BY n1.created_at ASC, n1.id ASC;
+  `))[0];
+            return response;
+        },
+        async update ( note: NoteDTO, current?: number ) {
             const updated = await db.execute(`update 
             notes 
           set 
@@ -41,7 +60,7 @@ class DBService {
             email = $5,
             current = $6
           where 
-            id = $1;`, [note.id, note.description, note.phone, note.asset, note.email, note.current])
+            id = $1;`, [ note.id, note.description, note.phone, note.asset, note.email, current ?? note.current ] )
             if (updated.rowsAffected !== 1) {
                 console.error('[DB:note:update] Error: there was a problem updating the note id ' + note.id )
             }

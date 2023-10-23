@@ -9,9 +9,10 @@
     XCompanySolid,
   } from "flowbite-svelte-icons";
 
-  import { appState, resetAppState } from "../stores/appState";
+  import { appState, resetAppState , timingButton} from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
     import { noteService } from "../services/notes.js";
+    import { writable } from "svelte/store";
 
   export let clipBoardText: string | null;
 
@@ -80,16 +81,46 @@ ${$appState.description}
   async function handleDoubleClick(event: string) {
    await writeText(event)
   }
-  async function saveNote() {
-    try {
-      await noteService.next()
+
+  // async function saveNote() {
+  //   try {
+  //     await noteService.next()
       
-    } catch (error) {}
+  //   } catch (error) {}
+  // }
+
+
+async function saveNote() {
+  if ($timingButton) {
+    return; // Exit the function if the button is disabled
   }
+
+  
+  try {
+    await noteService.next();
+  } catch (error) {
+    // Handle errors here if needed
+  } 
+  // finally {
+  //   // Enable the button after a delay (e.g., 1 second)
+  //   setTimeout(() => {
+  //     isButtonDisabled = false;
+  //   }, 1000); // 1000 milliseconds = 1 second
+  // }
+}
 
   $: {
     if (clipBoardText) {
       watchClipboardChanges();
+    }
+  }
+
+
+  async function prevNote(){
+    try {
+      await noteService.prev()
+    } catch (error) {
+      
     }
   }
 </script>
@@ -104,7 +135,7 @@ ${$appState.description}
         bind:value="{$appState.email}"
         class="{$appState.email.match(emailRegex)
           ? 'bg-green-200'
-          : 'bg-white'}"
+          : 'bg-white'} text-black"
       />
     </li>
 
@@ -116,7 +147,7 @@ ${$appState.description}
         bind:value="{$appState.asset}"
         class="{$appState.asset.match(assetTagRegex)
           ? 'bg-green-200'
-          : 'bg-white'}"
+          : 'bg-white'} text-black"
       />
     </li>
     <!-- <li class="line-item">
@@ -135,7 +166,7 @@ ${$appState.description}
         bind:value="{$appState.ticket}"
         class="{$appState.ticket.match(ticketRegex)
           ? 'bg-green-200'
-          : 'bg-white'}"
+          : 'bg-white'} text-black"
       />
     </li>
     <li class="line-item">
@@ -147,11 +178,11 @@ ${$appState.description}
         on:input="{handlePhoneNumberInput}"
         class="{$appState.phone.match(phoneRegex)
           ? 'bg-green-200'
-          : 'bg-white'}"
+          : 'bg-white'} text-black"
       />
     </li>
   </ul>
-
+<p>{$appState.id}</p>
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
    <GradientButton
@@ -203,7 +234,7 @@ ${$appState.description}
     </div>
 
     <div class=" pl-2">
-      <Button class="!p-2" color="alternative">
+      <Button class="!p-2" color="alternative" on:click="{prevNote}">
         <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
       </Button>
       <Tooltip color="blue">Previous</Tooltip>
