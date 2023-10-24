@@ -19,15 +19,15 @@
   import { dbService } from "../../db/service";
   import { onDestroy, onMount } from "svelte";
   import { appState } from "../stores/appState";
+  import {ticketModal} from '../stores/modals'
   import TicketHistory from "./TicketHistory.svelte";
   import { writable } from "svelte/store";
   let defaultModal = false;
   let scrollingModal = false;
   let informationModal = false;
-  let ticketModal = false;
+
   let hiddenDrawer = true;
   let size;
-  
   
 
   let transitionParamsRight = {
@@ -90,7 +90,7 @@
       <GradientButton
         color="purple"
         class=" rounded-sm "
-        on:click="{() => (ticketModal = true)}">Tickets</GradientButton
+        on:click="{() => ($ticketModal = true)}">Tickets</GradientButton
       >
     </li>
     <li class="line-item">
@@ -132,7 +132,7 @@
     <UsageGuide />
   </Modal>
 
-  <Modal size="lg" title="" bind:open="{ticketModal}" autoclose>
+  <Modal size="lg" title="" bind:open="{$ticketModal}" autoclose>
     <TicketHistory />
   </Modal>
 

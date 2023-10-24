@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { getDate } from "../utils/date.js";
   import { resetAppState } from "../stores/appState.js";
+//  import {ticketModal} from "../Components/MenuSectionTwo.svelte"
   import {
     Table,
     TableBody,
@@ -12,6 +13,7 @@
     TableHead,
     TableHeadCell,
   } from "flowbite-svelte";
+  import { ticketModal } from "../stores/modals.js";
   let tickets: NoteDTO[];
 
   onMount(async () => {
@@ -27,6 +29,7 @@
 
   function handleClick(ticket: NoteDTO) {
     resetAppState(ticket);
+$ticketModal = !$ticketModal
   }
 </script>
 
