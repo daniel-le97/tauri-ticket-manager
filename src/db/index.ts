@@ -21,12 +21,12 @@ class DBInit {
     const isMade = await (await db)
     .select(`SELECT name FROM sqlite_master WHERE type="table"`) as {name:string}[]
 
-    if (isMade.length === 3) {
+    if (isMade.length !== 3) {
         // console.log('not running');
         return 
         
     }
-    console.log('creating database');
+    // console.log('creating database');
     
         
     const createTemplates = await (await db).execute(`CREATE TABLE IF NOT EXISTS templates (
@@ -38,7 +38,7 @@ class DBInit {
         tag TEXT DEFAULT 'default'
     );`);    
     
-    console.log(createTemplates.rowsAffected);
+    // console.log(createTemplates.rowsAffected);
     
 
     const createNotes = await (await db).execute(`CREATE TABLE IF NOT EXISTS notes (

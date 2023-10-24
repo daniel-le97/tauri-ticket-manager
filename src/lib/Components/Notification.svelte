@@ -5,9 +5,6 @@
   import { alertState } from "../stores/alert";
   import { fade } from "svelte/transition";
 
-  /**
-   * @type {{ color: any; text: any; }}
-   */
 
 
   // Function to automatically reset $alertVisible to false after 2 seconds

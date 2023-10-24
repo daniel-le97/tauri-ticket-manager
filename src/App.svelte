@@ -99,7 +99,7 @@
     </div>
   </div>
 </main>
-<Notification alertData="{alertData}" />
+<Notification  />
 
 <style>
   .main-container {
