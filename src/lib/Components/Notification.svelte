@@ -9,6 +9,7 @@
    * @type {{ color: any; text: any; }}
    */
 
+
   // Function to automatically reset $alertVisible to false after 2 seconds
   function resetAlertVisible() {
     if ($alertState.visible) {
