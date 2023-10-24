@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          cache: 'pnpm'
 
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
@@ -27,29 +28,6 @@ jobs:
         with:
           version: 8.9.2
           run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      # - name: Rust setup
-      #   uses: actions-rs/toolchain@v1
-      #   with:
-      #     toolchain: stable
-
-      # - name: Rust cache
-      #   uses: swatinem/rust-cache@v2
-      #   with:
-      #     workspaces: './src-tauri -> target'
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
@@ -74,8 +52,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_SECRET }}
         with:
-          tagName: v__VERSION__ # tauri-action replaces \_\_VERSION\_\_ with the app version
-          releaseName: 'v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
+          tagName: ${{ github.ref_name }} # This only works if your workflow triggers on new tags.
+          releaseName: 'tauri tickets v__VERSION__' # tauri-action replaces \_\_VERSION\_\_ with the app version.
+          releaseBody: 'See the assets to download and install this version.'
           releaseDraft: true
           prerelease: false
