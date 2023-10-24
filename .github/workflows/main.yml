@@ -16,18 +16,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: latest
-          cache: 'pnpm'
-
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
         id: pnpm-install
         with:
           version: 8.9.2
           run_install: false
+        
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'pnpm'
+
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
