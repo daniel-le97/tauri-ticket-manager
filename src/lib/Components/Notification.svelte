@@ -38,8 +38,5 @@
   </div>
 {/if}
 
-<style lang="scss">
-  .component {
-    @apply p-1;
-  }
+<style>
 </style>
