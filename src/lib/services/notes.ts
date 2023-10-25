@@ -22,9 +22,14 @@ class NoteService {
     }
 
     async save (reset = false) {
-        const note = new NoteDTO( get( appState ) );
+        let note = new NoteDTO( get( appState ) );
         const oldNote = await dbService.notes.getById( note.id );
+        if (reset) {
+            note = new NoteDTO({current:1})
+        }
         const merged = this.merge( note, oldNote );
+        // console.log(merged);
+        
         await dbService.notes.update( merged );
         return merged;
     }
