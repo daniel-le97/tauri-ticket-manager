@@ -50,7 +50,7 @@
   onMount(getTemplates);
 </script>
 
-<Modal class="mt-8 " size="xl" bind:open="{$templateModal}">
+<Modal class="mt-8  " size="xl" bind:open="{$templateModal}">
   <CheckLists />
 </Modal>
 
@@ -68,6 +68,7 @@
   bind:open="{$settingModal}"
    outsideclose
   backdropClass="none"
+ 
 >
   <Settings />
 </Modal>
