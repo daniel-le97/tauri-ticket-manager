@@ -88,7 +88,7 @@ class DBInit {
     const insertNote = await (await db).execute("INSERT into notes (asset, description, email, phone) VALUES ($1, $2, $3, $4)", [note.asset,note.description,note.email,note.phone]);
     const insertedNote = (await (await db).select<NoteDTO[]>(`SELECT * from notes where id = $1`, [insertNote.lastInsertId]))[0]
     resetAppState(insertedNote)
-    await this.generateNotes(500)
+    // await this.generateNotes(500)
      
     // NOTE do not reformat this, needs to be like this for correct spacing
     const insertTemplate = await (await db).execute(`INSERT INTO templates (title, content) VALUES (
