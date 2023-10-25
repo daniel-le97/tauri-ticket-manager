@@ -65,15 +65,16 @@
         ($content = template.content),
         ($tag = template.tag);
 
-      let updatedTemplate = {
+      let updatedTemplate:TemplateDTO = {
         id: template.id,
         created_at: template.created_at,
+        updated_at : template.updated_at,
         content: $content,
         title: $title,
         tag: $tag,
       };
 
-      const dbUpdatedTemplate = await handleEdit(updatedTemplate:TemplateDTO);
+      const dbUpdatedTemplate = await handleEdit(updatedTemplate);
 
       $editingTemplate = false;
     } catch (error) {}
