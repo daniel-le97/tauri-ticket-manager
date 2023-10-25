@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 import { Note, NoteDTO, Template } from '../../db/types.js';
 import * as State from '../stores/template.js'
 import { dbService } from '../../db/service.js';
-import { appState, resetAppState, timingButton } from '../stores/appState.js';
+import { appState, notesHistory, resetAppState, timingButton } from '../stores/appState.js';
 import defu from 'defu';
 
 class NoteService {
@@ -50,9 +50,10 @@ class NoteService {
             // console.log( 'next note not found... creating note' );
             await dbService.notes.update(note, 0)
             const createdNote = await dbService.notes.create( new Note() );
+            const noteTotal = await dbService.notes.count()
             // console.log(createdNote);
-            
             resetAppState( createdNote );
+            notesHistory.set(noteTotal)
             setTimeout(() => timingButton.set(false), 1000)
         }
     }

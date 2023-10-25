@@ -183,7 +183,7 @@ ${$appState.description}
 
   <Badge color="none" class="font-1 font-semibold text-base"
     >Id:<span class="text-red-500">{$appState.id}</span>
-    /{$notesHistory.length}</Badge
+    /{$notesHistory}</Badge
   >
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">

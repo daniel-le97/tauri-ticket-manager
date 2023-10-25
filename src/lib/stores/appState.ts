@@ -56,4 +56,4 @@ export const templateState = writable({
 
 export const timingButton = writable(false);
 
-export const notesHistory = writable<NoteDTO[]>([]);
+export const notesHistory = writable(0);

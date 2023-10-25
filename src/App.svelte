@@ -35,7 +35,7 @@
 
   const getAllNotes = async () => {
     try {
-      const res = await dbService.notes.getAll();
+      const res = await dbService.notes.count()
       $notesHistory = res;
     } catch (error) {}
   };
