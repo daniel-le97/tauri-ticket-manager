@@ -10,7 +10,7 @@
   import { dbService } from "./db/service";
   import { notesHistory } from "./lib/stores/appState";
   import { window } from "@tauri-apps/api";
-  import { menuColor } from "./lib/stores/colorTheme";
+  import { themeColor } from "./lib/stores/colorTheme";
 
   let clipBoardText: string | null;
 
@@ -42,7 +42,7 @@
   const getThmese = async() => {
     try {
       const theme = await dbService.settings.getAll()
-      $hexColor = theme
+      $themeColor = theme
       console.log(theme);
       
     } catch (error) {
@@ -61,7 +61,7 @@
 </script>
 
 <TitleBar />
-<main class=" " style="background-color: {$menuColor};">
+<main class=" " style="background-color: {$themeColor};">
   <div class="main-container">
     <div class="flex justify-between   h-full">
       <MainNoteArea />
