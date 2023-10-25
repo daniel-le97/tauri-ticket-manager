@@ -1,24 +1,31 @@
 <!-- ColorPicker.svelte -->
-<script>
+<script lang="ts">
+  import { Button } from "flowbite-svelte";
   import { menuColor, noteTakerColor } from "../stores/colorTheme";
 
-  function updateNoteAreaColor(event) {
+  function updateNoteAreaColor(event: { target: { value: string; }; }) {
     $noteTakerColor = event.target.value;
   }
 
-    function updateMenuColor(event) {
+
+    function updateMenuColor(event: { target: { value: string; }; }) {
     $menuColor = event.target.value;
   }
 </script>
 
-<div class="flex justify-around">
+<div class="flex flex-col">
+  <Button color="dark" class="w-fit">Save as Theme</Button>
+  THEMES:
+</div>
+<div class="flex justify-center space-x-5">
   <div class="color-picker">
     <div class="">
       <input
         class=" p-0 m-0"
         type="color"
+        
         bind:value="{$noteTakerColor}"
-        on:input="{updateNoteAreaColor}"
+        on:input="{()=>updateNoteAreaColor}"
       />
     </div>
 
@@ -34,7 +41,7 @@
         class=" p-0 m-0"
         type="color"
         bind:value="{$menuColor}"
-        on:input="{updateMenuColor}"
+        on:input="{()=>updateMenuColor}"
       />
     </div>
 
@@ -55,4 +62,9 @@
   .selected-color {
     margin-top: 10px;
   }
+
+
+
+
+  
 </style>

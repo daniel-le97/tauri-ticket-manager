@@ -76,7 +76,7 @@
 </script>
 
 <div class="menu-section px-1 bg-transparent">
-  <ul class="line-row space-x-1">
+  <ul class="line-row  gap-1">
     <li class="line-item">
       <GradientButton
         color="red"
@@ -107,13 +107,16 @@
         on:click="{() => (hiddenDrawer = false)}">Templates</GradientButton
       >
     </li>
+    <li class="line-item">
+      <GradientButton
+      color='tealToLime'
+        class=" rounded-sm ">{currentTime}</GradientButton
+      >
+    </li>
   </ul>
 
-  <Badge large class=" badge ">
-  {currentTime}
 
-  </Badge>
-  <div class="flex items-end space-x-2">
+  <div class="flex items-end space-x-2 p-1 py-2">
     <Button
       color="yellow"
       class=" p-0 m-0 bg-transparent  "
@@ -137,7 +140,7 @@
     <TicketHistory />
   </Modal>
 
-  <Modal size="lg" title="" bind:open="{$settingModal}" autoclose>
+  <Modal size="lg" title="" bind:open="{$settingModal}" autoclose backdropClass="none">
     <!-- <TicketHistory />
      -->
      <Settings/>

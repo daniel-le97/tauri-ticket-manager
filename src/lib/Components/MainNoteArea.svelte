@@ -96,10 +96,12 @@
 
 <style scoped>
   .notes-area {
+    height: 100%;
     font-size: 16pt;
     width: 100%; /* Initially take up most of the width */
     color: white;
     padding: 5px;
+    padding-top: 40px;
     padding-right: 10px;
     overflow-y: auto;
     resize: none;

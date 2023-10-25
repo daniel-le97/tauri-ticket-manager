@@ -49,18 +49,18 @@
   });
 </script>
 
-<main class="pt-9 " style="background-color: {$menuColor};">
-  <TitleBar />
+<TitleBar />
+<main class=" " style="background-color: {$menuColor};">
   <div class="main-container">
-    <div class="flex justify-between bg-white h-4/5">
+    <div class="flex justify-between   h-full">
       <MainNoteArea />
     </div>
-    <div
-      class="flex flex-col fixed bottom-0 items-end justify-end w-full pb-2  "
+    <!-- <div
+      class="flex flex-col   fixed bottom-0 w-full   "
     >
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
-    </div>
+    </div> -->
   </div>
 </main>
 <Notification />
@@ -69,7 +69,7 @@
 
   
   .main-container {
-    height: 94vh;
+    height: 100vh;
   }
 
   .notes-area {
