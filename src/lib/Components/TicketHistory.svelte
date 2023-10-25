@@ -5,7 +5,7 @@
   import { getDate } from "../utils/date.js";
   import { resetAppState } from "../stores/appState.js";
   import { ticketModal } from "../stores/modals.js";
-  import {Spinner} from 'flowbite-svelte'
+  import { Spinner } from "flowbite-svelte";
 
   let tickets: NoteDTO[] = [];
   let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
@@ -16,13 +16,13 @@
     await getTickets();
 
     // Initialize filteredTickets with all tickets
-    filteredTickets = tickets
+    filteredTickets = tickets;
   });
 
   async function getTickets() {
     try {
       tickets = await dbService.notes.getAll();
-      console.log(filteredTickets);
+      // console.log(filteredTickets);
     } catch (error) {}
   }
 
@@ -34,12 +34,12 @@
   //   if (filterCriteria.includes('phone=')) {
   //     const filter = filterCriteria.slice(6).trim()
   //     console.log('filtering', filter);
-      
+
   //     filteredTickets = tickets.filter(ticket => {
 
   //       const ticker = ticket.phone.toString().includes(filter)
   //       console.log({ticket: ticket.phone.toString(), phone: filter});
-        
+
   //       if (ticker) {
   //         return ticket
   //       }else{
@@ -50,13 +50,15 @@
   // }
 
   function filterTickets() {
+    const originalTickets = tickets;
+
     filteredTickets = tickets.filter((ticket) => {
-      noValidSearch = true;
-      let search = filterCriteria.toLowerCase()
+      noValidSearch = false;
+      let search = filterCriteria.toLowerCase();
       switch (true) {
         case search.startsWith("id="):
           const idToSearch = filterCriteria.slice(3).trim();
-          return ticket.id.toString().includes(idToSearch)
+          return ticket.id.toString().includes(idToSearch);
 
         case search.startsWith("phone="):
           const phoneToSearch = filterCriteria.slice(6).trim();
@@ -83,9 +85,11 @@
           return true; // Show all tickets if no valid filter criteria is provided
       }
     });
+
+    if (filteredTickets.length === 0) {
+      noValidSearch = true; // Set noValidSearch to false to display the spinner
+    }
   }
-
-
 </script>
 
 <input
@@ -107,8 +111,8 @@
       <th>Description</th>
     </tr>
   </thead>
+  {#if filteredTickets.length !== 0}
   <tbody>
-    {#if filteredTickets}
       {#each filteredTickets as item (item.id)}
         <tr on:click="{() => handleClick(item)}">
           <td>{item.id}</td>
@@ -119,10 +123,16 @@
           <td class="truncate overflow-x-clip">{item.description}</td>
         </tr>
       {/each}
+    </tbody>
       {:else}
-      <Spinner></Spinner>
+      <div class=" p-2 justify-center items-center">
+         <Spinner  size='large'></Spinner>
+      </div>
     {/if}
-  </tbody>
+
+  {#if noValidSearch}
+  <Spinner ></Spinner>
+  {/if}
 </table>
 
 <style>
