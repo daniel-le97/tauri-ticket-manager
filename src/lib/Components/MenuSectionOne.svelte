@@ -18,6 +18,7 @@
   import { onMount } from "svelte";
   import { alertState } from "../stores/alert";
     import { notification } from "@tauri-apps/api";
+    import { dbService } from "../../db/service.js";
 
   export let clipBoardText: string | null;
 
@@ -76,6 +77,9 @@ ${$appState.description}
   }
 
   async function resetNoteTaker() {
+    const count = await dbService.notes.count()
+    console.log(count);
+    
     if (await confirm("Reset Note?")) {
       const note = await noteService.save(true)
       await writeText("");

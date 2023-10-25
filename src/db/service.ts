@@ -42,6 +42,10 @@ class DBService {
         }
     }
     notes = {
+        async count(){
+            type Count = {"COUNT(*)": number}
+            return (await db.select<Count[]>(`SELECT COUNT(*) FROM notes`))[0]["COUNT(*)"]
+        },
         async getAll(){
             return await db.select<NoteDTO[]>(`SELECT * FROM notes`)
         },

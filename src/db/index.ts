@@ -19,16 +19,24 @@ class DBInit {
         return ((await this._db).execute(`DROP table notes;DROP table templates`))
     }
 
+
+    generateDateWithIncrement(number: number) {
+        const baseDate = new Date('2023-10-25T21:36:06'); // Base date and time
+        const incrementedDate = new Date(baseDate.getTime() + number * 1000); // Increment by 'number' seconds
+        return incrementedDate.toISOString().slice(0, 19).replace('T', ' ');
+    }
    private async generateNotes(count: number) {
         for await(const i of Array(count).keys()) {
+            setTimeout(() => console.log(), 1000)
             const note = {
                 asset: `Asset ${i}`,
                 description: `Fake Note ${i}`,
                 email: `fake${i}@example.com`,
-                phone: `555-555-${1000 + i}`
+                phone: `555-555-${1000 + i}`,
+                created_at: this.generateDateWithIncrement(i)
             };
            
-            const insertNote = await (await this._db).execute("INSERT into notes (asset, description, email, phone) VALUES ($1, $2, $3, $4)", [note.asset,note.description,note.email,note.phone]);
+            const insertNote = await (await this._db).execute("INSERT into notes (asset, description, email, phone, created_at) VALUES ($1, $2, $3, $4, $5)", [note.asset,note.description,note.email,note.phone, note.created_at]);
             // console.log(insertNote.lastInsertId);
             
         }
@@ -74,13 +82,13 @@ class DBInit {
         email TEXT
     );`);
 
-    console.log(createNotes.rowsAffected);
+    // console.log(createNotes.rowsAffected);
     
     const note = new Note()
     const insertNote = await (await db).execute("INSERT into notes (asset, description, email, phone) VALUES ($1, $2, $3, $4)", [note.asset,note.description,note.email,note.phone]);
     const insertedNote = (await (await db).select<NoteDTO[]>(`SELECT * from notes where id = $1`, [insertNote.lastInsertId]))[0]
     resetAppState(insertedNote)
-    // await this.generateNotes(10000)
+    await this.generateNotes(500)
      
     // NOTE do not reformat this, needs to be like this for correct spacing
     const insertTemplate = await (await db).execute(`INSERT INTO templates (title, content) VALUES (
