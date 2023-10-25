@@ -47,10 +47,10 @@ class DBInit {
     
        const createThemes = await ( await db ).execute( `CREATE TABLE IF NOT EXISTS themes (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        note_color TEXT NOT NULL,
+        note_color TEXT,
         active INT DEFAULT 1,
-        menu_color TEXT NOT NULL
-      )`)
+        menu_color TEXT
+      );`)
     const createTemplates = await (await db).execute(`CREATE TABLE IF NOT EXISTS templates (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -92,7 +92,7 @@ How many users are affected:
 Troubleshooting Steps:
 -------------------------------"
     );`);           
-       const insertThemes = await ( await db ).execute( `INSERT INTO themes (note_color, menu_color) VALUES ("#000000", "#000000");` );           
+       const insertThemes = await ( await db ).execute( `INSERT INTO themes (note_color, menu_color) VALUES ($1, $2);`, ["#000000", "#000000"] );           
    }
 }
 

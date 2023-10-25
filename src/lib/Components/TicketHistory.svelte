@@ -5,6 +5,7 @@
   import { getDate } from "../utils/date.js";
   import { resetAppState } from "../stores/appState.js";
   import { ticketModal } from "../stores/modals.js";
+  import {Spinner} from 'flowbite-svelte'
 
   let tickets: NoteDTO[] = [];
   let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
@@ -118,6 +119,8 @@
           <td class="truncate overflow-x-clip">{item.description}</td>
         </tr>
       {/each}
+      {:else}
+      <Spinner></Spinner>
     {/if}
   </tbody>
 </table>

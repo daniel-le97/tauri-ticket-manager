@@ -12,17 +12,30 @@ class DBService {
         async getAll(){
             return await db.select<Theme[]>(`SELECT * FROM themes`)
         },
+        async getOne ( id: number ) {
+            const note = ( await db.select<Theme[]>( `SELECT * FROM themes where id = $1`, [ id ] ) )[ 0 ];
+            return note;
+        },
         async create ( theme: Theme ) {
-            return await db.execute( `INSERT INTO themes (menu_color, note_color);`, [ theme.menu_color, theme.note_color ] );
+            return await db.execute( `insert into 
+            themes ( 
+              note_color,
+              menu_color
+            )
+          values
+            (
+              $1, 
+              $2
+            );`, [ theme.note_color, theme.menu_color] );
         },
         async save ( theme: Theme ) {
             return await db.execute(
                 `UPDATE themes SET
                     active = $1,
                     menu_color = $2,
-                    note_color = $3;`,
-                    [theme.active, theme.menu_color, theme.note_color]);
-
+                    note_color = $3
+                    WHERE id = $4;`,
+                    [theme.active, theme.menu_color, theme.note_color, theme.id]);
         },
         async delete ( id: string ) {
             return await db.execute( `DELETE FROM themes where id = $1`, [ id ] )

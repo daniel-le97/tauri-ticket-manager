@@ -12,11 +12,11 @@ export class Theme {
     id: number;
     active: number;
     created_at: Date
-    constructor ( opts: { note_color: string, menu_color: string, id: 1, active: 0, created_at:Date; } ) {
-        this.menu_color = opts.menu_color;
-        this.note_color = opts.note_color;
-        this.id = opts.id;
-        this.active = opts.active;
+    constructor ( opts:any ) {
+        this.menu_color = opts.menu_color ?? "#000000";
+        this.note_color = opts.note_color ?? "#000000";
+        this.id = opts.id ?? 1;
+        this.active = opts.active ?? 1;
         this.created_at = opts.created_at ?? new Date(Date.now())
     }
 }
