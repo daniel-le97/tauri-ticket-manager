@@ -12,6 +12,10 @@ class DBService {
         async getAll(){
             return await db.select<NoteDTO[]>(`SELECT * FROM notes`)
         },
+        async getSome(number: number, page: number){
+            return await db.select<NoteDTO[]>(`SELECT * FROM notes ORDER BY id DESC LIMIT $1 OFFSET ($2 -1) * 100`, [number, page])
+        },
+        
         async getById(id: string | number){
             const note = (await db.select<NoteDTO[]>(`SELECT * FROM notes where id = $1`, [id]))[0]
             if (!note) {
