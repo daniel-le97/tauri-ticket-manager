@@ -11,6 +11,21 @@ class DBService {
     settings = {
         async getAll(){
             return await db.select<Theme[]>(`SELECT * FROM themes`)
+        },
+        async create ( theme: Theme ) {
+            return await db.execute( `INSERT INTO themes (menu_color, note_color);`, [ theme.menu_color, theme.note_color ] );
+        },
+        async save ( theme: Theme ) {
+            return await db.execute(
+                `UPDATE themes SET
+                    active = $1,
+                    menu_color = $2,
+                    note_color = $3;`,
+                    [theme.active, theme.menu_color, theme.note_color]);
+
+        },
+        async delete ( id: string ) {
+            return await db.execute( `DELETE FROM themes where id = $1`, [ id ] )
         }
     }
     notes = {
