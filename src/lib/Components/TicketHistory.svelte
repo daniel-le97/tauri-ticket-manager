@@ -6,17 +6,18 @@
   import { resetAppState } from "../stores/appState.js";
   import { ticketModal } from "../stores/modals.js";
   import { Spinner } from "flowbite-svelte";
-
+ import { ListPlaceholder } from 'flowbite-svelte';
   let tickets: NoteDTO[] = [];
   let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
   let filterCriteria = "";
   let noValidSearch = false;
-
+  let loadingTickets = true;
   onMount(async () => {
     await getTickets();
 
     // Initialize filteredTickets with all tickets
     filteredTickets = tickets;
+    loadingTickets = false;
   });
 
   async function getTickets() {
@@ -30,33 +31,14 @@
     resetAppState(ticket);
     $ticketModal = !$ticketModal;
   }
-  // function filterTickets() {
-  //   if (filterCriteria.includes('phone=')) {
-  //     const filter = filterCriteria.slice(6).trim()
-  //     console.log('filtering', filter);
-
-  //     filteredTickets = tickets.filter(ticket => {
-
-  //       const ticker = ticket.phone.toString().includes(filter)
-  //       console.log({ticket: ticket.phone.toString(), phone: filter});
-
-  //       if (ticker) {
-  //         return ticket
-  //       }else{
-  //         return false
-  //       }
-  //     }).filter(Boolean)
-  //   }
-  // }
 
   function filterTickets() {
-    const originalTickets = tickets;
-
     filteredTickets = tickets.filter((ticket) => {
       noValidSearch = false;
       let search = filterCriteria.toLowerCase();
       switch (true) {
         case search.startsWith("id="):
+
           const idToSearch = filterCriteria.slice(3).trim();
           return ticket.id.toString().includes(idToSearch);
 
@@ -111,8 +93,8 @@
       <th>Description</th>
     </tr>
   </thead>
-  {#if filteredTickets.length !== 0}
-  <tbody>
+  {#if filteredTickets.length !== 0 && !loadingTickets}
+    <tbody>
       {#each filteredTickets as item (item.id)}
         <tr on:click="{() => handleClick(item)}">
           <td>{item.id}</td>
@@ -124,18 +106,29 @@
         </tr>
       {/each}
     </tbody>
-      {:else}
-      <div class=" p-2 justify-center items-center">
-         <Spinner  size='large'></Spinner>
-      </div>
-    {/if}
+  {/if}
+
+  {#if loadingTickets}
+    <div class=" p-2 justify-center items-center w-screen">
+   <ListPlaceholder class=" max-w-3xl " />
+    </div>
+  {/if}
+
+
+   {#if filteredTickets.length === 0 && !noValidSearch}
+    <div class=" p-2 justify-center items-center w-screen">
+   <ListPlaceholder class=" max-w-3xl " />
+    </div>
+  {/if}
 
   {#if noValidSearch}
-  <Spinner ></Spinner>
+    <div class="flex my-2 p-2  text-xl   text-gray-500">
+      NO SEARCH RESULTS
+    </div>
   {/if}
 </table>
 
-<style>
+<style scoped>
   table {
     border-collapse: collapse;
     width: 100%;
