@@ -39,6 +39,17 @@
     } catch (error) {}
   };
 
+  const getThmese = async() => {
+    try {
+      const theme = await dbService.settings.getAll()
+      $hexColor = theme
+      console.log(theme);
+      
+    } catch (error) {
+      
+    }
+  }
+
   onMount(async () => {
     copyClipBoard();
 

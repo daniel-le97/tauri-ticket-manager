@@ -6,6 +6,21 @@ export interface INote extends Common {
     current: number
 }
 
+export class Theme {
+    note_color: string;
+    menu_color: string;
+    id: number;
+    active: number;
+    created_at: Date
+    constructor ( opts: { note_color: string, menu_color: string, id: 1, active: 0, created_at:Date; } ) {
+        this.menu_color = opts.menu_color;
+        this.note_color = opts.note_color;
+        this.id = opts.id;
+        this.active = opts.active;
+        this.created_at = opts.created_at ?? new Date(Date.now())
+    }
+}
+
 export interface ITemplate extends Common {
     title: string;
     content: string;

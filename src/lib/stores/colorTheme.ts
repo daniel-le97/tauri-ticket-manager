@@ -1,6 +1,4 @@
 import { writable } from "svelte/store";
+import { Theme } from "../../db/types.js";
 
-
-export const noteTakerColor = writable("#000");
-
-export const menuColor = writable("#000");
+export const hexColor = writable<Theme[]>();

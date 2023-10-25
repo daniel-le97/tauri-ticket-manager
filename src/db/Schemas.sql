@@ -17,6 +17,12 @@ updated_at DATERIME DEFAULT CURRENT_TIMESTAMP,
         current INTEGER DEFAULT 0,
         email TEXT
         );
+CREATE TABLE IF NOT EXISTS themes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, 
+  note_color TEXT NOT NULL,
+  active INT DEFAULT 1,
+  menu_color TEXT NOT NULL
+);
 
 INSERT INTO templates (title, content) VALUES (
     'General Call Template',
