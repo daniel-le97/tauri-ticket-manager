@@ -2,12 +2,17 @@
 
 
 import { db } from "./index.js";
-import { type TemplateDTO, type Template, type Note, NoteDTO, type Common } from "./types.js";
+import { type TemplateDTO, type Template, type Note, NoteDTO, type Common, Theme } from "./types.js";
 import { defu } from 'defu'
 // import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
 
 class DBService {
+    settings = {
+        async getAll(){
+            return await db.select<Theme[]>(`SELECT * FROM themes`)
+        }
+    }
     notes = {
         async getAll(){
             return await db.select<NoteDTO[]>(`SELECT * FROM notes`)

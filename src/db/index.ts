@@ -37,14 +37,20 @@ class DBInit {
     const isMade = await (await db)
     .select(`SELECT name FROM sqlite_master WHERE type="table"`) as {name:string}[]
     
-    if (isMade.length === 3) {
+       if ( isMade.length === 4 )
+       {
         // console.log('not running');
         return 
         
     }
     // console.log('creating database');
     
-        
+       const createThemes = await ( await db ).execute( `CREATE TABLE IF NOT EXISTS themes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        note_color TEXT NOT NULL,
+        active INT DEFAULT 1,
+        menu_color TEXT NOT NULL
+      )`)
     const createTemplates = await (await db).execute(`CREATE TABLE IF NOT EXISTS templates (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -86,7 +92,8 @@ How many users are affected:
 Troubleshooting Steps:
 -------------------------------"
     );`);           
-    }
+       const insertThemes = await ( await db ).execute( `INSERT INTO themes (note_color, menu_color) VALUES ("#000000", "#000000");` );           
+   }
 }
 
 export const db = new DBInit()
