@@ -51,27 +51,32 @@
   function filterTickets() {
     filteredTickets = tickets.filter((ticket) => {
       noValidSearch = true;
+      let search = filterCriteria.toLowerCase()
       switch (true) {
-        case filterCriteria.startsWith("id="):
+        case search.startsWith("id="):
           const idToSearch = filterCriteria.slice(3).trim();
-          return ticket.id.toString() === idToSearch;
+          return ticket.id.toString().includes(idToSearch)
 
-        case filterCriteria.startsWith("phone="):
+        case search.startsWith("phone="):
           const phoneToSearch = filterCriteria.slice(6).trim();
           return ticket.phone.toString().includes(phoneToSearch);
 
-        case filterCriteria.startsWith("asset="):
+        case search.startsWith("asset="):
           const assetToSearch = filterCriteria.slice(6).trim();
-          return ticket.asset === assetToSearch;
+          return ticket.asset.includes(assetToSearch);
 
-        case filterCriteria.startsWith("date="):
+        case search.startsWith("date="):
           const dateToSearch = filterCriteria.slice(5).trim();
           const formattedDate = getDate(ticket.created_at).toLocaleLowerCase();
           return formattedDate.includes(dateToSearch.toLocaleLowerCase());
 
-        case filterCriteria.startsWith("description="):
+        case search.startsWith("description="):
           const descriptionToSearch = filterCriteria.slice(12).trim();
-          return ticket.description.includes(descriptionToSearch);
+          return ticket.description.toLowerCase().includes(descriptionToSearch);
+
+        case search.startsWith("email="):
+          const email = filterCriteria.slice(6).trim();
+          return ticket.email.toLowerCase().includes(email);
 
         default:
           return true; // Show all tickets if no valid filter criteria is provided
@@ -95,7 +100,7 @@
     <tr>
       <th>Ticket ID</th>
       <th>Asset</th>
-      <th class="" on:click="{() => console.log('hello world')}">Created At</th>
+      <th class="" on:click="{() => console.log('hello world')}">Date</th>
       <th>Email</th>
       <th>Phone</th>
       <th>Description</th>
