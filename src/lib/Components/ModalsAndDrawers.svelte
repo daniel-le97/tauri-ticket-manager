@@ -17,7 +17,7 @@
     Drawer,
     Popover,
   } from "flowbite-svelte";
-  import CheckLists from "./CheckLists.svelte";
+  import Templates from "./Templates.svelte";
   import UsageGuide from "./UsageGuide.svelte";
   import TicketHistory from "./TicketHistory.svelte";
   import Settings from "./Settings.svelte";
@@ -51,7 +51,7 @@
 </script>
 
 <Modal class="mt-8  " size="xl" bind:open="{$templateModal}">
-  <CheckLists />
+  <Templates />
 </Modal>
 
 <Modal size="xl" class="mt-12" bind:open="{$informationModal}" outsideclose>
@@ -66,9 +66,8 @@
   size="lg"
   title=""
   bind:open="{$settingModal}"
-   outsideclose
+  outsideclose
   backdropClass="none"
- 
 >
   <Settings />
 </Modal>

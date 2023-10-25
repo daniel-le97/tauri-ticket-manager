@@ -9,19 +9,16 @@
     Input,
     Textarea,
   } from "flowbite-svelte";
-  import { title, content, tag } from "../stores/template.js";
+  import { title, content, tag, editingTemplate } from "../stores/template.js";
   import { Template, type ITemplate, TemplateDTO } from "../../db/types.js";
   import { dbService } from "../../db/service.js";
   import { templateService } from "../services/template.js";
   import { onMount } from "svelte";
-  import { TrashBinSolid } from "flowbite-svelte-icons";
+  import { PenSolid, TrashBinSolid } from "flowbite-svelte-icons";
   import { confirm } from "@tauri-apps/api/dialog";
+  import { get, writable } from "svelte/store";
 
   let templates: TemplateDTO[];
-  let editMode: boolean = false;
-
-  
- 
 
   onMount(async () => {
     await getTemplates();
@@ -39,13 +36,17 @@
     }
   }
 
-  async function handleEdit() {
+  async function handleEdit(template:TemplateDTO) {
     try {
-      
-    } catch (error) {
-      
-    }
+
+
+      // await dbService
+    } catch (error) {}
   }
+
+
+
+
   async function copyToClipboard(Template: string) {
     const textToCopy = Template;
     try {
@@ -55,28 +56,43 @@
     }
   }
 
-  function editTemplate(template: Template) {
-    ($title = template.title),
-      ($content = template.content),
-      ($tag = template.tag);
-  } 
+  async function editTemplate(template: TemplateDTO) {
+    try {
+      $editingTemplate = true;
+      console.log(template);
+
+      ($title = template.title),
+        ($content = template.content),
+        ($tag = template.tag);
+
+      let updatedTemplate = {
+        id: template.id,
+        created_at: template.created_at,
+        content: $content,
+        title: $title,
+        tag: $tag,
+      };
+
+      const dbUpdatedTemplate = await handleEdit(updatedTemplate:TemplateDTO);
+
+      $editingTemplate = false;
+    } catch (error) {}
+  }
 
   async function handleDelete(id: number) {
     try {
       if (await confirm("Delete?")) {
         await templateService.deleteTemplate(id);
 
-       await getTemplates();
+        await getTemplates();
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
 </script>
 
-<div class="  flex  p-3 space-x-3 relative ">
-  <div class=" w-1/2 flex flex-col space-y-3  ">
-    {#if !editMode}
+<div class="  flex p-3 space-x-3 relative">
+  <div class=" w-1/2 flex flex-col space-y-3">
+    {#if !$editingTemplate}
       <div class="text-base font-semibold">Create Template</div>
       <form
         on:submit|preventDefault|stopPropagation="{addTemplate}"
@@ -122,71 +138,74 @@
         </div>
       </form>
     {:else}
-    <div class="sticky top-0">
-  <div class="text-base font-semibold">Edit Template</div>
-      <form
-        on:submit|preventDefault|stopPropagation="{handleEdit}"
-        class="flex flex-col space-y-1"
-      >
-        <div class="flex">
-          <Input
-            type="text"
-            required
-            min="1"
-            minlength="1"
-            size="sm"
-            bind:value="{$title}"
-            placeholder="Title"
-            class="w-1/3 bg-red-100"
-            id="new-title"
-          />
-        </div>
-        <div class="flex">
-          <Input
-            type="text"
-            class="w-1/3 bg-red-100"
-            size="sm"
-            bind:value="{$tag}"
-            placeholder="Tag"
-            id="new-tag"
-          />
-        </div>
+      <div class="sticky top-0">
+        <div class="text-base font-semibold">Edit Template</div>
+        <form
+          on:submit|preventDefault|stopPropagation="{$editingTemplate
+            ? handleEdit
+            : addTemplate}"
+          class="flex flex-col space-y-1"
+        >
+          <div class="flex">
+            <Input
+              type="text"
+              required
+              min="1"
+              minlength="1"
+              size="sm"
+              bind:value="{$title}"
+              placeholder="Title"
+              class="w-1/3 bg-red-100"
+              id="new-title"
+            />
+          </div>
+          <div class="flex">
+            <Input
+              type="text"
+              class="w-1/3 bg-red-100"
+              size="sm"
+              bind:value="{$tag}"
+              placeholder="Tag"
+              id="new-tag"
+            />
+          </div>
 
-        <div>
-          <Textarea
-            cols="70"
-            rows="7"
-            required
-            minlength="1"
-            bind:value="{$content}"
-            placeholder="Add Content"
-            class="bg-red-100"
-            id="new-Template"
-          />
-        </div>
-        <div class="">
-          <GradientButton type="submit" color="green">Save Edit</GradientButton>
-        </div>
-      </form>
-
-    </div>
+          <div>
+            <Textarea
+              cols="70"
+              rows="7"
+              required
+              minlength="1"
+              bind:value="{$content}"
+              placeholder="Add Content"
+              class="bg-red-100"
+              id="new-Template"
+            />
+          </div>
+          <div class="">
+            <GradientButton type="submit" color="green"
+              >Save Edit</GradientButton
+            >
+          </div>
+        </form>
+      </div>
     {/if}
   </div>
 
   <div class="mt-4 w-1/2">
     <span class="text=xl font-semibold mb-4">Templates:</span>
-    <Button color="red" on:click="{() => (editMode = !editMode)}"
+    <!-- <Button color="red" on:click="{() => (editMode = !editMode)}"
       >Edit Templates</Button
-    >
+    > -->
 
-   {#if  editMode}
+    {#if templates}
       <ul class="mt-4 flex gap-2 flex-wrap">
         {#each templates as template (template.id)}
           <li>
             <GradientButton
-              color="red"
+              color="{template.title === $title ? 'red' : 'blue'}"
               class=""
-              on:click="{ () => editTemplate(template)}"
+              on:click="{() => editTemplate(template)}"
             >
               {template.title}</GradientButton
             >
@@ -200,18 +219,23 @@
               >
                 <TrashBinSolid class="w-3 h-3 " />
               </Button>
+              <Button
+                outline="{true}"
+                class="!p-2"
+                size="sm"
+                on:click="{() => editTemplate(template)}"
+              >
+                <PenSolid class="w-3 h-3 " />
+              </Button>
             </Popover>
           </li>
         {/each}
       </ul>
-    {:else if !templates && editMode}
+    {:else}
       <Spinner />
     {/if}
   </div>
 </div>
-
-
-
 
 <!-- 
 

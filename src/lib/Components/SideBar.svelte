@@ -1,8 +1,5 @@
 <script>
-  import CheckLists from "./CheckLists.svelte";
-
-
-
+  import Templates from "./Templates.svelte";
 </script>
 
 <div class="side-bar">
@@ -23,8 +20,6 @@
       </button>
     </li>
   </ul> -->
-
-
 </div>
 
 <style>
