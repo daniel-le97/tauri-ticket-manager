@@ -15,7 +15,7 @@
     await getTickets();
 
     // Initialize filteredTickets with all tickets
-    filteredTickets = tickets.slice();
+    filteredTickets = tickets
   });
 
   async function getTickets() {
@@ -29,6 +29,24 @@
     resetAppState(ticket);
     $ticketModal = !$ticketModal;
   }
+  // function filterTickets() {
+  //   if (filterCriteria.includes('phone=')) {
+  //     const filter = filterCriteria.slice(6).trim()
+  //     console.log('filtering', filter);
+      
+  //     filteredTickets = tickets.filter(ticket => {
+
+  //       const ticker = ticket.phone.toString().includes(filter)
+  //       console.log({ticket: ticket.phone.toString(), phone: filter});
+        
+  //       if (ticker) {
+  //         return ticket
+  //       }else{
+  //         return false
+  //       }
+  //     }).filter(Boolean)
+  //   }
+  // }
 
   function filterTickets() {
     filteredTickets = tickets.filter((ticket) => {
@@ -40,10 +58,7 @@
 
         case filterCriteria.startsWith("phone="):
           const phoneToSearch = filterCriteria.slice(6).trim();
-         
-          // console.log(ticket.phone.toString())
-          
-          return ticket.phone.toString() === phoneToSearch.toString();
+          return ticket.phone.toString().includes(phoneToSearch);
 
         case filterCriteria.startsWith("asset="):
           const assetToSearch = filterCriteria.slice(6).trim();
