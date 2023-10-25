@@ -6,53 +6,43 @@
   import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
   import Notification from "./lib/Components/Notification.svelte";
-  import {
-  clipBoardText,
-    clipboardCheckInterval,
-    copyClipBoard,
-  
-  } from "./lib/stores/clipboard";
-  import { db } from "./db";
+
   import { dbService } from "./db/service";
   import { notesHistory } from "./lib/stores/appState";
 
-  // let clipBoardText: string | null;
+  let clipBoardText: string | null;
 
-  // window.appWindow.setDecorations(false); // KEEP THIS FOR NOW JUST INCASE
+  // window.Window.setDecorations(false);
 
-  // const clipboardCheckInterval = setInterval(() => {
-  //   copyClipBoard();
-  // }, 1000);
+  const clipboardCheckInterval = setInterval(() => {
+    copyClipBoard();
+  }, 1000);
 
-  // async function copyClipBoard() {
-  //   try {
-  //     const text = await readText();
+  async function copyClipBoard() {
+    try {
+      const text = await readText();
 
-  //     if (text !== clipBoardText) {
-  //       clipBoardText = text;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error reading clipboard text:", error);
-  //   }
-  // }
+      if (text !== clipBoardText) {
+        clipBoardText = text;
+      }
+    } catch (error) {
+      console.error("Error reading clipboard text:", error);
+    }
+  }
 
   const getAllNotes = async () => {
     try {
       const res = await dbService.notes.getAll();
       $notesHistory = res;
-   
-      
     } catch (error) {}
   };
 
   onMount(async () => {
-    // copyClipBoard();
     copyClipBoard();
+
     getAllNotes();
- 
   });
   onDestroy(() => {
-    // clearInterval(clipboardCheckInterval);
     clearInterval(clipboardCheckInterval);
   });
 </script>
@@ -66,7 +56,7 @@
     <div
       class="flex flex-col fixed bottom-0 items-end justify-end w-full pb-2 bg-black"
     >
-      <MenuSectionOne clipBoardText="{$clipBoardText}" />
+      <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>
   </div>

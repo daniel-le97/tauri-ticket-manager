@@ -1,11 +1,6 @@
 <script lang="ts">
   import { writeText } from "@tauri-apps/api/clipboard";
-  import {
-    Badge,
-    Button,
-    GradientButton,
-    Tooltip,
-  } from "flowbite-svelte";
+  import { Badge, Button, GradientButton, Tooltip } from "flowbite-svelte";
   import {
     ChevronLeftSolid,
     ChevronRightSolid,
@@ -16,6 +11,7 @@
     appState,
     resetAppState,
     timingButton,
+    notesHistory,
   } from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
   import { noteService } from "../services/notes.js";
@@ -23,6 +19,8 @@
   import { alertState } from "../stores/alert";
 
   export let clipBoardText: string | null;
+
+  
 
   const phoneRegex = /(\+\d{1,2}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
   const ticketRegex = /^TN\d{8}$/;
@@ -149,8 +147,6 @@ ${$appState.description}
 
 <div class="menu-section p-1 py-2">
   <ul class="line-row space-x-1 flex justify-start">
-
-    
     <li class="line-item">
       <input
         type="text"
@@ -200,21 +196,18 @@ ${$appState.description}
     </li>
   </ul>
 
-  <Badge class="font-1 font-semibold text-base">Id:{$appState.id}</Badge>
+  <Badge color="default" class="font-1 font-semibold text-base">Id:<span class="text-red-500">{$appState.id}</span> /{$notesHistory.length}</Badge>
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
- 
-    
       <GradientButton
         id="reset"
         color="lime"
         class="!p-2 "
         on:click="{resetNoteTaker}"
       >
-       <CotateSolid class="cursor-pointer outline-none border-none"/>
+        <CotateSolid class="cursor-pointer outline-none border-none" />
       </GradientButton>
-  
 
       <GradientButton
         id="clipBoard"
