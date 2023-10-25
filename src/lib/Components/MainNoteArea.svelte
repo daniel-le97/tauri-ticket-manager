@@ -19,8 +19,9 @@
   import startTimer from "./Timer.svelte";
   import { noteService } from "../services/notes";
   import { onMount } from "svelte";
-  import { dbService } from "../../db/service.js";
-  import { noteTakerColor } from "../stores/colorTheme";
+  import type { Theme } from "../../db/types";
+  import { activeTheme } from "../stores/colorTheme";
+ 
 
   async function handleKeyDown(event: any) {
     // startTimer
@@ -90,8 +91,9 @@
     on:keydown="{handleKeyDown}"
     class="notes-area"
     id="notes-area"
+    style="background-color: {$activeTheme?.note_color};"
     bind:value="{$appState.description}"
-    style="background-color: {$noteTakerColor};"></textarea>
+   ></textarea>
 {/if}
 
 <style scoped>

@@ -10,7 +10,8 @@
   import { dbService } from "./db/service";
   import { notesHistory } from "./lib/stores/appState";
   import { window } from "@tauri-apps/api";
-  import { themeColor } from "./lib/stores/colorTheme";
+  import { activeTheme, themeColor } from "./lib/stores/colorTheme";
+  import type { Theme } from "./db/types";
 
   let clipBoardText: string | null;
 
@@ -39,21 +40,20 @@
     } catch (error) {}
   };
 
-  const getThmese = async() => {
+  const getThemes = async () => {
     try {
-      const theme = await dbService.settings.getAll()
-      $themeColor = theme
-      console.log(theme);
-      
-    } catch (error) {
-      
-    }
-  }
+      const theme = await dbService.settings.getAll();
+      $themeColor = theme;
+      $activeTheme = theme.find((t) => t.active === 1)!;
+
+      // console.log(theme);
+    } catch (error) {}
+  };
 
   onMount(async () => {
-    copyClipBoard();
-
-    getAllNotes();
+    await copyClipBoard();
+    await getThemes();
+    await getAllNotes();
   });
   onDestroy(() => {
     clearInterval(clipboardCheckInterval);
@@ -61,24 +61,20 @@
 </script>
 
 <TitleBar />
-<main class=" " style="background-color: {$themeColor};">
+<main class=" " style="background-color: {$activeTheme?.menu_color};">
   <div class="main-container">
-    <div class="flex justify-between   h-full">
+    <div class="flex justify-between h-full">
       <MainNoteArea />
     </div>
-    <!-- <div
-      class="flex flex-col   fixed bottom-0 w-full   "
-    >
+    <div class="flex flex-col fixed bottom-0 w-full">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
-    </div> -->
+    </div>
   </div>
 </main>
 <Notification />
 
 <style>
-
-  
   .main-container {
     height: 100vh;
   }
