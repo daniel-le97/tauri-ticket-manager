@@ -21,7 +21,7 @@ class NoteService {
         return oldNote;
     }
 
-    async save () {
+    async save (reset = false) {
         const note = new NoteDTO( get( appState ) );
         const oldNote = await dbService.notes.getById( note.id );
         const merged = this.merge( note, oldNote );

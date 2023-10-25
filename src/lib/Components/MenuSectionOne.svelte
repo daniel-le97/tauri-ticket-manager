@@ -76,26 +76,7 @@ ${$appState.description}
 
   async function resetNoteTaker() {
     if (await confirm("Reset NoteTake?")) {
-      resetAppState();
-      // await getTicketLength();
-      // const response = await noteService.getCurrentNote();
-      // appState.set(response);
-      // appState.set({
-      //   current: response.current,
-      //   id: response.id,
-      //   email: "",
-      //   asset: "",
-      //   ticket: "",
-      //   phone: "",
-      //   description: "",
-      //   textEditorDescription: "",
-      //   textEditor: false,
-      //   timerCount: "",
-      //   timerOn: false,
-      //   date: response.date,
-      //   formatted: "",
-      //   formattedTime: "",
-      // });
+      await noteService.save()
       await writeText("");
       alertState.set({
         color: "green",
@@ -184,7 +165,7 @@ ${$appState.description}
       <input
         type="text"
         bind:value="{$appState.phone}"
-        on:dblclick="{() => handleDoubleClick($appState.phone)}"
+        on:dblclick="{() => handleDoubleClick($appState.phone.toString())}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
         class="{$appState.phone.toString().match(phoneRegex)
