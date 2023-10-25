@@ -66,7 +66,7 @@
     <div class="flex justify-between h-full">
       <MainNoteArea />
     </div>
-    <div class="flex flex-col fixed bottom-0 w-full" style="background-color: {$activeTheme.menu_color};">
+    <div class="flex flex-col fixed bottom-0 w-full" style="background-color: {$activeTheme?.menu_color};">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>
