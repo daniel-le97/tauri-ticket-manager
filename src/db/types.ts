@@ -87,12 +87,12 @@ export class TemplateDTO implements ITemplate{
     id: number;
     created_at: Date;
     updated_at: Date;
-    constructor(fields: ITemplate){
+    constructor(fields: any){
         this.id = fields.id
         this.tag = fields.tag
         this.content = fields.content
         this.title = fields.title
-        this.created_at = fields.created_at
-        this.updated_at = fields.updated_at
+        this.created_at = fields.created_at ?? new Date(Date.now());
+        this.updated_at = fields.updated_at ?? new Date(Date.now());
     }
 }

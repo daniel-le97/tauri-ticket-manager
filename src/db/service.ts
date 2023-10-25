@@ -124,7 +124,7 @@ class DBService {
         async update(template: TemplateDTO){
             return await db.execute(
            `UPDATE 
-            template 
+            templates
           SET 
             title = $2,
             content = $3,

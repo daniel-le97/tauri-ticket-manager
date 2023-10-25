@@ -9,7 +9,7 @@
     Input,
     Textarea,
   } from "flowbite-svelte";
-  import { title, content, tag, editingTemplate } from "../stores/template.js";
+  import { title, content, tag, editingTemplate, activeTemplate } from "../stores/template.js";
   import { Template, type ITemplate, TemplateDTO } from "../../db/types.js";
   import { dbService } from "../../db/service.js";
   import { templateService } from "../services/template.js";
@@ -36,11 +36,10 @@
     }
   }
 
-  async function handleEdit(template:TemplateDTO) {
+  async function handleEdit() {
     try {
-
-
-      // await dbService
+      const template = await templateService.update()
+      await getTemplates()
     } catch (error) {}
   }
 
@@ -58,25 +57,22 @@
 
   async function editTemplate(template: TemplateDTO) {
     try {
-      $editingTemplate = true;
-      console.log(template);
+      
+      $editingTemplate = !$editingTemplate
+      
+      if (!$editingTemplate) {
+        $title = ''
+        $content = ''
+        $tag = ''
+        $activeTemplate = null
+        return
+      }
 
-      ($title = template.title),
-        ($content = template.content),
-        ($tag = template.tag);
+      $title = template.title
+      $content = template.content
+      $tag = template.tag
+      $activeTemplate = template
 
-      let updatedTemplate:TemplateDTO = {
-        id: template.id,
-        created_at: template.created_at,
-        updated_at : template.updated_at,
-        content: $content,
-        title: $title,
-        tag: $tag,
-      };
-
-      const dbUpdatedTemplate = await handleEdit(updatedTemplate);
-
-      $editingTemplate = false;
     } catch (error) {}
   }
 
@@ -93,58 +89,15 @@
 
 <div class="  flex p-3 space-x-3 relative">
   <div class=" w-1/2 flex flex-col space-y-3">
-    {#if !$editingTemplate}
+    <!-- {#if !$editingTemplate} -->
       <div class="text-base font-semibold">Create Template</div>
-      <form
-        on:submit|preventDefault|stopPropagation="{addTemplate}"
-        class="flex flex-col space-y-1"
-      >
-        <div class="flex">
-          <Input
-            type="text"
-            required
-            min="1"
-            minlength="1"
-            size="sm"
-            bind:value="{$title}"
-            placeholder="Title"
-            class="w-1/3"
-            id="new-title"
-          />
-        </div>
-        <div class="flex">
-          <Input
-            type="text"
-            class="w-1/3"
-            size="sm"
-            bind:value="{$tag}"
-            placeholder="Tag"
-            id="new-tag"
-          />
-        </div>
 
-        <div>
-          <Textarea
-            cols="70"
-            rows="7"
-            required
-            minlength="1"
-            bind:value="{$content}"
-            placeholder="Add Content"
-            id="new-Template"
-          />
-        </div>
-        <div>
-          <GradientButton type="submit" color="green">Add</GradientButton>
-        </div>
-      </form>
-    {:else}
       <div class="sticky top-0">
         <div class="text-base font-semibold">Edit Template</div>
         <form
           on:submit|preventDefault|stopPropagation="{$editingTemplate
-            ? handleEdit
-            : addTemplate}"
+            ? () => handleEdit()
+            : () => addTemplate()}"
           class="flex flex-col space-y-1"
         >
           <div class="flex">
@@ -185,12 +138,12 @@
           </div>
           <div class="">
             <GradientButton type="submit" color="green"
-              >Save Edit</GradientButton
+              >{ $editingTemplate ? "Save" : "Add"}</GradientButton
             >
           </div>
         </form>
       </div>
-    {/if}
+    <!-- {/if} -->
   </div>
 
   <div class="mt-4 w-1/2">
