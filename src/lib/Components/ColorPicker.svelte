@@ -58,7 +58,7 @@
           </div>
           <Button
             color="alternative"
-            class="px-3"
+            class="px-3 {theme.active === 1 ? "bg-orange-500" : ''}"
             on:click="{() => changeTheme(theme)}"><CheckCircleSolid /></Button
           >
         </li>
