@@ -25,9 +25,15 @@ class ThemesService {
         await dbService.settings.save(setInActive)
         await this.getAll()
     }
-    async save(){
-        const note_color = get(noteColor)
-        const menu_color = get(menuColor)
+    async save(theme:Theme){
+        const currentlyActiveTheme = get(themeColor).find(theme => theme.active === 1)
+        if (currentlyActiveTheme?.id === theme.id) {
+            return
+        }
+        await dbService.settings.save(new Theme({...currentlyActiveTheme, active:0}))
+        await dbService.settings.save(new Theme({...theme, active:1}))
+        await this.getAll()
+
     }
 
     async getAll(){

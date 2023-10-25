@@ -10,6 +10,7 @@
   import { themesService } from "../services/themes.js";
   import ThemeButtons from "./themeButtons.svelte";
   import { CheckCircleSolid } from "flowbite-svelte-icons";
+    import type { Theme } from "../../db/types.js";
 
   function updateNoteAreaColor(event: { target: { value: string } }) {}
 
@@ -21,11 +22,13 @@
     } catch (error) {}
   }
 
-  async function changeTheme(theme: any) {
+  async function changeTheme(theme: Theme) {
     try {
-      
-      $activeTheme.menu_color = theme.menu_color;
-      $activeTheme.note_color = theme.note_color;
+      if (theme.active === 1) {
+        return
+      }
+      await themesService.save(theme)
+
     } catch (error) {}
   }
 </script>
