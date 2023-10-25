@@ -4,65 +4,103 @@
   import { onMount } from "svelte";
   import { getDate } from "../utils/date.js";
   import { resetAppState } from "../stores/appState.js";
-//  import {ticketModal} from "../Components/MenuSectionTwo.svelte"
-  import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableBodyRow,
-    TableHead,
-    TableHeadCell,
-  } from "flowbite-svelte";
   import { ticketModal } from "../stores/modals.js";
-  let tickets: NoteDTO[];
+
+  let tickets: NoteDTO[] = [];
+  let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
+  let filterCriteria = "";
+  let noValidSearch = false;
 
   onMount(async () => {
     await getTickets();
+
+    // Initialize filteredTickets with all tickets
+    filteredTickets = tickets.slice();
   });
 
   async function getTickets() {
     try {
       tickets = await dbService.notes.getAll();
-      // console.log(tickets);
+      console.log(filteredTickets);
     } catch (error) {}
   }
 
   function handleClick(ticket: NoteDTO) {
     resetAppState(ticket);
-$ticketModal = !$ticketModal
+    $ticketModal = !$ticketModal;
   }
+
+  function filterTickets() {
+    filteredTickets = tickets.filter((ticket) => {
+      noValidSearch = true;
+      switch (true) {
+        case filterCriteria.startsWith("id="):
+          const idToSearch = filterCriteria.slice(3).trim();
+          return ticket.id.toString() === idToSearch;
+
+        case filterCriteria.startsWith("phone="):
+          const phoneToSearch = filterCriteria.slice(6).trim();
+         
+          // console.log(ticket.phone.toString())
+          
+          return ticket.phone.toString() === phoneToSearch.toString();
+
+        case filterCriteria.startsWith("asset="):
+          const assetToSearch = filterCriteria.slice(6).trim();
+          return ticket.asset === assetToSearch;
+
+        case filterCriteria.startsWith("date="):
+          const dateToSearch = filterCriteria.slice(5).trim();
+          const formattedDate = getDate(ticket.created_at).toLocaleLowerCase();
+          return formattedDate.includes(dateToSearch.toLocaleLowerCase());
+
+        case filterCriteria.startsWith("description="):
+          const descriptionToSearch = filterCriteria.slice(12).trim();
+          return ticket.description.includes(descriptionToSearch);
+
+        default:
+          return true; // Show all tickets if no valid filter criteria is provided
+      }
+    });
+  }
+
+
 </script>
 
-{#if tickets}
-  <table class="">
-    <thead>
-      <tr>
-        <th>Ticket ID</th>
-        <th>Asset</th>
-        <th class="" on:click="{() => console.log('hello world')}"
-          >Created At</th
-        >
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Last updated</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each tickets as item (item.id)}
+<input
+  class="text-black"
+  type="text"
+  bind:value="{filterCriteria}"
+  placeholder="ex: id= || description ="
+  on:input="{filterTickets}"
+/>
+
+<table class="">
+  <thead>
+    <tr>
+      <th>Ticket ID</th>
+      <th>Asset</th>
+      <th class="" on:click="{() => console.log('hello world')}">Created At</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {#if filteredTickets}
+      {#each filteredTickets as item (item.id)}
         <tr on:click="{() => handleClick(item)}">
           <td>{item.id}</td>
           <td>{item.asset}</td>
           <td>{getDate(item.created_at)}</td>
           <td>{item.email}</td>
           <td>{item.phone}</td>
-          <td>{getDate(item.updated_at)}</td>
           <td class="truncate overflow-x-clip">{item.description}</td>
         </tr>
       {/each}
-    </tbody>
-  </table>
-{/if}
+    {/if}
+  </tbody>
+</table>
 
 <style>
   table {

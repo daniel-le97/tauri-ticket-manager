@@ -1,5 +1,5 @@
 export interface INote extends Common {
-    phone: string,
+    phone: number,
     asset: string,
     email: string,
     description: string,
@@ -30,7 +30,7 @@ export class Template implements Omit<ITemplate, 'id' | 'created_at' | 'updated_
 }
 
 export class Note implements Omit<INote, 'id' | 'created_at' | 'updated_at'> {
-    phone: string;
+    phone: number;
     asset: string;
     email: string;
     description: string;
@@ -45,7 +45,7 @@ export class Note implements Omit<INote, 'id' | 'created_at' | 'updated_at'> {
 }
 
 export class NoteDTO implements INote {
-    phone: string;
+    phone: number;
     asset: string;
     email: string;
     description: string;

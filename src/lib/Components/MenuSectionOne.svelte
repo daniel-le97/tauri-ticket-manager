@@ -43,10 +43,10 @@
       if (emailMatches) {
         $appState.email = emailMatches[0];
       }
-      const phoneMatches = clipBoardText?.match(phoneRegex);
-      if (phoneMatches) {
-        $appState.phone = phoneMatches[0];
-      }
+      // const phoneMatches = clipBoardText?.match(phoneRegex);
+      // if (phoneMatches) {
+      //   $appState.phone = phoneMatches[0];
+      // }
 
       const ticketMatches = clipBoardText?.match(ticketRegex);
       if (ticketMatches) {
@@ -91,24 +91,24 @@ ${$appState.description}
     if (await confirm("Reset NoteTake?")) {
       resetAppState();
       // await getTicketLength();
-      const response = await noteService.getCurrentNote();
-      appState.set(response);
-      appState.set({
-        current: response.current,
-        id: response.id,
-        email: "",
-        asset: "",
-        ticket: "",
-        phone: "",
-        description: "",
-        textEditorDescription: "",
-        textEditor: false,
-        timerCount: "",
-        timerOn: false,
-        date: response.date,
-        formatted: "",
-        formattedTime: "",
-      });
+      // const response = await noteService.getCurrentNote();
+      // appState.set(response);
+      // appState.set({
+      //   current: response.current,
+      //   id: response.id,
+      //   email: "",
+      //   asset: "",
+      //   ticket: "",
+      //   phone: "",
+      //   description: "",
+      //   textEditorDescription: "",
+      //   textEditor: false,
+      //   timerCount: "",
+      //   timerOn: false,
+      //   date: response.date,
+      //   formatted: "",
+      //   formattedTime: "",
+      // });
       await writeText("");
       alertState.set({
         color: "green",
@@ -129,11 +129,11 @@ ${$appState.description}
   }
 
   async function saveNote() {
-    if ($timingButton) {
-      return; // Exit the function if the button is disabled
-    }
-
     try {
+      if ($timingButton) {
+        return; // Exit the function if the button is disabled
+      }
+
       await noteService.next();
       await getTicketLength();
     } catch (error) {}
@@ -200,7 +200,7 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.phone)}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
-        class="{$appState.phone.match(phoneRegex)
+        class="{$appState.phone.toString().match(phoneRegex)
           ? 'bg-green-200'
           : 'bg-white'} text-black"
       />

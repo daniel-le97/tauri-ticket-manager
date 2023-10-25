@@ -83,6 +83,9 @@ class NoteService {
         const merged = merge(state, current)
         return merged
     }
+
+
+    
 }
 
 export const noteService = new NoteService()
