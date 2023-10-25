@@ -4,30 +4,22 @@
     Badge,
     Button,
     GradientButton,
-    Input,
     Tooltip,
   } from "flowbite-svelte";
   import {
     ChevronLeftSolid,
     ChevronRightSolid,
     ClipboardCheckSolid,
-    PenSolid,
-    XCompanySolid,
+    CotateSolid,
   } from "flowbite-svelte-icons";
-
   import {
     appState,
-    dbNotesLength,
-    getTicketLength,
     resetAppState,
     timingButton,
   } from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
   import { noteService } from "../services/notes.js";
-  import { writable } from "svelte/store";
-  import { dbService } from "../../db/service";
   import { onMount } from "svelte";
-  import { dialog } from "@tauri-apps/api";
   import { alertState } from "../stores/alert";
 
   export let clipBoardText: string | null;
@@ -63,8 +55,7 @@
 
   async function copyEverything() {
     try {
-      let formattedNote = `
-Time: ${$appState.timerCount}
+      let formattedNote = `Time: ${$appState.timerCount}
 Date: ${new Date($appState.date).toLocaleString()}     
 Email: ${$appState.email}
 Phone: ${$appState.phone}
@@ -135,7 +126,7 @@ ${$appState.description}
       }
 
       await noteService.next();
-      await getTicketLength();
+      // await getTicketLength();
     } catch (error) {}
   }
 
@@ -152,12 +143,14 @@ ${$appState.description}
   }
 
   onMount(() => {
-    getTicketLength();
+    // getTicketLength();
   });
 </script>
 
 <div class="menu-section p-1 py-2">
   <ul class="line-row space-x-1 flex justify-start">
+
+    
     <li class="line-item">
       <input
         type="text"
@@ -211,35 +204,17 @@ ${$appState.description}
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
-      <GradientButton
-        id="reset"
-        color="teal"
-        class="!p-2 "
-        on:click="{() => ($appState.textEditor = !$appState.textEditor)}"
-      >
-        <PenSolid />
-      </GradientButton>
-      <Tooltip
-        placement="top"
-        color="green"
-        trigger="hover"
-        triggeredBy="#reset">Reset</Tooltip
-      >
-
+ 
+    
       <GradientButton
         id="reset"
         color="lime"
         class="!p-2 "
         on:click="{resetNoteTaker}"
       >
-        <XCompanySolid class="cursor-pointer outline-none border-none" />
+       <CotateSolid class="cursor-pointer outline-none border-none"/>
       </GradientButton>
-      <Tooltip
-        placement="top"
-        color="green"
-        trigger="hover"
-        triggeredBy="#reset">Reset</Tooltip
-      >
+  
 
       <GradientButton
         id="clipBoard"

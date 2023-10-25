@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { NoteDTO } from "../../db/types.js";
+import { NoteDTO } from "../../db/types.js";
 import { dbService } from "../../db/service.js";
 
 export const initialAppState = {
@@ -41,14 +41,12 @@ export function resetAppState(note?: NoteDTO) {
   });
 }
 
-export const dbNotesLength = writable(0);
-
-export async function getTicketLength() {
-  try {
-    const notes = await dbService.notes.getAll();
-    dbNotesLength.set(notes.length);
-  } catch (error) {}
-}
+// export async function getTicketLength() {
+//   try {
+//     const notes = await dbService.notes.getAll();
+//     dbNotesLength.set(notes.length);
+//   } catch (error) {}
+// }
 
 export const templateState = writable({
   content: "",
@@ -57,3 +55,5 @@ export const templateState = writable({
 });
 
 export const timingButton = writable(false);
+
+export const notesHistory = writable<NoteDTO[]>([]);

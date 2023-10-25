@@ -1,119 +1,81 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-
-  import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
   import { readText } from "@tauri-apps/api/clipboard";
-  import { confirm } from "@tauri-apps/api/dialog";
-  import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
-  import { window } from "@tauri-apps/api";
   import TitleBar from "./lib/Components/TitleBar.svelte";
-  import { appState, resetAppState } from "./lib/stores/appState";
-  import { noteService } from "./lib/services/notes.js";
-  import { get } from "svelte/store";
+  import MenuSectionOne from "./lib/Components/MenuSectionOne.svelte";
+  import MenuSectionTwo from "./lib/Components/MenuSectionTwo.svelte";
   import MainNoteArea from "./lib/Components/MainNoteArea.svelte";
-  import { Alert } from "flowbite-svelte";
   import Notification from "./lib/Components/Notification.svelte";
+  import {
+  clipBoardText,
+    clipboardCheckInterval,
+    copyClipBoard,
+  
+  } from "./lib/stores/clipboard";
+  import { db } from "./db";
+  import { dbService } from "./db/service";
+  import { notesHistory } from "./lib/stores/appState";
 
-  let notesTextarea: string;
-  let clipBoardText: string | null;
+  // let clipBoardText: string | null;
 
-  window.appWindow.setDecorations(false);
+  // window.appWindow.setDecorations(false); // KEEP THIS FOR NOW JUST INCASE
 
-  const clipboardCheckInterval = setInterval(() => {
-    copyClipBoard();
-  }, 1000);
+  // const clipboardCheckInterval = setInterval(() => {
+  //   copyClipBoard();
+  // }, 1000);
+
+  // async function copyClipBoard() {
+  //   try {
+  //     const text = await readText();
+
+  //     if (text !== clipBoardText) {
+  //       clipBoardText = text;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error reading clipboard text:", error);
+  //   }
+  // }
+
+  const getAllNotes = async () => {
+    try {
+      const res = await dbService.notes.getAll();
+      $notesHistory = res;
+   
+      
+    } catch (error) {}
+  };
 
   onMount(async () => {
+    // copyClipBoard();
     copyClipBoard();
+    getAllNotes();
+ 
   });
-
-  async function handleKeyDown(event: any) {
-    $appState.timerOn = true;
-    const ctrlPressed = event.ctrlKey;
-    const shiftPressed = event.shiftKey;
-    const backspacePressed = event.key === "Backspace";
-
-    if (ctrlPressed && shiftPressed && backspacePressed) {
-      if (await confirm("Reset NoteTaker?")) {
-        resetAppState();
-      }
-    }
-  }
-
-  async function copyClipBoard() {
-    try {
-      const text = await readText();
-
-      if (text !== clipBoardText) {
-        clipBoardText = text;
-      }
-    } catch (error) {
-      console.error("Error reading clipboard text:", error);
-    }
-  }
-
   onDestroy(() => {
+    // clearInterval(clipboardCheckInterval);
     clearInterval(clipboardCheckInterval);
   });
-
-  // let conf = {
-  //       selector: "textarea",
-  //       height: "75vh",
-  //       width: "100vw",
-  //       statusbar: false,
-  //       resize: false,
-  //       min_height: 450,
-  //       max_height: 1000,
-  //       promotion:false,
-  //       autoresize_bottom_margin: 0,
-  //       plugins:
-  //         "ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss",
-  //       toolbar:
-  //         "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
-  //       tinycomments_mode: "embedded",
-  //       tinycomments_author: "Author name",
-  //       mergetags_list: [
-  //         { value: "First.Name", title: "First Name" },
-  //         { value: "Email", title: "Email" },
-  //       ]
-  //     }
-
-  let alertData = {
-    color: "red",
-    text: "ALERT",
-  };
 </script>
 
 <main class="pt-9">
   <TitleBar />
   <div class="main-container">
-    <div class="notes-and-sidebar-container">
-      <!-- <Editor></Editor> -->
+    <div class="flex justify-between bg-white h-4/5">
       <MainNoteArea />
     </div>
     <div
-      class="menu-container flex flex-col fixed bottom-0 items-end justify-end w-full pb-2 bg-black"
+      class="flex flex-col fixed bottom-0 items-end justify-end w-full pb-2 bg-black"
     >
-      <MenuSectionOne clipBoardText="{clipBoardText}" />
+      <MenuSectionOne clipBoardText="{$clipBoardText}" />
       <MenuSectionTwo />
     </div>
   </div>
 </main>
-<Notification  />
+<Notification />
 
 <style>
   .main-container {
     height: 94vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .notes-and-sidebar-container {
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
-
-    height: 80%;
   }
 
   .notes-area {
