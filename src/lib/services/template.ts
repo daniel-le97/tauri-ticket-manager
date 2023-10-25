@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { Template } from "../../db/types.js";
+import { Template, TemplateDTO } from "../../db/types.js";
 import * as State from "../stores/template.js";
 import { dbService } from "../../db/service.js";
 
@@ -15,6 +15,11 @@ class TemplateService {
 
   async deleteTemplate(id: number) {
     const deleted = await dbService.templates.deleteById(id);
+  }
+
+  async update(template: TemplateDTO){
+    
+
   }
 }
 

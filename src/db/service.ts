@@ -50,7 +50,7 @@ class DBService {
             return await db.select<NoteDTO[]>(`SELECT * FROM notes`)
         },
         async getSome(number: number, page: number){
-            return await db.select<NoteDTO[]>(`SELECT * FROM notes ORDER BY id DESC LIMIT $1 OFFSET ($2 -1) * 100`, [number, page])
+            return await db.select<NoteDTO[]>(`SELECT * FROM notes ORDER BY id DESC LIMIT $1 OFFSET ($2 - 1) * 100`, [number, page])
         },
         
         async getById(id: string | number){
@@ -114,7 +114,7 @@ class DBService {
             return await db.select<TemplateDTO[]>(`SELECT * FROM templates`)
         },
         async getById(id: string | number){
-            return await db.select<TemplateDTO>(`SELECT * FROM template where id = $1`, [id])
+            return (await db.select<TemplateDTO[]>(`SELECT * FROM template where id = $1`, [id]))[0]
         },
         async deleteById(id: number) {
           
@@ -122,16 +122,15 @@ class DBService {
             return await db.execute(`DELETE FROM templates where id = $1`, [id])
         },
         async update(template: TemplateDTO){
-            const foundChecklist = await this.getById(template.id)
             return await db.execute(
            `UPDATE 
             template 
           SET 
             title = $2,
             content = $3,
-            template = $4
+            tag = $4
           WHERE 
-            id = $1;`, [])
+            id = $1;`, [template.id, template.title, template.content, template.tag])
         },
         async create(template: Omit<Template, 'id' | 'created_at' | 'updated_at'>) {
             let { title, content, tag } = template
