@@ -19,9 +19,10 @@
   import { dbService } from "../../db/service";
   import { onDestroy, onMount } from "svelte";
   import { appState } from "../stores/appState";
-  import {ticketModal} from '../stores/modals'
+  import {settingModal, ticketModal} from '../stores/modals'
   import TicketHistory from "./TicketHistory.svelte";
   import { writable } from "svelte/store";
+  import Settings from "./Settings.svelte";
   let defaultModal = false;
   let scrollingModal = false;
   let informationModal = false;
@@ -74,7 +75,7 @@
   });
 </script>
 
-<div class="menu-section px-1">
+<div class="menu-section px-1 bg-transparent">
   <ul class="line-row space-x-1">
     <li class="line-item">
       <GradientButton
@@ -97,7 +98,7 @@
       <GradientButton
         color="green"
         class=" rounded-sm "
-        on:click="{() => (defaultModal = true)}">Settings</GradientButton
+        on:click="{() => ($settingModal = true)}">Settings</GradientButton
       >
     </li>
     <li class="line-item">
@@ -134,6 +135,12 @@
 
   <Modal size="lg" title="" bind:open="{$ticketModal}" autoclose>
     <TicketHistory />
+  </Modal>
+
+  <Modal size="lg" title="" bind:open="{$settingModal}" autoclose>
+    <!-- <TicketHistory />
+     -->
+     <Settings/>
   </Modal>
 
   <Drawer

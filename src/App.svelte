@@ -9,10 +9,12 @@
 
   import { dbService } from "./db/service";
   import { notesHistory } from "./lib/stores/appState";
+  import { window } from "@tauri-apps/api";
+  import { menuColor } from "./lib/stores/colorTheme";
 
   let clipBoardText: string | null;
 
-  // window.Window.setDecorations(false);
+  window.appWindow.setDecorations(false);
 
   const clipboardCheckInterval = setInterval(() => {
     copyClipBoard();
@@ -47,14 +49,14 @@
   });
 </script>
 
-<main class="pt-9">
+<main class="pt-9 " style="background-color: {$menuColor};">
   <TitleBar />
   <div class="main-container">
     <div class="flex justify-between bg-white h-4/5">
       <MainNoteArea />
     </div>
     <div
-      class="flex flex-col fixed bottom-0 items-end justify-end w-full pb-2 bg-black"
+      class="flex flex-col fixed bottom-0 items-end justify-end w-full pb-2  "
     >
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
@@ -64,6 +66,8 @@
 <Notification />
 
 <style>
+
+  
   .main-container {
     height: 94vh;
   }

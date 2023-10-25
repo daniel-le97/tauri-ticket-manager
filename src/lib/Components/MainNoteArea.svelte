@@ -15,11 +15,12 @@
     PapperPlaneOutline,
   } from "flowbite-svelte-icons";
   import { appState, resetAppState } from "../stores/appState";
-  
-import startTimer from './Timer.svelte'
+
+  import startTimer from "./Timer.svelte";
   import { noteService } from "../services/notes";
-    import { onMount } from "svelte";
-    import { dbService } from "../../db/service.js";
+  import { onMount } from "svelte";
+  import { dbService } from "../../db/service.js";
+  import { noteTakerColor } from "../stores/colorTheme";
 
   async function handleKeyDown(event: any) {
     // startTimer
@@ -29,34 +30,35 @@ import startTimer from './Timer.svelte'
     const backspacePressed = event.key === "Backspace";
 
     if (ctrlPressed && shiftPressed && backspacePressed) {
-      if ( confirm("Reset NoteTaker?")) {
+      if (confirm("Reset NoteTaker?")) {
         resetAppState();
       }
     }
   }
 
-  async function handleSave (event:KeyboardEvent){
-try {
-  await noteService.handleSave(event)
-} catch (error) {
-  
-}
+  async function handleSave(event: KeyboardEvent) {
+    try {
+      await noteService.handleSave(event);
+    } catch (error) {}
   }
 
-  onMount(async() => {
+  onMount(async () => {
     try {
-      const response = await noteService.getCurrentNote()
-      appState.set(response)
-    } catch (error) {
-      
-    }
-  })
+      const response = await noteService.getCurrentNote();
+      appState.set(response);
+    } catch (error) {}
+  });
 </script>
 
 {#if $appState.textEditor}
   <form class="w-full h-full">
     <label for="editor" class="sr-only">Publish post</label>
-    <Textarea  on:keydown="{handleSave}" id="editor"  class="mb-4 h-full rounded-none bg-zinc-900" placeholder="Write a comment">
+    <Textarea
+      on:keydown="{handleSave}"
+      id="editor"
+      class="mb-4 h-full rounded-none bg-zinc-900"
+      placeholder="Write a comment"
+    >
       <Toolbar slot="header" color="gray" embedded>
         <ToolbarGroup>
           <ToolbarButton name="Attach file"
@@ -82,14 +84,14 @@ try {
         >
       </Toolbar>
     </Textarea>
-
   </form>
 {:else}
   <textarea
     on:keydown="{handleKeyDown}"
-    class="notes-area bg-zinc-900"
+    class="notes-area"
     id="notes-area"
-    bind:value="{$appState.description}"></textarea>
+    bind:value="{$appState.description}"
+    style="background-color: {$noteTakerColor};"></textarea>
 {/if}
 
 <style scoped>

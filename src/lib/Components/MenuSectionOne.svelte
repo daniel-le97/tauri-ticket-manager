@@ -20,8 +20,6 @@
 
   export let clipBoardText: string | null;
 
-  
-
   const phoneRegex = /(\+\d{1,2}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
   const ticketRegex = /^TN\d{8}$/;
   const emailRegex = /[\w.-]+@[\w.-]+\.\w+/g;
@@ -145,7 +143,7 @@ ${$appState.description}
   });
 </script>
 
-<div class="menu-section p-1 py-2">
+<div class="menu-section p-1 py-2 bg-transparent">
   <ul class="line-row space-x-1 flex justify-start">
     <li class="line-item">
       <input
@@ -196,7 +194,10 @@ ${$appState.description}
     </li>
   </ul>
 
-  <Badge color="default" class="font-1 font-semibold text-base">Id:<span class="text-red-500">{$appState.id}</span> /{$notesHistory.length}</Badge>
+  <Badge color="none" class="font-1 font-semibold text-base"
+    >Id:<span class="text-red-500">{$appState.id}</span>
+    /{$notesHistory.length}</Badge
+  >
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
