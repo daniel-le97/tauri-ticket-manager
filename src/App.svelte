@@ -10,7 +10,7 @@
   import { dbService } from "./db/service";
   import { notesHistory } from "./lib/stores/appState";
   import { window } from "@tauri-apps/api";
-  import { activeTheme, themeColor } from "./lib/stores/colorTheme";
+  import { activeTheme, menuColor, themeColor } from "./lib/stores/colorTheme";
   import type { Theme } from "./db/types";
 
   let clipBoardText: string | null;
@@ -66,7 +66,7 @@
     <div class="flex justify-between h-full">
       <MainNoteArea />
     </div>
-    <div class="flex flex-col fixed bottom-0 w-full">
+    <div class="flex flex-col fixed bottom-0 w-full" style="background-color: {$activeTheme.menu_color};">
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>

@@ -66,7 +66,7 @@
   size="lg"
   title=""
   bind:open="{$settingModal}"
-  autoclose
+   outsideclose
   backdropClass="none"
 >
   <Settings />
