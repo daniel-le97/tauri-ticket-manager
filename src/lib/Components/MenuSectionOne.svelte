@@ -1,8 +1,15 @@
 <script lang="ts">
   import { writeText } from "@tauri-apps/api/clipboard";
-  import { Badge, Button, GradientButton, Tooltip } from "flowbite-svelte";
+  import {
+    Badge,
+    Button,
+    GradientButton,
+    Popover,
+    Tooltip,
+  } from "flowbite-svelte";
   import {
     ChevronLeftSolid,
+    ChevronRightOutline,
     ChevronRightSolid,
     ClipboardCheckSolid,
     CotateSolid,
@@ -116,6 +123,16 @@ ${$appState.description}
       logger()?.error(error);
     }
   }
+
+  async function skipToLatestTicket() {
+    try {
+    
+      
+      await noteService.getLatestNote();
+    } catch (error) {
+      logger()?.error(error);
+    }
+  }
 </script>
 
 <div class="menu-section p-1 py-2 bg-transparent">
@@ -149,9 +166,7 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.asset)}"
         placeholder="Asset # "
         bind:value="{$appState.asset}"
-        class="{$appState.asset.match(assetTagRegex)
-          ? 'bg-green-200'
-          : 'bg-white'} text-black"
+        class="{$appState.asset ? 'bg-green-200' : 'bg-white'} text-black"
       />
     </li>
   </ul>
@@ -159,6 +174,11 @@ ${$appState.description}
   <Badge color="none" class="font-1 font-semibold text-base"
     >Id:<span class="text-red-500">{$appState.id}</span>
     /{$notesHistory}</Badge
+  >
+  <Popover
+    ><Button on:click="{() => skipToLatestTicket()}"
+      ><ChevronRightOutline /></Button
+    ></Popover
   >
 
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">

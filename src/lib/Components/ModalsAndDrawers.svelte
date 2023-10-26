@@ -57,7 +57,7 @@
   <UsageGuide />
 </Modal>
 
-<Modal size="lg" title="" bind:open="{$ticketModal}" autoclose>
+<Modal size="xl" title="Ticket History" class="mt-6" bind:open="{$ticketModal}" autoclose>
   <TicketHistory />
 </Modal>
 

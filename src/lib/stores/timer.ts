@@ -13,8 +13,6 @@ export const timer = writable({
 
 
 
-
-
 export  function startTimer() {
     // Update the timer store state
     timer.update((state) => {

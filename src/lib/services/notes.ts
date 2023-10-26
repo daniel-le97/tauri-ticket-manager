@@ -92,7 +92,15 @@ class NoteService {
     }
 
 
-    
+    async getLatestNote(){
+        const latestNoteId = get(notesHistory)
+        const latestNote =  await dbService.notes.getById(latestNoteId)
+        const currentNote = await dbService.notes.getCurrent();
+         await dbService.notes.update(latestNote, 1);
+         await dbService.notes.update(currentNote, 0);
+         resetAppState(latestNote)
+    }
+
 }
 
 export const noteService = new NoteService()
