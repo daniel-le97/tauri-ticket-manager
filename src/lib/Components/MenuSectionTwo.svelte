@@ -77,20 +77,17 @@
     </li>
   </ul>
 
-  <div>
-    <TimerComponent/>
-  </div>
 
   <div class="flex items-end space-x-2 p-1 py-2">
     <Button
-      color="yellow"
-      class=" p-0 m-0 bg-transparent  "
-      on:click="{() => ($informationModal = true)}"
+    color="yellow"
+    class=" p-0 m-0 bg-transparent  "
+    on:click="{() => ($informationModal = true)}"
     >
-      <InfoCircleSolid size="lg" />
-      <Tooltip color="blue">How To Use</Tooltip>
-    </Button>
-    <Timer />
+    <InfoCircleSolid size="lg" />
+    <Tooltip color="blue">How To Use</Tooltip>
+  </Button>
+  <TimerComponent/>
   </div>
 
   <ModalsAndDrawers />

@@ -1,6 +1,6 @@
 <!-- ColorPicker.svelte -->
 <script lang="ts">
-  import { Button } from "flowbite-svelte";
+  import { Button, DarkMode } from "flowbite-svelte";
   import {
     activeTheme,
     menuColor,
@@ -50,7 +50,7 @@
 <div class="flex space-x-4 w-full items-end">
   <div class="flex flex-col w-2/3">
  
-    <div class="flex justify-start space-x-16 border-b !text-black">
+    <div class="flex justify-start space-x-16 border-b text-black dark:text-white">
       <span>Note Area</span>
       <span>Menu</span>
     </div>
@@ -152,6 +152,11 @@
             bind:value="{$menuColor}"
           />
         </div>
+      </div>
+      <div class="color-picker">
+      
+    <DarkMode/>
+   
       </div>
     </div>
 

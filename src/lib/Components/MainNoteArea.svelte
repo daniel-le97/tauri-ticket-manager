@@ -55,57 +55,22 @@
   });
 </script>
 
-{#if $appState.textEditor}
-  <form class="w-full h-full">
-    <label for="editor" class="sr-only">Publish post</label>
-    <Textarea
-      on:keydown="{handleSave}"
-      id="editor"
-      class="mb-4 h-full rounded-none bg-zinc-900"
-      placeholder="Write a comment"
-    >
-      <Toolbar slot="header" color="gray" embedded>
-        <ToolbarGroup>
-          <ToolbarButton name="Attach file"
-            ><PaperClipOutline class="w-5 h-5 rotate-45" /></ToolbarButton
-          >
-          <ToolbarButton name="Embed map"
-            ><MapPinAltSolid class="w-5 h-5" /></ToolbarButton
-          >
-          <ToolbarButton name="Upload image"
-            ><ImageOutline class="w-5 h-5" /></ToolbarButton
-          >
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarButton name="Format code"
-            ><CodeOutline class="w-5 h-5" /></ToolbarButton
-          >
-          <ToolbarButton name="Add emoji"
-            ><FaceGrinOutline class="w-5 h-5" /></ToolbarButton
-          >
-        </ToolbarGroup>
-        <ToolbarButton name="send" slot="end"
-          ><PapperPlaneOutline class="w-5 h-5 rotate-45" /></ToolbarButton
-        >
-      </Toolbar>
-    </Textarea>
-  </form>
-{:else}
+
   <textarea
     on:keydown="{handleKeyDown}"
-    class="notes-area"
+    class="notes-area text-white dark:text-black"
     id="notes-area"
     style="background-color: {$activeTheme?.note_color};"
     bind:value="{$appState.description}"
    ></textarea>
-{/if}
 
-<style scoped>
+
+<style >
   .notes-area {
     height: 80%;
     font-size: 16pt;
     width: 100%; /* Initially take up most of the width */
-    color: white;
+ 
     padding: 5px;
     padding-top: 40px;
     padding-right: 10px;

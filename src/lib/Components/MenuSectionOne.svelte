@@ -8,6 +8,7 @@
     Tooltip,
   } from "flowbite-svelte";
   import {
+    ChevronDoubleRightOutline,
     ChevronLeftSolid,
     ChevronRightOutline,
     ChevronRightSolid,
@@ -126,8 +127,6 @@ ${$appState.description}
 
   async function skipToLatestTicket() {
     try {
-    
-      
       await noteService.getLatestNote();
     } catch (error) {
       logger()?.error(error);
@@ -171,22 +170,22 @@ ${$appState.description}
     </li>
   </ul>
 
-  <Badge color="none" class="font-1 font-semibold text-base"
-    >Id:<span class="text-red-500">{$appState.id}</span>
-    /{$notesHistory}</Badge
-  >
-  <Popover
-    ><Button on:click="{() => skipToLatestTicket()}"
-      ><ChevronRightOutline /></Button
-    ></Popover
-  >
-
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
+      <Badge color="none" class="font-1 font-semibold text-base rounded-sm"
+        >Id:<span class="text-red-500">{$appState.id}</span>
+        /{$notesHistory}</Badge
+      >
+      <Popover>
+        
+        <Button class="p-2" on:click="{() => skipToLatestTicket()}"
+          ><ChevronDoubleRightOutline size="sm" /></Button
+        ></Popover
+      >
       <GradientButton
         id="reset"
         color="lime"
-        class="!p-2 "
+        class="!p-2 rounded-sm "
         on:click="{resetNoteTaker}"
       >
         <CotateSolid class="cursor-pointer outline-none border-none" />
@@ -195,7 +194,7 @@ ${$appState.description}
       <GradientButton
         id="clipBoard"
         color="pink"
-        class="!p-2 mr-4  "
+        class="!p-2 mr-4  rounded-sm"
         on:click="{copyEverything}"
       >
         <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
@@ -203,12 +202,12 @@ ${$appState.description}
     </div>
 
     <div class=" pl-2">
-      <Button class="!p-2" color="alternative" on:click="{prevNote}">
+      <Button class="!p-2 rounded-sm" color="alternative" on:click="{prevNote}">
         <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
       </Button>
       <Tooltip color="blue">Previous</Tooltip>
       <Button
-        class="!p-2"
+        class="!p-2 rounded-sm"
         color="alternative"
         on:click="{saveNote}"
         disabled="{$timingButton}"

@@ -1,5 +1,7 @@
 
 <script lang="ts">
+  import { Button } from 'flowbite-svelte';
+  import { CotateSolid, PauseSolid, PlaySolid, RestoreWindowSolid } from 'flowbite-svelte-icons';
   import { writable, derived } from 'svelte/store';
 
   // Timer state
@@ -52,21 +54,16 @@
   }
 </script>
 
-<div>
-  <h2>{$formattedTime}</h2>
-  <button on:click={startTimer} disabled={!$isPaused}>Start</button>
-  <button on:click={pauseTimer} disabled={$isPaused}>Pause</button>
-  <button on:click={resetTimer} disabled={$isPaused}>Reset</button>
+<div class="bg-white px-2 rounded-sm ">
+  <p class="text-center text-xs ">{$formattedTime}</p>
+  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={startTimer} disabled={!$isPaused}><PlaySolid size="sm"/></Button>
+  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={pauseTimer} disabled={$isPaused}><PauseSolid size="sm"/></Button>
+  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={resetTimer} disabled={$isPaused}><CotateSolid size="sm"/></Button>
 </div>
 
 <style>
   /* Add styles for the component here */
-  div {
-    background-color: #f0f0f0; /* Change the background color to a light gray */
-    padding: 20px; /* Add some padding for spacing */
-    border-radius: 10px; /* Add rounded corners to the container */
-    text-align: center; /* Center-align the content */
-  }
+
 
   h2 {
     font-size: 24px; /* Increase font size for the timer text */
@@ -83,9 +80,6 @@
     cursor: pointer; /* Show a pointer cursor on hover */
   }
 
-  button:disabled {
-    background-color: #c0c0c0; /* Change the background color of disabled buttons to gray */
-    cursor: not-allowed; /* Change cursor to not-allowed for disabled buttons */
-  }
+
 </style>
 

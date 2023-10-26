@@ -69,7 +69,7 @@
       <MainNoteArea />
     </div>
     <div
-      class="flex flex-col fixed bottom-0 w-full"
+      class="flex flex-col fixed bottom-0 w-full px-2 pb-2"
       style="background-color: {$activeTheme?.menu_color};"
     >
       <MenuSectionOne clipBoardText="{clipBoardText}" />

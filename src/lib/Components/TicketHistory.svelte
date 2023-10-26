@@ -154,6 +154,9 @@
  
   </ul>
 </Popover>
+
+
+
 <table class="rounded-md">
   <thead>
     <tr>
@@ -167,7 +170,7 @@
   </thead>
   {#if filteredTickets.length !== 0 && !loadingTickets}
     <tbody
-      class=" text-black transition-all duration-500 {getHighlightClass(
+      class=" text-black dark:text-white transition-all duration-500 {getHighlightClass(
         filterCriteria
       )}"
     >

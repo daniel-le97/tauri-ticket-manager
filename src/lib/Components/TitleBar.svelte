@@ -15,15 +15,44 @@
 <div data-tauri-drag-region class="titlebar">
   <div
     data-tauri-drag-region
-    class=" absolute left-3 space-x-4 flex items-center"
+    class=" absolute left-3  space-x-3 flex items-center"
   >
     <img
       data-tauri-drag-region
       src="src-tauri\icons\icon.png"
-      alt=""
+      alt="tauri"
       width="20"
     />
-    <span data-tauri-drag-region class="text-white">Tauri NoteTaker</span>
+      <img
+      data-tauri-drag-region
+      src="public\svelte.svg"
+      alt="svelte"
+      width="16"
+    />
+      <img
+      data-tauri-drag-region
+      src="public\vite.svg"
+      alt="vite"
+      width="18"
+    />
+ 
+      <img
+      data-tauri-drag-region
+      src="public\tailwind-css.svg"
+      alt="tailwind"
+      width="20"
+    />
+   <div class="flex">
+       <img
+      data-tauri-drag-region
+      src="https://cdn-icons-png.flaticon.com/128/657/657695.png"
+      alt="database"
+      width="18"
+    />
+     <span   data-tauri-drag-region class="  text-yellow-200 text-xs  flex items-center ">SQL</span>
+   </div>
+  
+    <span data-tauri-drag-region class="text-white">NoteTaker</span>
   </div>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
