@@ -22,23 +22,6 @@
   } from "../stores/modals";
   import ModalsAndDrawers from "./ModalsAndDrawers.svelte";
 
-  // let templates: TemplateDTO[];
-
-  // async function getTemplates() {
-  //   templates = await dbService.templates.getAll();
-  // }
-
-  // onMount(getTemplates);
-
-  // async function copyToClipboard(Template: string) {
-  //   const textToCopy = Template;
-  //   try {
-  //     await clipboard.writeText(textToCopy);
-  //   } catch (error) {
-  //     console.error("Error copying to clipboard:", error);
-  //   }
-  // }
-
   let currentTime = new Date().toLocaleString();
 
   function updateCurrentTime() {

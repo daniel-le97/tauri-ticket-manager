@@ -21,6 +21,7 @@
   import { onMount } from "svelte";
   import type { Theme } from "../../db/types";
   import { activeTheme } from "../stores/colorTheme";
+  import logger from "../utils/logger";
  
 
   async function handleKeyDown(event: any) {
@@ -40,14 +41,14 @@
   async function handleSave(event: KeyboardEvent) {
     try {
       await noteService.handleSave(event);
-    } catch (error) {}
+    } catch (error) {   logger()?.error(error)}
   }
 
   onMount(async () => {
     try {
       const response = await noteService.getCurrentNote();
       appState.set(response);
-    } catch (error) {}
+    } catch (error) {   logger()?.error(error)}
   });
 </script>
 

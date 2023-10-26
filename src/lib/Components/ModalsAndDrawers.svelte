@@ -18,6 +18,7 @@
   import { onMount } from "svelte";
   import ColorPicker from "./ColorPicker.svelte";
   import { activeTheme } from "../stores/colorTheme";
+  import logger from "../utils/logger";
 
   let templates: TemplateDTO[];
 
@@ -31,12 +32,16 @@
     try {
       await clipboard.writeText(textToCopy);
     } catch (error) {
-      console.error("Error copying to clipboard:", error);
+      logger()?.error(error);
     }
   }
 
   async function getTemplates() {
-    templates = await dbService.templates.getAll();
+    try {
+      templates = await dbService.templates.getAll();
+    } catch (error) {
+      logger()?.error(error);
+    }
   }
 
   onMount(getTemplates);
@@ -54,13 +59,7 @@
   <TicketHistory />
 </Modal>
 
-<Modal
-  size="lg"
-  title=""
-  bind:open="{$settingModal}"
-  outsideclose
-
->
+<Modal size="lg" title="" bind:open="{$settingModal}" outsideclose>
   <ColorPicker />
 </Modal>
 

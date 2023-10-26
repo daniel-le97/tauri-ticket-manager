@@ -23,6 +23,7 @@
   import { PenSolid, TrashBinSolid } from "flowbite-svelte-icons";
   import { confirm } from "@tauri-apps/api/dialog";
   import { get, writable } from "svelte/store";
+  import logger from "../utils/logger.js";
 
   let templates: TemplateDTO[];
 
@@ -38,7 +39,7 @@
       const template = await templateService.addTemplate();
       await getTemplates();
     } catch (error) {
-      // handle errors
+      logger()?.error(error)
     }
   }
 
@@ -46,7 +47,7 @@
     try {
      await templateService.update();
       await getTemplates();
-    } catch (error) {}
+    } catch (error) {   logger()?.error(error)}
   }
 
 
@@ -81,7 +82,7 @@
 
         await getTemplates();
       }
-    } catch (error) {}
+    } catch (error) {   logger()?.error(error)}
   }
 </script>
 

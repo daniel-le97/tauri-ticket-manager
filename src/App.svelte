@@ -10,8 +10,8 @@
   import { dbService } from "./db/service";
   import { notesHistory } from "./lib/stores/appState";
   import { window } from "@tauri-apps/api";
-  import { activeTheme, menuColor, themeColor } from "./lib/stores/colorTheme";
-  import type { Theme } from "./db/types";
+  import { activeTheme, themeColor } from "./lib/stores/colorTheme";
+  import logger from "./lib/utils/logger";
 
   let clipBoardText: string | null;
 
@@ -29,15 +29,17 @@
         clipBoardText = text;
       }
     } catch (error) {
-      console.error("Error reading clipboard text:", error);
+      logger()?.error(error);
     }
   }
 
   const getAllNotes = async () => {
     try {
-      const res = await dbService.notes.count()
+      const res = await dbService.notes.count();
       $notesHistory = res;
-    } catch (error) {}
+    } catch (error) {
+      logger()?.error(error);
+    }
   };
 
   const getThemes = async () => {
@@ -45,9 +47,9 @@
       const theme = await dbService.settings.getAll();
       $themeColor = theme;
       $activeTheme = theme.find((t) => t.active === 1)!;
-
-      // console.log(theme);
-    } catch (error) {}
+    } catch (error) {
+      logger()?.error(error);
+    }
   };
 
   onMount(async () => {
@@ -66,7 +68,10 @@
     <div class="flex justify-between h-full">
       <MainNoteArea />
     </div>
-    <div class="flex flex-col fixed bottom-0 w-full" style="background-color: {$activeTheme?.menu_color};">
+    <div
+      class="flex flex-col fixed bottom-0 w-full"
+      style="background-color: {$activeTheme?.menu_color};"
+    >
       <MenuSectionOne clipBoardText="{clipBoardText}" />
       <MenuSectionTwo />
     </div>

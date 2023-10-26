@@ -19,6 +19,7 @@
   import { alertState } from "../stores/alert";
   import { notification } from "@tauri-apps/api";
   import { dbService } from "../../db/service.js";
+  import logger from "../utils/logger";
 
   export let clipBoardText: string | null;
 
@@ -47,8 +48,7 @@
 
   async function copyEverything() {
     try {
-      let formattedNote = 
-`
+      let formattedNote = `
 Ticket: ${$appState.id}
 Time: ${$appState.timerCount}
 Date: ${new Date($appState.date).toLocaleString()}     
@@ -68,7 +68,7 @@ ${$appState.description}
       });
       await writeText(formattedNote);
     } catch (error) {
-      console.error("Error copying to clipboard:", error);
+      logger()?.error(error);
     }
   }
 
@@ -98,13 +98,12 @@ ${$appState.description}
     await writeText(event);
   }
 
-
-
-
   async function prevNote() {
     try {
       await noteService.prev();
-    } catch (error) {}
+    } catch (error) {
+      logger()?.error(error);
+    }
   }
   async function saveNote() {
     try {
@@ -113,10 +112,10 @@ ${$appState.description}
       }
 
       await noteService.next();
-    } catch (error) {}
+    } catch (error) {
+      logger()?.error(error);
+    }
   }
-
-
 </script>
 
 <div class="menu-section p-1 py-2 bg-transparent">

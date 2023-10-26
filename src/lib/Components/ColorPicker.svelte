@@ -12,19 +12,18 @@
   import { CheckCircleSolid, TrashBinSolid } from "flowbite-svelte-icons";
   import type { Theme } from "../../db/types.js";
   import { confirm } from "@tauri-apps/api/dialog";
-
+  import consola from "consola";
+  import logger from "../utils/logger";
   function updateNoteAreaColor(event: { target: { value: string } }) {}
 
   function updateMenuColor(event: { target: { value: string } }) {}
 
-
-
-
-
   async function saveTheme() {
     try {
       await themesService.createTheme();
-    } catch (error) {}
+    } catch (error) {
+      logger()?.error(error)
+    }
   }
 
   async function changeTheme(theme: Theme) {
@@ -33,24 +32,23 @@
         return;
       }
       await themesService.save(theme);
-    } catch (error) {}
+    } catch (error) {   logger()?.error(error)}
   }
 
   async function deleteTheme(themeId: number) {
     try {
-      // console.log(themeId);
 
       if (await confirm("Delete Theme?")) {
       }
 
       await themesService.deleteTheme(themeId);
       $themeColor = $themeColor.filter((theme) => theme.id !== themeId);
-    } catch (error) {}
+    } catch (error) {   logger()?.error(error)}
   }
 </script>
 
 <div class="flex space-x-4 w-full items-end">
-  <div class="flex flex-col w-2/3  ">
+  <div class="flex flex-col w-2/3">
     <div class="!text-black font-semibold font-1">Themes:</div>
     <div class="flex justify-start space-x-16 border-b !text-black">
       <span>Note Area</span>
@@ -128,40 +126,38 @@
       </div>
     </div>
 
-
-
     <!-- COLOR PICKER INPUTS -->
     <div class="flex space-x-4">
       <div class="color-picker">
-        <div class=" rounded-md shadow-md cursor-pointer hover:brightness-125 " style="background-color: {$noteColor};">
+        <div
+          class=" rounded-md shadow-md cursor-pointer hover:brightness-125"
+          style="background-color: {$noteColor};"
+        >
           <input
-            class=" p-0 m-0 outline-none border-none bg-transparent  cursor-pointer transition-all duration-300 hover:shadow-lg"
+            class=" p-0 m-0 outline-none border-none bg-transparent cursor-pointer transition-all duration-300 hover:shadow-lg"
             type="color"
             bind:value="{$noteColor}"
           />
         </div>
-
-   
       </div>
 
       <div class="color-picker">
-        <div class=" rounded-md shadow-md cursor-pointer hover:brightness-125" style="background-color: {$menuColor};">
+        <div
+          class=" rounded-md shadow-md cursor-pointer hover:brightness-125"
+          style="background-color: {$menuColor};"
+        >
           <input
-            class=" p-0 m-0 outline-none border-none bg-transparent  cursor-pointer transition-all duration-300 hover:shadow-lg"
+            class=" p-0 m-0 outline-none border-none bg-transparent cursor-pointer transition-all duration-300 hover:shadow-lg"
             type="color"
             bind:value="{$menuColor}"
           />
         </div>
-
-    
       </div>
     </div>
 
     <Button color="dark" class="w-fit" on:click="{saveTheme}"
       >Save as Theme</Button
     >
-
-
   </div>
 </div>
 

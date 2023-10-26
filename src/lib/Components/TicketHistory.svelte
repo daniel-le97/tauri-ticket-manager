@@ -7,6 +7,7 @@
   import { ticketModal } from "../stores/modals.js";
   import { Spinner } from "flowbite-svelte";
  import { ListPlaceholder } from 'flowbite-svelte';
+  import logger from "../utils/logger.js";
   let tickets: NoteDTO[] = [];
   let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
   let filterCriteria = "";
@@ -23,8 +24,8 @@
   async function getTickets() {
     try {
       tickets = await dbService.notes.getAll();
-      // console.log(filteredTickets);
-    } catch (error) {}
+
+    } catch (error) {   logger()?.error(error)}
   }
 
   function handleClick(ticket: NoteDTO) {
@@ -69,7 +70,7 @@
     });
 
     if (filteredTickets.length === 0) {
-      noValidSearch = true; // Set noValidSearch to false to display the spinner
+      noValidSearch = true; // Set noValidSearch to true to display the spinner
     }
   }
 </script>
