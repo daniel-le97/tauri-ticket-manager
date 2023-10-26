@@ -70,25 +70,14 @@ class DBService {
             return this.getById(newNote.lastInsertId)
         },
         async getCurrent(){
-            return (await db.select<NoteDTO[]>(`SELECT * from notes where current = 1`))[0]
+            const current = (await db.select<NoteDTO[]>(`SELECT * from notes where current = 1 LIMIT 1;`))[0]
+            return current
         },
-        async getPrevious () {
-            const response = ( await db.select<NoteDTO[]>( `SELECT n1.*
-            FROM notes AS n1
-            JOIN notes AS n2 ON n1.created_at < n2.created_at
-            WHERE n2.current = 1
-            ORDER BY n1.created_at DESC;`) )[ 0 ];
-            return response;
+        async getPrevious ( id: number ) {
+            return ( await db.select<NoteDTO[]>( `SELECT * FROM notes WHERE id < ? ORDER BY id DESC LIMIT 1;`, [ id ] ) )[0]
         },
-        async getNext () {
-            const response = (await db.select<NoteDTO[]>(`SELECT n1.*
-    FROM notes AS n1
-    JOIN notes AS n2 ON n1.created_at > n2.created_at
-    WHERE n2.current = 1
-       OR (n2.current = 1 AND n1.id > n2.id)
-       OR (n2.current = 1 AND n1.id = n2.id)  -- Include the same ID
-    ORDER BY n1.created_at ASC, n1.id ASC;
-  `))[0];
+        async getNext(id:number) {
+            const response = (await db.select<NoteDTO[]>(`SELECT * FROM notes WHERE id > $1 ORDER BY id ASC LIMIT 1;`, [id]))[0]
             return response;
         },
         async update ( note: NoteDTO, current?: number ) {
@@ -117,8 +106,6 @@ class DBService {
             return (await db.select<TemplateDTO[]>(`SELECT * FROM template where id = $1`, [id]))[0]
         },
         async deleteById(id: number) {
-          
-            
             return await db.execute(`DELETE FROM templates where id = $1`, [id])
         },
         async update(template: TemplateDTO){
@@ -135,7 +122,7 @@ class DBService {
         async create(template: Omit<Template, 'id' | 'created_at' | 'updated_at'>) {
             let { title, content, tag } = template
           
-            const response =  (await db.execute("INSERT into templates (title, content, tag) VALUES ($1, $2, $3)", [title, content, tag]))
+            const response = (await db.execute("INSERT into templates (title, content, tag) VALUES ($1, $2, $3)", [title, content, tag]))
             if (response.rowsAffected === 0) {
             //   dialog.message("there was an issue creating the template please submit again")
             }

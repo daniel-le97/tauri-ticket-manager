@@ -37,7 +37,7 @@ class NoteService {
 
     async next () {
         const note = await this.save();
-        let nextNote = await dbService.notes.getNext();
+        let nextNote = await dbService.notes.getNext(note.id);
 
         if ( nextNote )
         {
@@ -59,7 +59,7 @@ class NoteService {
     }
     async prev () {
         const note = new NoteDTO( get( appState ) );
-        const previousNote = await dbService.notes.getPrevious();
+        const previousNote = await dbService.notes.getPrevious(note.id);
         if ( previousNote )
         {
             // console.log( 'previous note found' );
@@ -69,6 +69,7 @@ class NoteService {
             resetAppState( { ...previousNote, current: 1 } );
             return;
         }
+        throw new Error('unable to find previous note')
         // console.log( 'previous note not found' );
 
     }
