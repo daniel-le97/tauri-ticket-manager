@@ -49,7 +49,7 @@
   onMount(getTemplates);
 </script>
 
-<Modal class="mt-8  " size="xl" bind:open="{$templateModal}">
+<Modal class="mt-8  " size="xl" title="Templates" bind:open="{$templateModal}">
   <Templates />
 </Modal>
 
@@ -61,7 +61,7 @@
   <TicketHistory />
 </Modal>
 
-<Modal size="lg" title="" bind:open="{$settingModal}" outsideclose>
+<Modal size="lg" title="Themes" bind:open="{$settingModal}" outsideclose>
   <ColorPicker />
 </Modal>
 

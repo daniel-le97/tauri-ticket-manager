@@ -49,7 +49,7 @@
 
 <div class="flex space-x-4 w-full items-end">
   <div class="flex flex-col w-2/3">
-    <div class="!text-black font-semibold font-1">Themes:</div>
+ 
     <div class="flex justify-start space-x-16 border-b !text-black">
       <span>Note Area</span>
       <span>Menu</span>

@@ -60,7 +60,7 @@
       <GradientButton
         color="green"
         class=" rounded-sm "
-        on:click="{() => ($settingModal = true)}">Settings</GradientButton
+        on:click="{() => ($settingModal = true)}">Themes</GradientButton
       >
     </li>
     <li class="line-item">
