@@ -56,16 +56,11 @@
 
   async function copyEverything() {
     try {
-      let formattedNote = `
-Ticket: ${$appState.id}
-Time: ${$appState.timerCount}
-Date: ${new Date($appState.date).toLocaleString()}     
-Email: ${$appState.email}
-Phone: ${$appState.phone}
-Asset: ${$appState.asset}
+let formattedNote = `Ticket: ${$appState.id}
+Date: ${new Date().toLocaleString()}     
+${$appState.email ? `Email: ${$appState.email}\n` : ''}${$appState.phone ? `Phone: ${$appState.phone}\n` : ''}${$appState.asset ? `Asset: ${$appState.asset}\n` : ''}
 
 ${$appState.description}
-
 `;
 
       alertState.set({
@@ -177,7 +172,6 @@ ${$appState.description}
         /{$notesHistory}</Badge
       >
       <Popover>
-        
         <Button class="p-2" on:click="{() => skipToLatestTicket()}"
           ><ChevronDoubleRightOutline size="sm" /></Button
         ></Popover
@@ -199,6 +193,7 @@ ${$appState.description}
       >
         <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
       </GradientButton>
+         <Tooltip >Copy</Tooltip>
     </div>
 
     <div class=" pl-2">
@@ -218,6 +213,7 @@ ${$appState.description}
     </div>
   </div>
 </div>
+
 
 <style>
   input {

@@ -1,17 +1,10 @@
 <script lang="ts">
-  import { clipboard } from "@tauri-apps/api";
   import {
     Button,
     GradientButton,
     Tooltip,
   } from "flowbite-svelte";
-
-  import Timer from "./Timer.svelte";
   import { InfoCircleSolid } from "flowbite-svelte-icons";
-
-  import { sineIn } from "svelte/easing";
-  import type { TemplateDTO } from "../../db/types";
-  import { dbService } from "../../db/service";
   import { onDestroy, onMount } from "svelte";
   import {
     informationModal,
@@ -21,8 +14,10 @@
     ticketModal,
   } from "../stores/modals";
   import ModalsAndDrawers from "./ModalsAndDrawers.svelte";
-    import TimerComponent from "./TimerComponent.svelte";
+  import TimerComponent from "./TimerComponent.svelte";
 
+
+  
   let currentTime = new Date().toLocaleString();
 
   function updateCurrentTime() {

@@ -3,6 +3,7 @@
   import { Button } from 'flowbite-svelte';
   import { CotateSolid, PauseSolid, PlaySolid, RestoreWindowSolid } from 'flowbite-svelte-icons';
   import { writable, derived } from 'svelte/store';
+  import { appState } from '../stores/appState';
 
   // Timer state
   const initialTime = 0;
@@ -22,6 +23,7 @@
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   });
 
+ 
   // Function to start the timer
   function startTimer() {
     if (!isRunning) {
