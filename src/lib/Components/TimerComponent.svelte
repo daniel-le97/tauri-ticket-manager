@@ -56,7 +56,7 @@
   }
 </script>
 
-<div class="bg-white px-2 rounded-sm ">
+<div class=" px-2 rounded-sm {$isPaused? 'bg-white' :'bg-green-300'}">
   <p class="text-center text-xs ">{$formattedTime}</p>
   <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={startTimer} disabled={!$isPaused}><PlaySolid size="sm"/></Button>
   <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={pauseTimer} disabled={$isPaused}><PauseSolid size="sm"/></Button>

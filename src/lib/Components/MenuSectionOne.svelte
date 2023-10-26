@@ -56,9 +56,11 @@
 
   async function copyEverything() {
     try {
-let formattedNote = `Ticket: ${$appState.id}
+      let formattedNote = `Ticket: ${$appState.id}
 Date: ${new Date().toLocaleString()}     
-${$appState.email ? `Email: ${$appState.email}\n` : ''}${$appState.phone ? `Phone: ${$appState.phone}\n` : ''}${$appState.asset ? `Asset: ${$appState.asset}\n` : ''}
+${$appState.email ? `Email: ${$appState.email}\n` : ""}${
+        $appState.phone ? `Phone: ${$appState.phone}\n` : ""
+      }${$appState.asset ? `Asset: ${$appState.asset}\n` : ""}
 
 ${$appState.description}
 `;
@@ -169,13 +171,12 @@ ${$appState.description}
     <div class="flex space-x-3">
       <Badge color="none" class="font-1 font-semibold text-base rounded-sm"
         >Id:<span class="text-red-500">{$appState.id}</span>
-        /{$notesHistory}</Badge
+        /
+        <button class="p-1 hover:bg-gray-300 rounded-md" on:click="{() => skipToLatestTicket()}"
+          >{$notesHistory}</button
+        ></Badge
       >
-      <Popover>
-        <Button class="p-2" on:click="{() => skipToLatestTicket()}"
-          ><ChevronDoubleRightOutline size="sm" /></Button
-        ></Popover
-      >
+
       <GradientButton
         id="reset"
         color="lime"
@@ -193,7 +194,7 @@ ${$appState.description}
       >
         <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
       </GradientButton>
-         <Tooltip >Copy</Tooltip>
+      <Tooltip>Copy</Tooltip>
     </div>
 
     <div class=" pl-2">
@@ -213,7 +214,6 @@ ${$appState.description}
     </div>
   </div>
 </div>
-
 
 <style>
   input {
