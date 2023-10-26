@@ -44,19 +44,12 @@
 
   async function handleEdit() {
     try {
-      const template = await templateService.update();
+     await templateService.update();
       await getTemplates();
     } catch (error) {}
   }
 
-  async function copyToClipboard(Template: string) {
-    const textToCopy = Template;
-    try {
-      await clipboard.writeText(textToCopy);
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-    }
-  }
+
 
   async function editTemplate(template: TemplateDTO) {
     try {
@@ -94,7 +87,6 @@
 
 <div class="  flex p-3 space-x-3 relative">
   <div class=" w-1/2 flex flex-col space-y-3">
-    <!-- {#if !$editingTemplate} -->
     <div class="text-base font-semibold">Create Template</div>
 
     <div class="sticky top-0">
@@ -114,14 +106,14 @@
             size="sm"
             bind:value="{$title}"
             placeholder="Title"
-            class="w-1/3 bg-red-100"
+            class="w-1/3 {$editingTemplate? "bg-red-200" : ""}"
             id="new-title"
           />
         </div>
         <div class="flex">
           <Input
             type="text"
-            class="w-1/3 bg-red-100"
+            class="w-1/3 "
             size="sm"
             bind:value="{$tag}"
             placeholder="Tag"
@@ -137,7 +129,7 @@
             minlength="1"
             bind:value="{$content}"
             placeholder="Add Content"
-            class="bg-red-100"
+            class=""
             id="new-Template"
           />
         </div>
@@ -149,14 +141,11 @@
       </form>
        
     </div>
-    <!-- {/if} -->
+
   </div>
 
-  <div class="mt-4 w-1/2">
+  <div class=" w-1/2">
     <span class="text=xl font-semibold mb-4">Templates:</span>
-    <!-- <Button color="red" on:click="{() => (editMode = !editMode)}"
-      >Edit Templates</Button
-    > -->
 
     {#if templates}
       <ul class="mt-4 flex gap-2 flex-wrap">
@@ -189,28 +178,5 @@
   </div>
 </div>
 
-<!-- 
-
-
- {#if templates && !editMode}
-      <ul class="mt-4 flex gap-2 flex-wrap">
-        {#each templates as template (template.id)}
-          <li>
-            <GradientButton
-              shadow
-              color="blue"
-              on:click="{() => copyToClipboard(template.content)}"
-            >
-              {template.title}</GradientButton
-            >
-            <Popover  placement="top" class="w-80 text-sm">
-              <div><pre>{@html template.content}</pre></div>
-            </Popover>
-          </li>
-        {/each}
-      </ul>
-    {:else }
-
- -->
 <style>
 </style>

@@ -17,30 +17,24 @@
   import { noteService } from "../services/notes.js";
   import { onMount } from "svelte";
   import { alertState } from "../stores/alert";
-    import { notification } from "@tauri-apps/api";
-    import { dbService } from "../../db/service.js";
+  import { notification } from "@tauri-apps/api";
+  import { dbService } from "../../db/service.js";
 
   export let clipBoardText: string | null;
 
   const phoneRegex = /(\+\d{1,2}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
-  const ticketRegex = /^TN\d{8}$/;
   const emailRegex = /[\w.-]+@[\w.-]+\.\w+/g;
   const assetTagRegex = /^[A-Za-z]{4}\d{8}$/;
-
+  $: {
+    if (clipBoardText) {
+      watchClipboardChanges();
+    }
+  }
   const watchClipboardChanges = async () => {
     try {
       const emailMatches = clipBoardText?.match(emailRegex);
       if (emailMatches) {
         $appState.email = emailMatches[0];
-      }
-      // const phoneMatches = clipBoardText?.match(phoneRegex);
-      // if (phoneMatches) {
-      //   $appState.phone = phoneMatches[0];
-      // }
-
-      const ticketMatches = clipBoardText?.match(ticketRegex);
-      if (ticketMatches) {
-        $appState.ticket = ticketMatches[0];
       }
       const assetTagMatches = clipBoardText?.match(assetTagRegex);
       if (assetTagMatches) {
@@ -53,12 +47,14 @@
 
   async function copyEverything() {
     try {
-      let formattedNote = `Time: ${$appState.timerCount}
+      let formattedNote = 
+`
+Ticket: ${$appState.id}
+Time: ${$appState.timerCount}
 Date: ${new Date($appState.date).toLocaleString()}     
 Email: ${$appState.email}
 Phone: ${$appState.phone}
 Asset: ${$appState.asset}
-Ticket: ${$appState.ticket}
 
 ${$appState.description}
 
@@ -77,13 +73,13 @@ ${$appState.description}
   }
 
   async function resetNoteTaker() {
-    const count = await dbService.notes.count()
+    const count = await dbService.notes.count();
     console.log(count);
-    
+
     if (await confirm("Reset Note?")) {
-      const note = await noteService.save(true)
+      const note = await noteService.save(true);
       await writeText("");
-      resetAppState(note)
+      resetAppState(note);
       alertState.set({
         color: "green",
         text: "Note Taker Reset",
@@ -102,6 +98,14 @@ ${$appState.description}
     await writeText(event);
   }
 
+
+
+
+  async function prevNote() {
+    try {
+      await noteService.prev();
+    } catch (error) {}
+  }
   async function saveNote() {
     try {
       if ($timingButton) {
@@ -109,25 +113,10 @@ ${$appState.description}
       }
 
       await noteService.next();
-      // await getTicketLength();
     } catch (error) {}
   }
 
-  $: {
-    if (clipBoardText) {
-      watchClipboardChanges();
-    }
-  }
 
-  async function prevNote() {
-    try {
-      await noteService.prev();
-    } catch (error) {}
-  }
-
-  onMount(() => {
-    // getTicketLength();
-  });
 </script>
 
 <div class="menu-section p-1 py-2 bg-transparent">
@@ -143,30 +132,6 @@ ${$appState.description}
           : 'bg-white'} text-black"
       />
     </li>
-
-    <li class="line-item">
-      <input
-        type="text"
-        on:dblclick="{() => handleDoubleClick($appState.asset)}"
-        placeholder="Asset # "
-        bind:value="{$appState.asset}"
-        class="{$appState.asset.match(assetTagRegex)
-          ? 'bg-green-200'
-          : 'bg-white'} text-black"
-      />
-    </li>
-
-    <li class="line-item">
-      <input
-        type="text"
-        on:dblclick="{() => handleDoubleClick($appState.ticket)}"
-        placeholder="Ticket #"
-        bind:value="{$appState.ticket}"
-        class="{$appState.ticket.match(ticketRegex)
-          ? 'bg-green-200'
-          : 'bg-white'} text-black"
-      />
-    </li>
     <li class="line-item">
       <input
         type="text"
@@ -175,6 +140,17 @@ ${$appState.description}
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
         class="{$appState.phone.toString().match(phoneRegex)
+          ? 'bg-green-200'
+          : 'bg-white'} text-black"
+      />
+    </li>
+    <li class="line-item">
+      <input
+        type="text"
+        on:dblclick="{() => handleDoubleClick($appState.asset)}"
+        placeholder="Asset # "
+        bind:value="{$appState.asset}"
+        class="{$appState.asset.match(assetTagRegex)
           ? 'bg-green-200'
           : 'bg-white'} text-black"
       />
@@ -239,7 +215,7 @@ ${$appState.description}
   }
   input:focus {
     border-bottom: #ff5733 2px solid;
-    outline:none
+    outline: none;
   }
   .menu-section {
     width: 100%;
