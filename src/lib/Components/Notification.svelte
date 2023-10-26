@@ -26,7 +26,7 @@
 
 {#if $alertState.visible}
   <div
-    class="absolute bottom-32 right-12 justify-center"
+    class="absolute  top-12 right-12 justify-center"
     transition:fade="{{ duration: 300 }}"
   >
     <Alert color="{$alertState.color}">

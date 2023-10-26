@@ -16,17 +16,20 @@
   } from "flowbite-svelte-icons";
   import { appState, resetAppState } from "../stores/appState";
 
-  import startTimer from "./Timer.svelte";
+
   import { noteService } from "../services/notes";
   import { onMount } from "svelte";
   import type { Theme } from "../../db/types";
   import { activeTheme } from "../stores/colorTheme";
   import logger from "../utils/logger";
+  import { startTimer } from "../stores/timer";
+ 
  
 
+  
   async function handleKeyDown(event: any) {
-    // startTimer
-    $appState.timerOn = true;
+   
+   startTimer()
     const ctrlPressed = event.ctrlKey;
     const shiftPressed = event.shiftKey;
     const backspacePressed = event.key === "Backspace";

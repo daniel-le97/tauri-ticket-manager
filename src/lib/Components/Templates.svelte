@@ -36,7 +36,7 @@
   }
   async function addTemplate() {
     try {
-      const template = await templateService.addTemplate();
+      await templateService.addTemplate();
       await getTemplates();
     } catch (error) {
       logger()?.error(error)

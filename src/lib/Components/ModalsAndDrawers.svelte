@@ -6,7 +6,6 @@
     templateModal,
     ticketModal,
   } from "../stores/modals";
-
   import { GradientButton, Modal, Drawer, Popover } from "flowbite-svelte";
   import Templates from "./Templates.svelte";
   import UsageGuide from "./UsageGuide.svelte";
@@ -17,16 +16,19 @@
   import { dbService } from "../../db/service";
   import { onMount } from "svelte";
   import ColorPicker from "./ColorPicker.svelte";
-  import { activeTheme } from "../stores/colorTheme";
   import logger from "../utils/logger";
 
-  let templates: TemplateDTO[];
 
+
+  let templates: TemplateDTO[];
   let transitionParamsRight = {
     x: 320,
     duration: 200,
     easing: sineIn,
   };
+
+
+
   async function copyToClipboard(Template: string) {
     const textToCopy = Template;
     try {

@@ -4,50 +4,55 @@
   import { CirclePauseSolid, ClockOutline } from "flowbite-svelte-icons";
 
   import { appState } from "../stores/appState.js";
+  import { pauseTimer, startTimer, timer } from "../stores/timer.js";
 
-  let totalSeconds = 0;
-  // let formattedTime = "00:00:00";
-  let timerStart: any;
 
- export const startTimer = ()=> {
-    $appState.timerOn = true;
-    timerStart = setInterval(() => {
-      totalSeconds++;
-    }, 1000);
-  }
 
-  function pauseTimer() {
-    $appState.timerOn = false;
-    clearInterval(timerStart);
-  
-  }
+  // function startTimer() {
+  //   // Update the timer store state
+  //   timer.update((state) => {
+  //     state.timerOn = true;
+  //     state.timerStart = setInterval(() => {
+  //       state.totalSeconds++;
+  //     }, 1000);
+  //     return state;
+  //   });
+  // }
+
+  // function pauseTimer() {
+  //   // Update the timer store state
+  //   timer.update((state) => {
+  //     state.timerOn = false;
+  //     clearInterval(state.timerStart);
+  //     return state;
+  //   });
+  // }
 
   $: {
-    // if ($appState.timerOn == true) {
-    //  startTimer() 
-    // }
-    // if ($appState.timerOn == false) {
-    //   pauseTimer()
-    // }
+    // Calculate the formatted time and update the timer store state
+    const { totalSeconds } = $timer;
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    $appState.formattedTime = `${hours < 10 ? "0" : ""}${hours}:${
-      minutes < 10 ? "0" : ""
-    }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    $appState.timerCount = $appState.formattedTime;
+    timer.update((state) => {
+      state.formattedTime = `${hours < 10 ? '0' : ''}${hours}:${
+        minutes < 10 ? '0' : ''
+      }${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      state.timerCount = state.formattedTime;
+      return state;
+    });
   }
 </script>
 
 <GradientButton
-  color="{$appState.timerOn ? 'green' : 'red'}"
-  class="space-x-2  p-2  rounded-sm "
-  on:click="{$appState.timerOn ? pauseTimer : startTimer}"
+  color="{$timer.timerOn ? 'green' : 'red'}"
+  class="space-x-2 p-2 rounded-sm"
+  on:click="{$timer.timerOn ? pauseTimer : startTimer}"
 >
-  {#if $appState.timerOn}
+  {#if $timer.timerOn}
     <CirclePauseSolid />
   {:else}
     <ClockOutline />
   {/if}
-  <p>{$appState.formattedTime}</p>
+  <p>{$timer.formattedTime}</p>
 </GradientButton>
