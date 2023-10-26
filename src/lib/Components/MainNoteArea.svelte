@@ -1,25 +1,7 @@
 <script lang="ts">
-  import {
-    Textarea,
-    Toolbar,
-    ToolbarGroup,
-    ToolbarButton,
-    Button,
-  } from "flowbite-svelte";
-  import {
-    PaperClipOutline,
-    MapPinAltSolid,
-    ImageOutline,
-    CodeOutline,
-    FaceGrinOutline,
-    PapperPlaneOutline,
-  } from "flowbite-svelte-icons";
   import { appState, resetAppState } from "../stores/appState";
-
-
   import { noteService } from "../services/notes";
   import { onMount } from "svelte";
-  import type { Theme } from "../../db/types";
   import { activeTheme } from "../stores/colorTheme";
   import logger from "../utils/logger";
   import { startTimer } from "../stores/timer";
@@ -41,11 +23,11 @@
     }
   }
 
-  async function handleSave(event: KeyboardEvent) {
-    try {
-      await noteService.handleSave(event);
-    } catch (error) {   logger()?.error(error)}
-  }
+  // async function handleSave(event: KeyboardEvent) {
+  //   try {
+  //     await noteService.handleSave(event);
+  //   } catch (error) {   logger()?.error(error)}
+  // }
 
   onMount(async () => {
     try {
@@ -58,7 +40,7 @@
 
   <textarea
     on:keydown="{handleKeyDown}"
-    class="notes-area text-white dark:text-black"
+    class="notes-area text-white border-none outline-none dark:text-black focus:outline-none focus:border-4 focus:border-orange-400  "
     id="notes-area"
     style="background-color: {$activeTheme?.note_color};"
     bind:value="{$appState.description}"
@@ -78,7 +60,5 @@
     resize: none;
   }
 
-  .notes-area:focus {
-    outline: none;
-  }
+ 
 </style>
