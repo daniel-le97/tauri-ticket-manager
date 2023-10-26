@@ -34,6 +34,8 @@ Troubleshooting Steps:
 -------------------------------'
 );
 
+SELECT * FROM notes WHERE asset LIKE "%Ass%";
+
 drop TABLE notes;
 DROP TABLE templates;
 

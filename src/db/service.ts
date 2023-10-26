@@ -7,6 +7,61 @@ import { defu } from 'defu'
 // import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
 
+class Query {
+    conditions: string[] = [];
+    params: any[] = [];
+    conditionIndex: number = 1;
+
+    constructor() {
+    }
+
+    getNextConditionIndex() {
+        return this.conditionIndex++;
+    }
+
+    parse(searchCriteria: Record<string, string>) {
+        if (searchCriteria.description) {
+            this.conditions.push(`description LIKE $${this.getNextConditionIndex()}`);
+            this.params.push(`%${searchCriteria.description}%`);
+        }
+
+        if (searchCriteria.phone !== undefined) {
+            this.conditions.push(`phone LIKE $${this.getNextConditionIndex()}`);
+            this.params.push(`%${searchCriteria.phone}%`);
+        }
+
+        if (searchCriteria.asset) {
+            this.conditions.push(`asset LIKE $${this.getNextConditionIndex()}`);
+            this.params.push(`%${searchCriteria.asset}%`);
+        }
+
+        if (searchCriteria.email) {
+            this.conditions.push(`email LIKE $${this.getNextConditionIndex()}`);
+            this.params.push(`%${searchCriteria.email}%`);
+        }
+        if (searchCriteria.id) {
+            this.conditions.push(`id LIKE $${this.getNextConditionIndex()}`);
+            this.params.push(`%${searchCriteria.id}%`);
+        }
+        if (searchCriteria.date) {
+            this.conditions.push(`created_at LIKE $${this.getNextConditionIndex()}`);
+            this.params.push(`%${searchCriteria.date}%`);
+        }
+
+        if (searchCriteria.current !== undefined) {
+            this.conditions.push(`current = $${this.getNextConditionIndex()}`);
+            this.params.push(searchCriteria.current);
+        }
+
+        let query = "SELECT * FROM notes";
+        if (this.conditions.length > 0) {
+            query += " WHERE " + this.conditions.join(" AND ");
+        }
+        return { query, params: this.params };
+    }
+}
+
+
 class DBService {
     settings = {
         async getAll(){
@@ -42,6 +97,12 @@ class DBService {
         }
     }
     notes = {
+        async search ( searchCriteria: Record<string,string> ) {
+            const newQuery = new Query()
+            const query = newQuery.parse(searchCriteria)
+            // return query
+            return {items:await db.select(query.query, query.params), conditions:query.query, params: query.params}
+        },
         async count(){
             type Count = {"COUNT(*)": number}
             return (await db.select<Count[]>(`SELECT COUNT(*) FROM notes`))[0]["COUNT(*)"]

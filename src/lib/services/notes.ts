@@ -1,6 +1,5 @@
 import { get } from "svelte/store";
-import { Note, NoteDTO, Template } from "../../db/types.js";
-import * as State from "../stores/template.js";
+import { Note, NoteDTO } from "../../db/types.js";
 import { dbService } from "../../db/service.js";
 import {
   appState,
@@ -8,9 +7,30 @@ import {
   resetAppState,
   timingButton,
 } from "../stores/appState.js";
-import defu from "defu";
+
 
 class NoteService {
+  async search(query:string){
+    // console.log(query);
+    const searchParams = new URLSearchParams(query);
+    // console.log(searchParams);
+    
+let searchCriteria: Record<string, string> = {}
+
+for (const [key, value] of searchParams.entries()) {
+  searchCriteria[key.toLowerCase()] = value;
+}
+ const res = await dbService.notes.search(searchCriteria)
+ console.log(res.conditions);
+ console.log(res.params);
+ 
+ return res.items as NoteDTO[]
+ 
+
+
+    
+    // const res = await dbService.notes.search()
+  }
   async handleSave(event: KeyboardEvent) {
     if ((event.metaKey || event.ctrlKey) && event.key === "s") {
       const noteInDb = await dbService.notes.getAll();

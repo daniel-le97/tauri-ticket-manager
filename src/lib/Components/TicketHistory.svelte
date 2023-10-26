@@ -9,13 +9,15 @@
   import { ListPlaceholder } from "flowbite-svelte";
   import logger from "../utils/logger.js";
   import { CheckOutline, CloseOutline, InfoCircleSolid } from "flowbite-svelte-icons";
+    import { noteService } from "../services/notes.js";
   let tickets: NoteDTO[] = [];
   let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
   let filterCriteria = "";
   let noValidSearch = false;
   let loadingTickets = true;
   onMount(async () => {
-    await getTickets();
+    // await getTickets();
+    debounce()
 
     // Initialize filteredTickets with all tickets
     filteredTickets = tickets;
@@ -76,21 +78,34 @@
   }
 
   function getHighlightClass(filterCriteria: string) {
-    if (filterCriteria.startsWith("id=")) {
-      return "bg-blue-300"; // Use the class for ID
-    } else if (filterCriteria.startsWith("phone=")) {
-      return "bg-green-300"; // Use the class for Phone
-    } else if (filterCriteria.startsWith("email=")) {
-      return "bg-red-300"; // Use the class for Email
-    } else if (filterCriteria.startsWith("description=")) {
-      return "bg-purple-300"; // Use the class for Description
-    } else if (filterCriteria.startsWith("asset=")) {
-      return "bg-yellow-300"; // Use the class for Asset
-    } else if (filterCriteria.startsWith("date=")) {
-      return "bg-orange-300"; // Use the class for Date
+    switch (true) {
+      case filterCriteria.startsWith("id="):
+        return "bg-blue-300"; // Use the class for ID
+      case filterCriteria.startsWith("phone="):
+        return "bg-green-300"; // Use the class for Phone
+      case filterCriteria.startsWith("email="):
+        return "bg-red-300"; // Use the class for Email
+      case filterCriteria.startsWith("description="):
+        return "bg-purple-300"; // Use the class for Description
+      case filterCriteria.startsWith("asset="):
+        return "bg-yellow-300"; // Use the class for Asset
+      case filterCriteria.startsWith("date="):
+        return "bg-orange-300"; // Use the class for Date
+      default:
+        return ""; // Default class when no match
     }
-    return ""; // Default class when no match
   }
+
+
+	let timer:any;
+
+	const debounce = async() => {
+		clearTimeout(timer);
+		timer = setTimeout(async() => {
+			const notes = await noteService.search(filterCriteria)
+      filteredTickets = notes
+		}, 1000);
+	}
 </script>
 
 <Input
@@ -98,7 +113,7 @@
   type="text"
   bind:value="{filterCriteria}"
   placeholder="Filter Criteria"
-  on:input="{filterTickets}"
+  on:keyup="{debounce}"
 />
 <Popover class="text-sm w-80"  placement="bottom">
 
