@@ -21,6 +21,7 @@
     ticketModal,
   } from "../stores/modals";
   import ModalsAndDrawers from "./ModalsAndDrawers.svelte";
+    import TimerComponent from "./TimerComponent.svelte";
 
   let currentTime = new Date().toLocaleString();
 
@@ -75,6 +76,10 @@
       >
     </li>
   </ul>
+
+  <div>
+    <TimerComponent/>
+  </div>
 
   <div class="flex items-end space-x-2 p-1 py-2">
     <Button
