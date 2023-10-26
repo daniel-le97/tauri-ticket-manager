@@ -25,20 +25,27 @@ class DBInit {
         const incrementedDate = new Date(baseDate.getTime() + number * 1000); // Increment by 'number' seconds
         return incrementedDate.toISOString().slice(0, 19).replace('T', ' ');
     }
-   private async generateNotes(count: number) {
-        for await(const i of Array(count).keys()) {
-            setTimeout(() => console.log(), 1000)
+    private async generateNotes(count: number) {
+        for await (const i of Array(count).keys()) {
+            // Create a base date
+            const baseDate = new Date('2023-10-26T21:54:22');
+            
+            // Increment the date for each iteration
+            baseDate.setSeconds(baseDate.getSeconds() + i);
+            
             const note = {
                 asset: `Asset ${i}`,
                 description: `Fake Note ${i}`,
                 email: `fake${i}@example.com`,
                 phone: `555-555-${1000 + i}`,
-                created_at: this.generateDateWithIncrement(i)
+                created_at: baseDate.toISOString().slice(0, 19).replace('T', ' ')
             };
            
-            const insertNote = await (await this._db).execute("INSERT into notes (asset, description, email, phone, created_at) VALUES ($1, $2, $3, $4, $5)", [note.asset,note.description,note.email,note.phone, note.created_at]);
+            const insertNote = await (await this._db).execute(
+                "INSERT INTO notes (asset, description, email, phone, created_at, current) VALUES ($1, $2, $3, $4, $5, $6)",
+                [note.asset, note.description, note.email, note.phone, note.created_at, 0]
+            );
             // console.log(insertNote.lastInsertId);
-            
         }
     }
    private async applyShemas(db: Promise<Database>){
@@ -92,7 +99,7 @@ class DBInit {
 
 
 
-    // await this.generateNotes(500)
+    await this.generateNotes(500)
      
     // NOTE do not reformat this, needs to be like this for correct spacing
     const insertTemplate = await (await db).execute(`INSERT INTO templates (title, content) VALUES (
