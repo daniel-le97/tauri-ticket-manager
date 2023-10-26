@@ -12,7 +12,7 @@
     if ($alertState.visible) {
       setTimeout(() => {
         $alertState.visible = !$alertState.visible;
-      }, 2000); // 2000 milliseconds = 2 seconds
+      }, 1500); // 2000 milliseconds = 2 seconds
     }
   }
 
@@ -27,7 +27,7 @@
 {#if $alertState.visible}
   <div
     class="absolute  top-12 right-12 justify-center"
-    transition:fade="{{ duration: 300 }}"
+    transition:fade="{{ duration: 150 }}"
   >
     <Alert color="{$alertState.color}">
       <span class="font-medium">{$alertState.text}</span>

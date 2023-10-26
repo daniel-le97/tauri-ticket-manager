@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     Button,
+    DarkMode,
     GradientButton,
     Tooltip,
   } from "flowbite-svelte";
@@ -74,12 +75,13 @@
 
 
   <div class="flex items-end space-x-2 p-1 py-2">
+    <DarkMode btnClass=" p-1 !bg-transparent dark:text-white" size="md"/>
     <Button
     color="yellow"
-    class=" p-0 m-0 bg-transparent  "
+    class=" p-0 m-0 bg-transparent  dark:text-gray-800 "
     on:click="{() => ($informationModal = true)}"
     >
-    <InfoCircleSolid size="lg" />
+    <InfoCircleSolid size="lg" class="dark:text-white"/>
     <Tooltip color="blue">How To Use</Tooltip>
   </Button>
   <TimerComponent/>

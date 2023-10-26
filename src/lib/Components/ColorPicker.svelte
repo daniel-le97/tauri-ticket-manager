@@ -1,28 +1,18 @@
 <!-- ColorPicker.svelte -->
 <script lang="ts">
   import { Button, DarkMode } from "flowbite-svelte";
-  import {
-    activeTheme,
-    menuColor,
-    noteColor,
-    themeColor,
-  } from "../stores/colorTheme";
+  import { menuColor, noteColor, themeColor } from "../stores/colorTheme";
   import { themesService } from "../services/themes.js";
-  import ThemeButtons from "./themeButtons.svelte";
-  import { CheckCircleSolid, TrashBinSolid } from "flowbite-svelte-icons";
+  import { TrashBinSolid } from "flowbite-svelte-icons";
   import type { Theme } from "../../db/types.js";
   import { confirm } from "@tauri-apps/api/dialog";
-  import consola from "consola";
   import logger from "../utils/logger";
-  function updateNoteAreaColor(event: { target: { value: string } }) {}
-
-  function updateMenuColor(event: { target: { value: string } }) {}
 
   async function saveTheme() {
     try {
       await themesService.createTheme();
     } catch (error) {
-      logger()?.error(error)
+      logger()?.error(error);
     }
   }
 
@@ -32,25 +22,29 @@
         return;
       }
       await themesService.save(theme);
-    } catch (error) {   logger()?.error(error)}
+    } catch (error) {
+      logger()?.error(error);
+    }
   }
 
   async function deleteTheme(themeId: number) {
     try {
-
       if (await confirm("Delete Theme?")) {
       }
 
       await themesService.deleteTheme(themeId);
       $themeColor = $themeColor.filter((theme) => theme.id !== themeId);
-    } catch (error) {   logger()?.error(error)}
+    } catch (error) {
+      logger()?.error(error);
+    }
   }
 </script>
 
 <div class="flex space-x-4 w-full items-end">
   <div class="flex flex-col w-2/3">
- 
-    <div class="flex justify-start space-x-16 border-b text-black dark:text-white">
+    <div
+      class="flex justify-start space-x-16 border-b text-black dark:text-white"
+    >
       <span>Note Area</span>
       <span>Menu</span>
     </div>
@@ -96,11 +90,6 @@
               on:click="{() => deleteTheme(theme.id)}"><TrashBinSolid /></Button
             >
           </div>
-          <!-- <Button
-            color="alternative"
-            class="px-3 {theme.active === 1 ? "bg-orange-500" : ''}"
-            on:click="{() => changeTheme(theme)}"><CheckCircleSolid /></Button
-          > -->
         </li>
       {/each}
     </ul>
@@ -154,9 +143,7 @@
         </div>
       </div>
       <div class="color-picker">
-      
-    <DarkMode/>
-   
+        <DarkMode />
       </div>
     </div>
 

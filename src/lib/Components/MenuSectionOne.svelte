@@ -139,7 +139,7 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.email)}"
         placeholder="Email"
         bind:value="{$appState.email}"
-        class="{$appState.email.match(emailRegex)
+        class="  focus:ring-0 {$appState.email.match(emailRegex)
           ? 'bg-green-200'
           : 'bg-white'} text-black"
       />
@@ -151,7 +151,7 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.phone.toString())}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
-        class="{$appState.phone.toString().match(phoneRegex)
+        class="  focus:ring-0  {$appState.phone.toString().match(phoneRegex)
           ? 'bg-green-200'
           : 'bg-white'} text-black"
       />
@@ -162,7 +162,7 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.asset)}"
         placeholder="Asset # "
         bind:value="{$appState.asset}"
-        class="{$appState.asset ? 'bg-green-200' : 'bg-white'} text-black"
+        class="  focus:ring-0 {$appState.asset ? 'bg-green-200' : 'bg-white'} text-black"
       />
     </li>
   </ul>
@@ -170,41 +170,41 @@ ${$appState.description}
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
       <Badge color="none" class="font-1 font-semibold text-base rounded-sm"
-        >Id:<span class="text-red-500">{$appState.id}</span>
-        /
+        ><span class="text-red-500 ">{$appState.id}</span>
+      <span class="mx-1">  /</span>
         <button class="p-1 hover:bg-gray-300 rounded-md" on:click="{() => skipToLatestTicket()}"
           >{$notesHistory}</button
         ></Badge
       >
 
-      <GradientButton
+      <Button
         id="reset"
-        color="lime"
-        class="!p-2 rounded-sm "
+      
+        class="!p-2 rounded-sm  bg-white  dark:bg-zinc-800"
         on:click="{resetNoteTaker}"
       >
-        <CotateSolid class="cursor-pointer outline-none border-none" />
-      </GradientButton>
-
-      <GradientButton
+        <CotateSolid class="cursor-pointer text-black outline-none border-none dark:text-white" />
+      </Button>
+  <Tooltip color="blue">Reset</Tooltip>
+      <Button
         id="clipBoard"
-        color="pink"
-        class="!p-2 mr-4  rounded-sm"
+        
+        class="!p-2 mr-4  rounded-sm bg-white dark:bg-zinc-800"
         on:click="{copyEverything}"
       >
-        <ClipboardCheckSolid class="cursor-pointer outline-none border-none" />
-      </GradientButton>
-      <Tooltip>Copy</Tooltip>
+        <ClipboardCheckSolid class="cursor-pointer outline-none border-none text-black dark:text-white" />
+      </Button>
+      <Tooltip color="blue">Copy</Tooltip>
     </div>
 
     <div class=" pl-2">
-      <Button class="!p-2 rounded-sm" color="alternative" on:click="{prevNote}">
+      <Button class="!p-2 rounded-sm !bg-gray-100 text-zinc-800 dark:text-white dark:!bg-gray-800"  on:click="{prevNote}">
         <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
       </Button>
       <Tooltip color="blue">Previous</Tooltip>
       <Button
-        class="!p-2 rounded-sm"
-        color="alternative"
+        class="!p-2 rounded-sm !bg-gray-100 text-zinc-800 dark:text-white dark:!bg-gray-800"
+       
         on:click="{saveNote}"
         disabled="{$timingButton}"
       >
@@ -218,7 +218,7 @@ ${$appState.description}
 <style>
   input {
     outline: none;
-
+padding: 7px;
     border-radius: 2px;
     outline: none;
     border: none;
@@ -243,7 +243,7 @@ ${$appState.description}
 
   @media (max-width: 900px) {
     input {
-      max-width: 100px !important;
+      max-width: 150px !important;
     }
 
     .line-row {

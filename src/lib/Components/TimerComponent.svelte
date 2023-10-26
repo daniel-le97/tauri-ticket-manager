@@ -4,6 +4,7 @@
   import { CotateSolid, PauseSolid, PlaySolid, RestoreWindowSolid } from 'flowbite-svelte-icons';
   import { writable, derived } from 'svelte/store';
   import { appState } from '../stores/appState';
+  import { alertState } from '../stores/alert';
 
   // Timer state
   const initialTime = 0;
@@ -34,6 +35,13 @@
         currentTime++;
         time.set(currentTime);
       }, 1000);
+
+       alertState.set({
+        color: "green",
+        text: "Timer Started",
+
+        visible: true,
+      });
     }
   }
 
@@ -43,6 +51,12 @@
       isRunning = false;
       isPaused.set(true);
       clearInterval(interval!);
+       alertState.set({
+        color: "green",
+        text: "Timer Paused",
+
+        visible: true,
+      });
     }
   }
 
@@ -53,14 +67,20 @@
     clearInterval(interval!);
     currentTime = initialTime;
     time.set(currentTime);
+       alertState.set({
+        color: "green",
+        text: "Timer Reset",
+
+        visible: true,
+      });
   }
 </script>
 
-<div class=" px-2 rounded-sm {$isPaused? 'bg-white' :'bg-green-300'}">
-  <p class="text-center text-xs ">{$formattedTime}</p>
-  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={startTimer} disabled={!$isPaused}><PlaySolid size="sm"/></Button>
-  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={pauseTimer} disabled={$isPaused}><PauseSolid size="sm"/></Button>
-  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black bg-transparent   " on:click={resetTimer} disabled={$isPaused}><CotateSolid size="sm"/></Button>
+<div class=" px-2 rounded-sm  dark:bg-gray-800 {$isPaused? 'bg-white' :'bg-green-300'}">
+  <p class="text-center text-xs dark:text-white ">{$formattedTime}</p>
+  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black !bg-transparent dark:disabled:text-white  " on:click={startTimer} disabled={!$isPaused}><PlaySolid size="sm"/></Button>
+  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black dark:disabled:text-white !bg-transparent   " on:click={pauseTimer} disabled={$isPaused}><PauseSolid size="sm"/></Button>
+  <Button class="hover:bg-gray-300 p-1 m-0 rounded-full text-orange-500 disabled:text-black !bg-transparent  dark:disabled:text-white  " on:click={resetTimer} disabled={$isPaused}><CotateSolid size="sm"/></Button>
 </div>
 
 <style>

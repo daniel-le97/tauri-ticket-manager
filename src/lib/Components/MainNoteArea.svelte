@@ -40,7 +40,7 @@
 
   <textarea
     on:keydown="{handleKeyDown}"
-    class="notes-area text-white border-none outline-none dark:text-black focus:outline-none focus:border-4 focus:border-orange-400  "
+    class="notes-area text-black border-none outline-none dark:text-white focus:outline-none focus:border-4 focus:border-orange-400  "
     id="notes-area"
     style="background-color: {$activeTheme?.note_color};"
     bind:value="{$appState.description}"
