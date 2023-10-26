@@ -7,25 +7,17 @@
     ticketModal,
   } from "../stores/modals";
 
-  import {
-    Badge,
-    Button,
-    GradientButton,
-    Modal,
-    Tooltip,
-    CloseButton,
-    Drawer,
-    Popover,
-  } from "flowbite-svelte";
+  import { GradientButton, Modal, Drawer, Popover } from "flowbite-svelte";
   import Templates from "./Templates.svelte";
   import UsageGuide from "./UsageGuide.svelte";
   import TicketHistory from "./TicketHistory.svelte";
-  import Settings from "./Settings.svelte";
   import { sineIn } from "svelte/easing";
   import type { TemplateDTO } from "../../db/types";
   import { clipboard } from "@tauri-apps/api";
   import { dbService } from "../../db/service";
   import { onMount } from "svelte";
+  import ColorPicker from "./ColorPicker.svelte";
+  import { activeTheme } from "../stores/colorTheme";
 
   let templates: TemplateDTO[];
 
@@ -67,9 +59,9 @@
   title=""
   bind:open="{$settingModal}"
   outsideclose
-  backdropClass="none"
+
 >
-  <Settings />
+  <ColorPicker />
 </Modal>
 
 <Drawer
@@ -78,7 +70,7 @@
   transitionParams="{transitionParamsRight}"
   bind:hidden="{$templateDrawer}"
   id="sidebar6"
-  class="pt-10 overflow-x-auto bg-black"
+  class="pt-10 overflow-x-auto "
   backdrop="{false}"
 >
   <div class=" flex flex-col space-y-2 pt-20">

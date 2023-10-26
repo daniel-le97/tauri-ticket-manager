@@ -9,7 +9,13 @@
     Input,
     Textarea,
   } from "flowbite-svelte";
-  import { title, content, tag, editingTemplate, activeTemplate } from "../stores/template.js";
+  import {
+    title,
+    content,
+    tag,
+    editingTemplate,
+    activeTemplate,
+  } from "../stores/template.js";
   import { Template, type ITemplate, TemplateDTO } from "../../db/types.js";
   import { dbService } from "../../db/service.js";
   import { templateService } from "../services/template.js";
@@ -38,13 +44,10 @@
 
   async function handleEdit() {
     try {
-      const template = await templateService.update()
-      await getTemplates()
+      const template = await templateService.update();
+      await getTemplates();
     } catch (error) {}
   }
-
-
-
 
   async function copyToClipboard(Template: string) {
     const textToCopy = Template;
@@ -57,22 +60,24 @@
 
   async function editTemplate(template: TemplateDTO) {
     try {
-      
-      $editingTemplate = !$editingTemplate
-      
-      if (!$editingTemplate) {
-        $title = ''
-        $content = ''
-        $tag = ''
-        $activeTemplate = null
-        return
+      $editingTemplate = true;
+
+      if (template.id === $activeTemplate?.id) {
+        $editingTemplate = false;
       }
 
-      $title = template.title
-      $content = template.content
-      $tag = template.tag
-      $activeTemplate = template
+      if ($editingTemplate !== true) {
+        $title = "";
+        $content = "";
+        $tag = "";
+        $activeTemplate = null;
+        return;
+      }
 
+      $title = template.title;
+      $content = template.content;
+      $tag = template.tag;
+      $activeTemplate = template;
     } catch (error) {}
   }
 
@@ -90,59 +95,60 @@
 <div class="  flex p-3 space-x-3 relative">
   <div class=" w-1/2 flex flex-col space-y-3">
     <!-- {#if !$editingTemplate} -->
-      <div class="text-base font-semibold">Create Template</div>
+    <div class="text-base font-semibold">Create Template</div>
 
-      <div class="sticky top-0">
-        <div class="text-base font-semibold">Edit Template</div>
-        <form
-          on:submit|preventDefault|stopPropagation="{$editingTemplate
-            ? () => handleEdit()
-            : () => addTemplate()}"
-          class="flex flex-col space-y-1"
-        >
-          <div class="flex">
-            <Input
-              type="text"
-              required
-              min="1"
-              minlength="1"
-              size="sm"
-              bind:value="{$title}"
-              placeholder="Title"
-              class="w-1/3 bg-red-100"
-              id="new-title"
-            />
-          </div>
-          <div class="flex">
-            <Input
-              type="text"
-              class="w-1/3 bg-red-100"
-              size="sm"
-              bind:value="{$tag}"
-              placeholder="Tag"
-              id="new-tag"
-            />
-          </div>
+    <div class="sticky top-0">
+      <div class="text-base font-semibold">Edit Template</div>
+      <form
+        on:submit|preventDefault|stopPropagation="{$editingTemplate
+          ? () => handleEdit()
+          : () => addTemplate()}"
+        class="flex flex-col space-y-1"
+      >
+        <div class="flex">
+          <Input
+            type="text"
+            required
+            min="1"
+            minlength="1"
+            size="sm"
+            bind:value="{$title}"
+            placeholder="Title"
+            class="w-1/3 bg-red-100"
+            id="new-title"
+          />
+        </div>
+        <div class="flex">
+          <Input
+            type="text"
+            class="w-1/3 bg-red-100"
+            size="sm"
+            bind:value="{$tag}"
+            placeholder="Tag"
+            id="new-tag"
+          />
+        </div>
 
-          <div>
-            <Textarea
-              cols="70"
-              rows="7"
-              required
-              minlength="1"
-              bind:value="{$content}"
-              placeholder="Add Content"
-              class="bg-red-100"
-              id="new-Template"
-            />
-          </div>
-          <div class="">
-            <GradientButton type="submit" color="green"
-              >{ $editingTemplate ? "Save" : "Add"}</GradientButton
-            >
-          </div>
-        </form>
-      </div>
+        <div>
+          <Textarea
+            cols="70"
+            rows="7"
+            required
+            minlength="1"
+            bind:value="{$content}"
+            placeholder="Add Content"
+            class="bg-red-100"
+            id="new-Template"
+          />
+        </div>
+        <div class="">
+          <GradientButton type="submit" color="green"
+            >{$editingTemplate ? "Save" : "Add"}</GradientButton
+          >
+        </div>
+      </form>
+       
+    </div>
     <!-- {/if} -->
   </div>
 
@@ -157,7 +163,7 @@
         {#each templates as template (template.id)}
           <li>
             <GradientButton
-              color="{template.title === $title ? 'red' : 'blue'}"
+              color="{template.id === $activeTemplate?.id ? 'red' : 'blue'}"
               class=""
               on:click="{() => editTemplate(template)}"
             >
@@ -172,14 +178,6 @@
                 on:click="{() => handleDelete(template.id)}"
               >
                 <TrashBinSolid class="w-3 h-3 " />
-              </Button>
-              <Button
-                outline="{true}"
-                class="!p-2"
-                size="sm"
-                on:click="{() => editTemplate(template)}"
-              >
-                <PenSolid class="w-3 h-3 " />
               </Button>
             </Popover>
           </li>

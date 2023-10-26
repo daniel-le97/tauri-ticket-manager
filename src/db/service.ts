@@ -37,7 +37,7 @@ class DBService {
                     WHERE id = $4;`,
                     [theme.active, theme.menu_color, theme.note_color, theme.id]);
         },
-        async delete ( id: string ) {
+        async delete ( id: number ) {
             return await db.execute( `DELETE FROM themes where id = $1`, [ id ] )
         }
     }

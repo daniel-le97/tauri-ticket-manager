@@ -238,8 +238,8 @@ ${$appState.description}
     max-width: 140px;
   }
   input:focus {
-    border: #ff5733 1px solid;
-    outline: none;
+    border-bottom: #ff5733 2px solid;
+    outline:none
   }
   .menu-section {
     width: 100%;

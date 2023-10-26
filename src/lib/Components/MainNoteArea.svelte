@@ -98,7 +98,7 @@
 
 <style scoped>
   .notes-area {
-    height: 100%;
+    height: 80%;
     font-size: 16pt;
     width: 100%; /* Initially take up most of the width */
     color: white;

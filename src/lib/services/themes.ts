@@ -36,6 +36,13 @@ class ThemesService {
 
     }
 
+
+    async deleteTheme(id:number){
+      const deleted = await dbService.settings.delete(id)
+      console.log(deleted);
+      
+    }
+
     async getAll(){
         const _themes = await dbService.settings.getAll()
         themeColor.set(_themes)
