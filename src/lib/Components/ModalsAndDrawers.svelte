@@ -57,7 +57,6 @@
   <ColorPicker />
 </Modal>
 
-\
   <Drawer
   placement="right"
   transitionType="fly"
