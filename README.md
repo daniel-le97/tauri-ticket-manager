@@ -1,4 +1,34 @@
-# Tauri + Svelte + Typescript
+# Tauri-tickets
+
+A project showcasing how to use tauri - svelte - sqlite by creating a ticket/note management app!
+
+# Usage
+at the moment the best way to try it out is by checking this repo's releases:
+
+[Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases)
+
+or from source locally:
+Node and Rust are required for this
+
+1. clone this repo
+```bash
+git clone https://github.com/daniel-le97/tauri-ticket-manager.git
+cd tauri-ticket-manager
+```
+
+2. install client deps
+```bash
+pnpm install
+```
+
+3. run the app
+```bash
+// this will build the client and run the rust (tauri) backend
+pnpm run dev
+```
+
+
+
 
 This template should help get you started developing with Tauri, Svelte and TypeScript in Vite.
 
@@ -39,21 +69,26 @@ To create a new note, follow these steps:
 
 ![GuideTemplateBtn](./src/lib/Assets/Images/GuideTemplateBtn.png)
 
-1. From the dashboard, find the note you want to edit or delete.
+1. From the dashboard, you can click on the above button
 
-2. Click on the note to open it for editing.
+2. clicking the templates button displays a drawer of all of your templates.
 
-3. Make your changes or click the "Delete" button to remove the note.
+3. click on a template and its contents are copied to your clipboard.
 
-4. Don't forget to save your changes if you've edited the note.
+4. paste away!.
 
-# Organize Your Notes
 
-Keep your notes organized by:
+# Organize Your templates/snippets
 
-1. Using categories or labels to group related notes.
+you can organize your templates by:
 
-2. Adding tags to make it easier to search for specific notes.
+1. Using tags to group related templates
 
-3. Utilizing the search functionality to quickly find notes based on keywords.
+2. clicking "configure templates" on the dashboard
+
+3. by default this window will allow composing new templates
+
+4. clicking on a template in this view marks it for editing
+
+5. be sure to hit save!
 
