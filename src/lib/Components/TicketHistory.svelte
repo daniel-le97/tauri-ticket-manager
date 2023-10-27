@@ -9,15 +9,17 @@
   import { ListPlaceholder } from "flowbite-svelte";
   import logger from "../utils/logger.js";
   import { CheckOutline, CloseOutline, InfoCircleSolid } from "flowbite-svelte-icons";
-    import { noteService } from "../services/notes.js";
+  import { noteService } from "../services/notes.js";
+
   let tickets: NoteDTO[] = [];
   let filteredTickets: NoteDTO[] = []; // Initialize filteredTickets
   let filterCriteria = "";
   let noValidSearch = false;
   let loadingTickets = true;
+
   onMount(async () => {
     // await getTickets();
-    debounce()
+    debounce(0)
 
     // Initialize filteredTickets with all tickets
     filteredTickets = tickets;
@@ -99,12 +101,12 @@
 
 	let timer:any;
 
-	const debounce = async() => {
+	const debounce = (time:number) => {
 		clearTimeout(timer);
 		timer = setTimeout(async() => {
 			const notes = await noteService.search(filterCriteria)
       filteredTickets = notes
-		}, 1000);
+		}, time);
 	}
 </script>
 
@@ -113,7 +115,7 @@
   type="text"
   bind:value="{filterCriteria}"
   placeholder="Filter Criteria"
-  on:keyup="{debounce}"
+  on:keyup="{ () => debounce(1000)}"
 />
 <Popover class="text-sm w-80"  placement="bottom">
 

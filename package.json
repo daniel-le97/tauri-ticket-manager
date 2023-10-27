@@ -19,15 +19,11 @@
     "@popperjs/core": "^2.11.8",
     "@sveltejs/vite-plugin-svelte": "^2.4.6",
     "@tsconfig/svelte": "^5.0.2",
-    "@types/fs-extra": "^11.0.3",
     "autoprefixer": "^10.4.16",
     "consola": "^3.2.3",
-    "defu": "^6.1.2",
     "flowbite": "^1.8.1",
     "flowbite-svelte": "^0.44.18",
     "flowbite-svelte-icons": "^0.4.4",
-    "fs-extra": "^11.1.1",
-    "html-to-text": "^9.0.5",
     "postcss": "^8.4.31",
     "sass": "^1.69.4",
     "svelte": "^4.2.2",
@@ -38,7 +34,6 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vite-plugin-static-copy": "^0.17.0",
     "vite-plugin-tauri": "3.3.0"
   }
 }

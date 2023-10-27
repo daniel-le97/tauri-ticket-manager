@@ -1,6 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { Note, NoteDTO } from "./types.js";
 import { appState, resetAppState } from "../lib/stores/appState.js";
+console.log('initalizing db');
 
 class DBInit {
     _db: Promise<Database>

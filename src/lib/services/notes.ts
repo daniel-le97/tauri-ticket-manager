@@ -8,6 +8,33 @@ import {
   timingButton,
 } from "../stores/appState.js";
 
+class Query {
+  conditions: string[] = [];
+  params: any[] = [];
+  conditionIndex: number = 1;
+
+  constructor() {
+  }
+
+  getNextConditionIndex() {
+      return this.conditionIndex++;
+  }
+
+  parse(searchCriteria: Record<string, string>) {
+      for(const [key, value] of Object.entries(searchCriteria)){
+          this.conditions.push(`${key} LIKE $${this.getNextConditionIndex()}`)
+          this.params.push(`%${value}%`)
+      }
+
+      let query = "SELECT * FROM notes";
+      if (this.conditions.length > 0) {
+          query += " WHERE " + this.conditions.join(" AND ");
+      }
+
+      return { query, params: this.params };
+  }
+}
+
 
 class NoteService {
   async search(query:string){
@@ -15,23 +42,14 @@ class NoteService {
     const searchParams = new URLSearchParams(query);
     // console.log(searchParams);
     
-let searchCriteria: Record<string, string> = {}
+  let searchCriteria: Record<string, string> = {}
 
-for (const [key, value] of searchParams.entries()) {
-  searchCriteria[key.toLowerCase()] = value;
-}
- const res = await dbService.notes.search(searchCriteria)
- console.log(res.conditions);
- console.log(res.params);
- console.log(res.items);
+  for (const [key, value] of searchParams.entries()) {
+    searchCriteria[key.toLowerCase()] = value;
+  }
+    const res = await dbService.notes.search( new Query().parse(searchCriteria))
  
- 
- return res.items as NoteDTO[]
- 
-
-
-    
-    // const res = await dbService.notes.search()
+    return res
   }
   async handleSave(event: KeyboardEvent) {
     if ((event.metaKey || event.ctrlKey) && event.key === "s") {
@@ -71,7 +89,7 @@ for (const [key, value] of searchParams.entries()) {
       await dbService.notes.update(nextNote, 1);
       resetAppState({ ...nextNote, current: 1 });
     } else {
-      timingButton.set(true);
+      // timingButton.set(true);
       // console.log( 'next note not found... creating note' );
       await dbService.notes.update(note, 0);
       const createdNote = await dbService.notes.create(new Note());
@@ -79,7 +97,7 @@ for (const [key, value] of searchParams.entries()) {
       // console.log(createdNote);
       resetAppState(createdNote);
       notesHistory.set(noteTotal);
-      setTimeout(() => timingButton.set(false), 1000);
+      // setTimeout(() => timingButton.set(false), 1000);
     }
   }
   async prev() {

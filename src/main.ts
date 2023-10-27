@@ -1,6 +1,6 @@
 import "./styles.css";
 import App from "./App.svelte";
-import { db } from "./db/index.js";
+import "./db/index.js";
 
 // let init = db.resetDb()
 

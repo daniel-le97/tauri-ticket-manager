@@ -112,9 +112,9 @@ ${$appState.description}
   }
   async function saveNote() {
     try {
-      if ($timingButton) {
-        return; // Exit the function if the button is disabled
-      }
+      // if ($timingButton) {
+      //   return; // Exit the function if the button is disabled
+      // }
 
       await noteService.next();
     } catch (error) {
