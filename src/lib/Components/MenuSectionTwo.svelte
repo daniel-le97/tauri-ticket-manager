@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    Button,
-    DarkMode,
-    GradientButton,
-    Tooltip,
-  } from "flowbite-svelte";
+  import { Button, DarkMode, GradientButton, Tooltip } from "flowbite-svelte";
   import { InfoCircleSolid } from "flowbite-svelte-icons";
   import { onDestroy, onMount } from "svelte";
   import {
@@ -14,15 +9,13 @@
     templateModal,
     ticketModal,
   } from "../stores/modals";
-  import {templates} from '../stores/template.js'
+  import { templates } from "../stores/template.js";
   import ModalsAndDrawers from "./ModalsAndDrawers.svelte";
   import TimerComponent from "./TimerComponent.svelte";
-    import { templateService } from "../services/template.js";
-    import { dbService } from "../../db/service.js";
-    import logger from "../utils/logger.js";
+  import { templateService } from "../services/template.js";
+  import { dbService } from "../../db/service.js";
+  import logger from "../utils/logger.js";
 
-
-  
   let currentTime = new Date().toLocaleString();
 
   function updateCurrentTime() {
@@ -34,16 +27,15 @@
     interval = setInterval(updateCurrentTime, 1000);
   });
 
-  async function getTemplates(){
+  async function getTemplates() {
     try {
-      
-      const isNotOpen = $templateDrawer === true
+      const isNotOpen = $templateDrawer === true;
       if (isNotOpen) {
-        $templates = await dbService.templates.getAll()
-        templateDrawer.set(false)
+        $templates = await dbService.templates.getAll();
+        templateDrawer.set(false);
       }
     } catch (error) {
-      logger()?.error(error)
+      logger()?.error(error);
     }
   }
 
@@ -80,7 +72,9 @@
     <li class="line-item">
       <GradientButton
         class=" rounded-sm "
-        on:click="{() => {($templateDrawer = !$templateDrawer);getTemplates()}}">Templates</GradientButton
+        on:click="{() => {
+          getTemplates();
+        }}">Templates</GradientButton
       >
     </li>
     <li class="line-item">
@@ -90,22 +84,26 @@
     </li>
   </ul>
 
-
   <div class="flex items-end space-x-2 p-1 py-2">
-    <DarkMode btnClass=" p-1 !bg-transparent dark:text-white" size="md"/>
+    <DarkMode
+      btnClass=" bg-white rounded-sm text-black dark:bg-gray-800 dark:text-white  p-0.5"
+      size="md"
+    />
     <Button
-    color="yellow"
-    class=" p-0 m-0 bg-transparent  dark:text-gray-800 "
-    on:click="{() => ($informationModal = true)}"
+      color="yellow"
+      class=" p-0 m-0 bg-transparent  dark:text-gray-800 "
+      on:click="{() => ($informationModal = true)}"
     >
-    <InfoCircleSolid size="lg" class="dark:text-white"/>
-    <Tooltip color="blue">How To Use</Tooltip>
-  </Button>
-  <TimerComponent/>
+      <InfoCircleSolid
+        size="lg"
+        class="dark:text-white bg-white rounded-sm text-black dark:bg-gray-800 p-0.5"
+      />
+      <Tooltip color="blue">How To Use</Tooltip>
+    </Button>
+    <TimerComponent />
   </div>
 
   <ModalsAndDrawers />
-
 </div>
 
 <style>

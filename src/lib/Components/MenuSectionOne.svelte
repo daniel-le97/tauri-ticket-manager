@@ -217,6 +217,8 @@ ${$appState.description}
 
 <style>
   input {
+
+    @apply dark:bg-gray-800 !text-white;
     outline: none;
 padding: 7px;
     border-radius: 2px;
