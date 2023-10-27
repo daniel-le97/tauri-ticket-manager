@@ -8,7 +8,9 @@ This template should help get you started developing with Tauri, Svelte and Type
 
 # Basic Usage
 
-![video](./public/tauri-tickets.mp4)
+
+https://github.com/daniel-le97/tauri-ticket-manager/assets/107774403/c53f8d6a-5296-4505-96f9-f31dc7286156
+
 
 MyNoteTaker is a simple and intuitive note-taking application. Follow these steps to get started:
 
