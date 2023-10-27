@@ -8,9 +8,7 @@ This template should help get you started developing with Tauri, Svelte and Type
 
 # Basic Usage
 
-<video width="320" height="240" controls>
-  <source src="./public/tauri-tickets.mp4" type="video/mp4">
-</video>
+![video](./public/tauri-tickets.mp4)
 
 MyNoteTaker is a simple and intuitive note-taking application. Follow these steps to get started:
 
