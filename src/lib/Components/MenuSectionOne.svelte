@@ -151,7 +151,7 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.phone.toString())}"
         placeholder="Phone #"
         on:input="{handlePhoneNumberInput}"
-        class="  focus:ring-0  {$appState.phone.toString().match(phoneRegex)
+        class="  focus:ring-0 {$appState.phone.toString().match(phoneRegex)
           ? 'bg-green-200'
           : 'bg-white'} text-black"
       />
@@ -162,7 +162,9 @@ ${$appState.description}
         on:dblclick="{() => handleDoubleClick($appState.asset)}"
         placeholder="Asset # "
         bind:value="{$appState.asset}"
-        class="  focus:ring-0 {$appState.asset ? 'bg-green-200' : 'bg-white'} text-black"
+        class="  focus:ring-0 {$appState.asset
+          ? 'bg-green-200'
+          : 'bg-white'} text-black"
       />
     </li>
   </ul>
@@ -170,41 +172,46 @@ ${$appState.description}
   <div class="change-ticket-buttons flex justify-center items-center space-x-1">
     <div class="flex space-x-3">
       <Badge color="none" class="font-1 font-semibold text-base rounded-sm"
-        ><span class="text-red-500 ">{$appState.id}</span>
-      <span class="mx-1">  /</span>
-        <button class="p-1 hover:bg-gray-300 rounded-md" on:click="{() => skipToLatestTicket()}"
-          >{$notesHistory}</button
+        ><span class="text-red-500">{$appState.id}</span>
+        <span class="mx-1"> /</span>
+        <button
+          class="p-1 hover:bg-gray-300 rounded-md"
+          on:click="{() => skipToLatestTicket()}">{$notesHistory}</button
         ></Badge
       >
 
       <Button
         id="reset"
-      
         class="!p-2 rounded-sm  bg-white  dark:bg-zinc-800"
         on:click="{resetNoteTaker}"
       >
-        <CotateSolid class="cursor-pointer text-black outline-none border-none dark:text-white" />
+        <CotateSolid
+          class="cursor-pointer text-black outline-none border-none dark:text-white"
+        />
       </Button>
-  <Tooltip color="blue">Reset</Tooltip>
+      <Tooltip color="blue">Reset</Tooltip>
       <Button
         id="clipBoard"
-        
         class="!p-2 mr-4  rounded-sm bg-white dark:bg-zinc-800"
         on:click="{copyEverything}"
       >
-        <ClipboardCheckSolid class="cursor-pointer outline-none border-none text-black dark:text-white" />
+        <ClipboardCheckSolid
+          class="cursor-pointer outline-none border-none text-black dark:text-white"
+        />
       </Button>
       <Tooltip color="blue">Copy</Tooltip>
     </div>
 
     <div class=" pl-2">
-      <Button class="!p-2 rounded-sm !bg-gray-100 text-zinc-800 dark:text-white dark:!bg-gray-800"  on:click="{prevNote}">
+      <Button
+        class="!p-2 rounded-sm !bg-gray-100 text-zinc-800 dark:text-white dark:!bg-gray-800"
+        on:click="{prevNote}"
+      >
         <ChevronLeftSolid class="cursor-pointer outline-none border-none" />
       </Button>
       <Tooltip color="blue">Previous</Tooltip>
       <Button
         class="!p-2 rounded-sm !bg-gray-100 text-zinc-800 dark:text-white dark:!bg-gray-800"
-       
         on:click="{saveNote}"
         disabled="{$timingButton}"
       >
@@ -217,10 +224,9 @@ ${$appState.description}
 
 <style>
   input {
-
     @apply dark:bg-gray-800 !text-white;
     outline: none;
-padding: 7px;
+    padding: 7px;
     border-radius: 2px;
     outline: none;
     border: none;

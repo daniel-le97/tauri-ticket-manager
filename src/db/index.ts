@@ -106,7 +106,10 @@ How many users are affected:
 Troubleshooting Steps:
 -------------------------------"
     );`);           
-        const insertThemes = await ( await this._db ).execute( `INSERT INTO themes (note_color, menu_color) VALUES ($1, $2);`, [ "#000000", "#000000" ] );           
+        const insertThemes = await(await this._db).execute(
+          `INSERT INTO themes (note_color, menu_color) VALUES ($1, $2);`,
+          ["#d6d6d6", "#232323"]
+        );           
    }
 }
 

@@ -153,7 +153,7 @@
           <li>
             <GradientButton
               color="{template.id === $activeTemplate?.id ? 'red' : 'blue'}"
-              class=""
+              class=" "
               on:click="{() => editTemplate(template)}"
             >
               {template.title}</GradientButton

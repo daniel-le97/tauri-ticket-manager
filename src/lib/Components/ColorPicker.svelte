@@ -1,12 +1,18 @@
 <!-- ColorPicker.svelte -->
 <script lang="ts">
   import { Button, DarkMode } from "flowbite-svelte";
-  import { menuColor, noteColor, themeColor } from "../stores/colorTheme";
+  import {
+    activeTheme,
+    menuColor,
+    noteColor,
+    themeColor,
+  } from "../stores/colorTheme";
   import { themesService } from "../services/themes.js";
   import { TrashBinSolid } from "flowbite-svelte-icons";
   import type { Theme } from "../../db/types.js";
   import { confirm } from "@tauri-apps/api/dialog";
   import logger from "../utils/logger";
+  import { alertState } from "../stores/alert";
 
   async function saveTheme() {
     try {
@@ -27,13 +33,38 @@
     }
   }
 
+  $: {
+    $noteColor = $activeTheme?.note_color || "#000000";
+    $menuColor = $activeTheme?.menu_color || "#000000";
+  }
+
   async function deleteTheme(themeId: number) {
     try {
-      if (await confirm("Delete Theme?")) {
+     
+
+      if (themeId === 1) {
+        alertState.set({
+          color: "red",
+          text: "Can't Delete Default Theme!",
+
+          visible: true,
+        });
+        return;
       }
 
-      await themesService.deleteTheme(themeId);
-      $themeColor = $themeColor.filter((theme) => theme.id !== themeId);
+      if (await confirm("Delete Theme?")) {
+        const activeThemeIndex = $themeColor.findIndex(
+          (theme) => theme.active === 1
+        );
+        const nextThemeIndex = (activeThemeIndex + 1) % $themeColor.length;
+        const nextTheme = $themeColor[nextThemeIndex];
+        await themesService.deleteTheme(themeId);
+        $themeColor = $themeColor.filter((theme) => theme.id !== themeId);
+
+        if (nextTheme) {
+          await changeTheme(nextTheme);
+        }
+      }
     } catch (error) {
       logger()?.error(error);
     }
@@ -63,7 +94,7 @@
                 <span
                   class="  !text-black absolute -top-3 left-0 bg-white rounded-r-md"
                 >
-                  {index}</span
+                  {theme.id}</span
                 >
                 <span
                   class="p-1 rounded-l-md px-3 text-white w-1/2 border-r-2 border-r-white"
@@ -80,7 +111,11 @@
               {#if theme.active}
                 <span
                   class="text-sm px-2 text-white font-medium font-1 text-center w-full"
-                  >ACTIVE</span
+                  >{#if theme.id === 1}
+                    DEFAULT THEME
+                  {:else}
+                    ACTIVE
+                  {/if}</span
                 >
               {/if}
             </button>
