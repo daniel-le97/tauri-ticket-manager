@@ -8,7 +8,11 @@
   import { Input, Popover, Spinner } from "flowbite-svelte";
   import { ListPlaceholder } from "flowbite-svelte";
   import logger from "../utils/logger.js";
-  import { CheckOutline, CloseOutline, InfoCircleSolid } from "flowbite-svelte-icons";
+  import {
+    CheckOutline,
+    CloseOutline,
+    InfoCircleSolid,
+  } from "flowbite-svelte-icons";
   import { noteService } from "../services/notes.js";
 
   let tickets: NoteDTO[] = [];
@@ -19,7 +23,7 @@
 
   onMount(async () => {
     // await getTickets();
-    debounce(0)
+    debounce(0);
 
     // Initialize filteredTickets with all tickets
     filteredTickets = tickets;
@@ -98,16 +102,15 @@
     }
   }
 
+  let timer: any;
 
-	let timer:any;
-
-	const debounce = (time:number) => {
-		clearTimeout(timer);
-		timer = setTimeout(async() => {
-			const notes = await noteService.search(filterCriteria)
-      filteredTickets = notes
-		}, time);
-	}
+  const debounce = (time: number) => {
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      const notes = await noteService.search(filterCriteria);
+      filteredTickets = notes;
+    }, time);
+  };
 </script>
 
 <Input
@@ -115,22 +118,21 @@
   type="text"
   bind:value="{filterCriteria}"
   placeholder="Filter Criteria"
-  on:keyup="{ () => debounce(1000)}"
+  on:keyup="{() => debounce(1000)}"
 />
-<Popover class="text-sm w-80"  placement="bottom">
-
+<Popover class="text-sm w-80" placement="bottom">
   <div class="grid grid-cols-4 gap-2 my-2">
-    <div class="h-1 bg-orange-300 dark:bg-orange-400" />
-    <div class="h-1 bg-orange-300 dark:bg-orange-400" />
-    <div class="h-1 bg-gray-200 dark:bg-gray-600" />
-    <div class="h-1 bg-gray-200 dark:bg-gray-600" />
+    <div class="h-1 bg-orange-300 dark:bg-orange-400"></div>
+    <div class="h-1 bg-orange-300 dark:bg-orange-400"></div>
+    <div class="h-1 bg-gray-200 dark:bg-gray-600"></div>
+    <div class="h-1 bg-gray-200 dark:bg-gray-600"></div>
   </div>
 
   <ul>
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-        usage: do not use any quotes, if you woud like to query an additional field please use &
-        example: phone=1000&email=fake0
+      usage: do not use any quotes, if you woud like to query an additional field
+      please use & example: phone=1000&email=fake0
     </li>
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-2 w-4 h-4 text-green-400 dark:text-green-500" />
@@ -144,41 +146,37 @@
       <CloseOutline class="mr-2 w-4 h-4 text-red-400 dark:text-gray-400" /> fake3@example.com
     </li>
   </ul>
-    <ul class="flex flex-wrap gap-2 mt-3">
+  <ul class="flex flex-wrap gap-2 mt-3">
+    <li class="flex items-center mb-1">
+      <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
+      id=
+    </li>
 
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-   id=
+      asset=
     </li>
- 
+
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-   asset=
+      date=
     </li>
- 
+
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-   date=
+      email=
     </li>
- 
+
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-   email=
-    </li>
- 
-    <li class="flex items-center mb-1">
-      <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-   phone=
+      phone=
     </li>
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
-   description=
+      description=
     </li>
- 
   </ul>
 </Popover>
-
-
 
 <table class="rounded-md">
   <thead>
@@ -208,30 +206,34 @@
           <td>{item.email}</td>
           <td>{item.phone}</td>
           <td class="truncate overflow-x-clip">{item.description}</td>
-          {#if item.description.length >=13}
-           <Popover class="w-4/5">{item.description}</Popover>
+          {#if item.description.length >= 13}
+            <Popover class="w-4/5">{item.description}</Popover>
           {/if}
         </tr>
       {/each}
     </tbody>
   {/if}
-
-  {#if loadingTickets}
-    <div class=" p-2 justify-center items-center w-screen">
-      <ListPlaceholder class=" max-w-3xl " />
-    </div>
-  {/if}
-
-  {#if filteredTickets.length === 0 && !noValidSearch}
-    <div class=" p-2 justify-center items-center w-screen">
-      <ListPlaceholder class=" max-w-3xl " />
-    </div>
-  {/if}
-
-  {#if noValidSearch}
-    <div class="flex my-2 p-2 text-xl text-gray-500">NO SEARCH RESULTS</div>
-  {/if}
 </table>
+
+<!-- {#if loadingTickets}
+  <div class=" p-2 justify-center items-center">
+    <ListPlaceholder class=" max-w-2xl " />
+  </div>
+{/if} -->
+
+{#if filteredTickets.length === 0 && !noValidSearch}
+  <div class=" p-2 flex justify-center items-center space-x-2">
+    <Spinner />
+    <div class="flex my-2 p-2 text-2xl text-black dark:text-orange-500">
+      Refine your Search
+    </div>
+    <Spinner />
+  </div>
+{/if}
+
+{#if noValidSearch}
+  <div class="flex my-2 p-2 text-xl text-gray-500">NO SEARCH RESULTS</div>
+{/if}
 
 <style scoped>
   table {
