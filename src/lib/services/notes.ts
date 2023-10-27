@@ -23,6 +23,8 @@ for (const [key, value] of searchParams.entries()) {
  const res = await dbService.notes.search(searchCriteria)
  console.log(res.conditions);
  console.log(res.params);
+ console.log(res.items);
+ 
  
  return res.items as NoteDTO[]
  

@@ -126,6 +126,11 @@
 
   <ul>
     <li class="flex items-center mb-1">
+      <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
+        usage: do not use any quotes, if you woud like to query an additional field please use &
+        example: phone=1000&email=fake0
+    </li>
+    <li class="flex items-center mb-1">
       <CheckOutline class="mr-2 w-4 h-4 text-green-400 dark:text-green-500" />
       Upper or lower case letters
     </li>
@@ -138,6 +143,7 @@
     </li>
   </ul>
     <ul class="flex flex-wrap gap-2 mt-3">
+
     <li class="flex items-center mb-1">
       <CheckOutline class="mr-1 w-4 h-4 text-green-400 dark:text-green-500" />
    id=

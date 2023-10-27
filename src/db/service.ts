@@ -45,7 +45,7 @@ class Query {
         }
         if (searchCriteria.date) {
             this.conditions.push(`created_at LIKE $${this.getNextConditionIndex()}`);
-            this.params.push(`%${searchCriteria.date}%`);
+            this.params.push(`%${searchCriteria.date.toString()}%`);
         }
 
         if (searchCriteria.current !== undefined) {
