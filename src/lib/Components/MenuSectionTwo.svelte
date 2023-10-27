@@ -36,7 +36,12 @@
 
   async function getTemplates(){
     try {
-      $templates = await dbService.templates.getAll()
+      
+      const isNotOpen = $templateDrawer === true
+      if (isNotOpen) {
+        $templates = await dbService.templates.getAll()
+        templateDrawer.set(false)
+      }
     } catch (error) {
       logger()?.error(error)
     }
@@ -75,7 +80,7 @@
     <li class="line-item">
       <GradientButton
         class=" rounded-sm "
-        on:click="{() => {($templateDrawer = false);getTemplates()}}">Templates</GradientButton
+        on:click="{getTemplates}">Templates</GradientButton
       >
     </li>
     <li class="line-item">
