@@ -17,10 +17,11 @@
   import { onMount } from "svelte";
   import ColorPicker from "./ColorPicker.svelte";
   import logger from "../utils/logger";
+    import { templates } from "../stores/template.js";
 
 
 
-  let templates: TemplateDTO[];
+
   let transitionParamsRight = {
     x: 320,
     duration: 200,
@@ -38,15 +39,6 @@
     }
   }
 
-  async function getTemplates() {
-    try {
-      templates = await dbService.templates.getAll();
-    } catch (error) {
-      logger()?.error(error);
-    }
-  }
-
-  onMount(getTemplates);
 </script>
 
 <Modal class="mt-8  " size="xl" title="Templates" bind:open="{$templateModal}">
@@ -65,7 +57,8 @@
   <ColorPicker />
 </Modal>
 
-<Drawer
+\
+  <Drawer
   placement="right"
   transitionType="fly"
   transitionParams="{transitionParamsRight}"
@@ -73,23 +66,24 @@
   id="sidebar6"
   class="pt-10 overflow-x-auto "
   backdrop="{false}"
->
+  >
   <div class=" flex flex-col space-y-2 pt-20">
-    {#if templates}
-      {#each templates as template (template.id)}
-        <GradientButton
-          shadow
-          color="blue"
-          on:click="{() => copyToClipboard(template.content)}"
-        >
-          {template.title}</GradientButton
-        >
-        <Popover placement="top" class="text-sm ">
-          <div><pre>{@html template.content}</pre></div>
-        </Popover>
-      {/each}
+    {#if $templates}
+    {#each $templates as template (template.id)}
+    <GradientButton
+    shadow
+    color="blue"
+    on:click="{() => copyToClipboard(template.content)}"
+    >
+    {template.title}</GradientButton
+    >
+    <Popover placement="top" class="text-sm ">
+      <div><pre>{@html template.content}</pre></div>
+    </Popover>
+    {/each}
     {/if}
   </div>
 </Drawer>
+
 
 <style></style>

@@ -14,8 +14,12 @@
     templateModal,
     ticketModal,
   } from "../stores/modals";
+  import {templates} from '../stores/template.js'
   import ModalsAndDrawers from "./ModalsAndDrawers.svelte";
   import TimerComponent from "./TimerComponent.svelte";
+    import { templateService } from "../services/template.js";
+    import { dbService } from "../../db/service.js";
+    import logger from "../utils/logger.js";
 
 
   
@@ -29,6 +33,14 @@
   onMount(() => {
     interval = setInterval(updateCurrentTime, 1000);
   });
+
+  async function getTemplates(){
+    try {
+      $templates = await dbService.templates.getAll()
+    } catch (error) {
+      logger()?.error(error)
+    }
+  }
 
   onDestroy(() => {
     clearInterval(interval);
@@ -63,7 +75,7 @@
     <li class="line-item">
       <GradientButton
         class=" rounded-sm "
-        on:click="{() => ($templateDrawer = false)}">Templates</GradientButton
+        on:click="{() => {($templateDrawer = false);getTemplates()}}">Templates</GradientButton
       >
     </li>
     <li class="line-item">

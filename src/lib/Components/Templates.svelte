@@ -15,6 +15,7 @@
     tag,
     editingTemplate,
     activeTemplate,
+    templates
   } from "../stores/template.js";
   import { Template, type ITemplate, TemplateDTO } from "../../db/types.js";
   import { dbService } from "../../db/service.js";
@@ -25,14 +26,14 @@
   import { get, writable } from "svelte/store";
   import logger from "../utils/logger.js";
 
-  let templates: TemplateDTO[];
+  
 
   onMount(async () => {
     await getTemplates();
   });
 
   async function getTemplates() {
-    templates = await dbService.templates.getAll();
+    $templates = await dbService.templates.getAll();
   }
   async function addTemplate() {
     try {
@@ -88,10 +89,10 @@
 
 <div class="  flex p-3 space-x-3 relative">
   <div class=" w-1/2 flex flex-col space-y-3">
-    <div class="text-base font-semibold">Create Template</div>
+    <div class="text-base font-semibold">{$editingTemplate ? "Edit" : "Create"} Template</div>
 
     <div class="sticky top-0">
-      <div class="text-base font-semibold">Edit Template</div>
+      <!-- <div class="text-base font-semibold">Edit Template</div> -->
       <form
         on:submit|preventDefault|stopPropagation="{$editingTemplate
           ? () => handleEdit()
@@ -148,9 +149,9 @@
   <div class=" w-1/2">
     <span class="text=xl font-semibold mb-4">Templates:</span>
 
-    {#if templates}
+    {#if $templates}
       <ul class="mt-4 flex gap-2 flex-wrap">
-        {#each templates as template (template.id)}
+        {#each $templates as template (template.id)}
           <li>
             <GradientButton
               color="{template.id === $activeTemplate?.id ? 'red' : 'blue'}"

@@ -8,6 +8,7 @@ export const title = writable('');
 export const activeTemplate = writable<TemplateDTO | null>(null);
 
 export const editingTemplate = writable(false)
+export const templates = writable<TemplateDTO[] | null>(null);
 
 export const templateState = writable({
     id: 0,
