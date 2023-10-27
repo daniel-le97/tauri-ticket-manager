@@ -25,20 +25,20 @@
     />
       <img
       data-tauri-drag-region
-      src="public\svelte.svg"
+      src="svelte.svg"
       alt="svelte"
       width="16"
     />
       <img
       data-tauri-drag-region
-      src="public\vite.svg"
+      src="vite.svg"
       alt="vite"
       width="18"
     />
  
       <img
       data-tauri-drag-region
-      src="public\tailwind-css.svg"
+      src="tailwind-css.svg"
       alt="tailwind"
       width="20"
     />
