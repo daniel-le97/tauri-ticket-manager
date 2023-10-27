@@ -3,7 +3,7 @@
 
 import { db } from "./index.js";
 import { type TemplateDTO, type Template, type Note, NoteDTO, type Common, Theme } from "./types.js";
-import { defu } from 'defu'
+
 // import * as dialog from '@tauri-apps/api/dialog'
 // import { useDB } from "./index.js";
 
