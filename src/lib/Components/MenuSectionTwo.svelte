@@ -80,7 +80,7 @@
     <li class="line-item">
       <GradientButton
         class=" rounded-sm "
-        on:click="{getTemplates}">Templates</GradientButton
+        on:click="{() => {($templateDrawer = !$templateDrawer);getTemplates()}}">Templates</GradientButton
       >
     </li>
     <li class="line-item">

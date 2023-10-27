@@ -20,7 +20,7 @@
     import { templates } from "../stores/template.js";
 
 
-
+let activateClickOutside = false;
 
   let transitionParamsRight = {
     x: 320,

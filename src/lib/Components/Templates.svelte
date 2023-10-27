@@ -106,14 +106,14 @@
             size="sm"
             bind:value="{$title}"
             placeholder="Title"
-            class="w-1/3 {$editingTemplate? "bg-red-200" : ""}"
+            class="w-1/3 dark:bg-gray-800 dark:!text-white {$editingTemplate? "bg-red-200" : ""}"
             id="new-title"
           />
         </div>
         <div class="flex">
           <Input
             type="text"
-            class="w-1/3 "
+            class="w-1/3 dark:bg-gray-800 dark:!text-white "
             size="sm"
             bind:value="{$tag}"
             placeholder="Tag"
@@ -129,7 +129,7 @@
             minlength="1"
             bind:value="{$content}"
             placeholder="Add Content"
-            class=""
+            class=" dark:bg-gray-800 dark:!text-white"
             id="new-Template"
           />
         </div>
