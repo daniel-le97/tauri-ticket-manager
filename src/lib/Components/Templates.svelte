@@ -1,6 +1,5 @@
 <!-- Checklist.svelte -->
 <script lang="ts">
-  import { clipboard, notification } from "@tauri-apps/api";
   import {
     Popover,
     GradientButton,
@@ -17,13 +16,12 @@
     activeTemplate,
     templates
   } from "../stores/template.js";
-  import { Template, type ITemplate, TemplateDTO } from "../../db/types.js";
+  import { TemplateDTO } from "../../db/types.js";
   import { dbService } from "../../db/service.js";
   import { templateService } from "../services/template.js";
   import { onMount } from "svelte";
-  import { PenSolid, TrashBinSolid } from "flowbite-svelte-icons";
+  import { TrashBinSolid } from "flowbite-svelte-icons";
   import { confirm } from "@tauri-apps/api/dialog";
-  import { get, writable } from "svelte/store";
   import logger from "../utils/logger.js";
 
   
