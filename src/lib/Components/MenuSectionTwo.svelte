@@ -12,7 +12,6 @@
   import { templates } from "../stores/template.js";
   import ModalsAndDrawers from "./ModalsAndDrawers.svelte";
   import TimerComponent from "./TimerComponent.svelte";
-  import { templateService } from "../services/template.js";
   import { dbService } from "../../db/service.js";
   import logger from "../utils/logger.js";
 

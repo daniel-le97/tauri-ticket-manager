@@ -11,10 +11,7 @@
   import UsageGuide from "./UsageGuide.svelte";
   import TicketHistory from "./TicketHistory.svelte";
   import { sineIn } from "svelte/easing";
-  import type { TemplateDTO } from "../../db/types";
   import { clipboard } from "@tauri-apps/api";
-  import { dbService } from "../../db/service";
-  import { onMount } from "svelte";
   import ColorPicker from "./ColorPicker.svelte";
   import logger from "../utils/logger";
   import { templates } from "../stores/template.js";

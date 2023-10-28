@@ -1,9 +1,8 @@
 
 <script lang="ts">
   import { Button } from 'flowbite-svelte';
-  import { CotateSolid, PauseSolid, PlaySolid, RestoreWindowSolid } from 'flowbite-svelte-icons';
+  import { CotateSolid, PauseSolid, PlaySolid } from 'flowbite-svelte-icons';
   import { writable, derived } from 'svelte/store';
-  import { appState } from '../stores/appState';
   import { alertState } from '../stores/alert';
 
   // Timer state

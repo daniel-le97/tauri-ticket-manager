@@ -3,14 +3,10 @@
   import {
     Badge,
     Button,
-    GradientButton,
-    Popover,
     Tooltip,
   } from "flowbite-svelte";
   import {
-    ChevronDoubleRightOutline,
     ChevronLeftSolid,
-    ChevronRightOutline,
     ChevronRightSolid,
     ClipboardCheckSolid,
     CotateSolid,
@@ -23,9 +19,7 @@
   } from "../stores/appState";
   import { confirm } from "@tauri-apps/api/dialog";
   import { noteService } from "../services/notes.js";
-  import { onMount } from "svelte";
   import { alertState } from "../stores/alert";
-  import { notification } from "@tauri-apps/api";
   import { dbService } from "../../db/service.js";
   import logger from "../utils/logger";
 
@@ -112,10 +106,6 @@ ${$appState.description}
   }
   async function saveNote() {
     try {
-      // if ($timingButton) {
-      //   return; // Exit the function if the button is disabled
-      // }
-
       await noteService.next();
     } catch (error) {
       logger()?.error(error);
