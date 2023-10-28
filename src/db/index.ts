@@ -92,9 +92,9 @@ class DBInit {
 
 
 
-    if (import.meta.env.DEV) {
-        await this.generateNotes(500)
-    }
+    // if (import.meta.env.DEV) {
+    //     await this.generateNotes(500)
+    // }
     
     // NOTE do not reformat this, needs to be like this for correct spacing
         const insertTemplate = await ( await this._db ).execute(`INSERT INTO templates (title, content) VALUES (
