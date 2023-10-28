@@ -1,12 +1,18 @@
 # Tauri-tickets
 
-A project showcasing how to use tauri - svelte - sqlite by creating a ticket/note management app!
+A project that uses tauri - svelte - sqlite to create a ticket/note management app!
+
+
+## Why
+
+this project was made for us to lean how to make a cross platform desktop application and on how to distribute it.
 
 ## Warning
 
 this repo is not yet in production ready 1.0 status, as such some things may be missing or incomplete. 
 
-Additionally We cannot afford to notarize this app, resulting in a warning when trying to install on windows and macos
+Additionally We cannot afford to notarize this app, resulting in a warning when trying to install on windows and macos, you will need to right click the app after installing
+and hit open
 
 
 # Installing
@@ -20,7 +26,7 @@ note: for windows the .msi installer works better than the .exe
 
 at the moment the best way to try it out is by checking this repo's Releases:
 
-[Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases/tag/v0.6.1)
+[Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases/tag/v0.6.3)
 
 or from source locally:
 Node and Rust are required for this
@@ -42,15 +48,6 @@ pnpm install
 // this will build the client and run the rust (tauri) backend
 pnpm run dev
 ```
-
-
-
-
-This template should help get you started developing with Tauri, Svelte and TypeScript in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
 
 # Basic Usage
 
