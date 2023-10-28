@@ -3,6 +3,14 @@
 A project showcasing how to use tauri - svelte - sqlite by creating a ticket/note management app!
 
 # Usage
+
+homebrew:
+```bash
+brew tap daniel-le97/homebrew-ledevopportunities
+brew install --cask tauri-tickets
+```
+note: for windows the .msi installer works better than the .exe
+
 at the moment the best way to try it out is by checking this repo's releases:
 
 [Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases)
@@ -18,7 +26,8 @@ cd tauri-ticket-manager
 
 2. install client deps
 ```bash
-pnpm install
+pnpm ingithub
+
 ```
 
 3. run the app
