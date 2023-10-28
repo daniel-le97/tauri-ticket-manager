@@ -58,29 +58,29 @@ https://github.com/daniel-le97/tauri-ticket-manager/assets/107774403/c53f8d6a-52
 MyNoteTaker is a simple and intuitive note-taking application. Follow these steps to get started:
 
 1. Start Documenting the Ticket | Call, The Timer will Begin
-   ![GuideTimer](./src/lib/Assets/Images/GuideTimer.png)
+   ![GuideTimer](./public/Images/GuideTimer.png)
 
 2. Copying any Email, Phone Number, Asset# or Ticket# will autofill those input fields
-   ![Guide1](./src/lib//Assets//Images/Guide1.png)
+   ![Guide1](./public/Images/Guide1.png)
 
 3. Once documentation has ended, you can select the Clipboard Icon to copy all the relevant information to your clipboard.
-   ![Guide2](./src/lib/Assets/Images/Guide2.png)
+   ![Guide2](./public/Images/Guide2.png)
 
 # Create a New Note
 
 To create a new note, follow these steps:
 
 1. Click on the Right Chevron
-   ![Guide3](./src/lib/Assets/Images/Guide3.png)
+   ![Guide3](./public/Images/Guide3.png)
 
 2. Notes are automatically saved upon confirming the pop-up message.
 
 3. Note will be recorded by date and a randomly generated ID, which you can view previous tickets by.
-   ![Guide4](./src/lib/Assets/Images/Guide4.png)
+   ![Guide4](./public/Images/Guide4.png)
 
 # Use and Create Templates
 
-![GuideTemplateBtn](./src/lib/Assets/Images/GuideTemplateBtn.png)
+![GuideTemplateBtn](./public/Images/GuideTemplateBtn.png)
 
 1. From the dashboard, you can click on the above button
 
