@@ -33,7 +33,7 @@ cd tauri-ticket-manager
 
 2. install client deps
 ```bash
-pnpm ingithub
+pnpm install
 
 ```
 
