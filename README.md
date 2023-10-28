@@ -2,6 +2,13 @@
 
 A project showcasing how to use tauri - svelte - sqlite by creating a ticket/note management app!
 
+## Warning
+
+this repo is not yet in production ready 1.0 status, as such some things may be missing or incomplete. 
+
+Additionally We cannot afford to notarize this app, resulting in a warning when trying to install on windows and macos
+
+
 # Installing
 
 homebrew:
