@@ -11,9 +11,9 @@ brew install --cask tauri-tickets
 ```
 note: for windows the .msi installer works better than the .exe
 
-at the moment the best way to try it out is by checking this repo's releases:
+at the moment the best way to try it out is by checking this repo's Tags:
 
-[Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases)
+[Tags](https://github.com/daniel-le97/tauri-ticket-manager/tags)
 
 or from source locally:
 Node and Rust are required for this
