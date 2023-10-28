@@ -26,7 +26,7 @@ note: for windows the .msi installer works better than the .exe
 
 at the moment the best way to try it out is by checking this repo's Releases:
 
-[Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases/tag/v0.6.3)
+[Releases](https://github.com/daniel-le97/tauri-ticket-manager/releases/tag/v0.6.4)
 
 or from source locally:
 Node and Rust are required for this
