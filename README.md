@@ -2,7 +2,7 @@
 
 A project showcasing how to use tauri - svelte - sqlite by creating a ticket/note management app!
 
-# Usage
+# Installing
 
 homebrew:
 ```bash
