@@ -43,6 +43,8 @@ class DBService {
     }
     notes = {
         async search ( searchCriteria: {query:string, params:any[]}) {
+            console.log(searchCriteria);
+            
             return await db.select<NoteDTO[]>(searchCriteria.query, searchCriteria.params)
         },
         async count(){

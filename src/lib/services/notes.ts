@@ -21,7 +21,10 @@ class Query {
   }
 
   parse(searchCriteria: Record<string, string>) {
-      for(const [key, value] of Object.entries(searchCriteria)){
+      for(let [key, value] of Object.entries(searchCriteria)){
+        if (key === 'date') {
+          key = "created_at"
+        }
           this.conditions.push(`${key} LIKE $${this.getNextConditionIndex()}`)
           this.params.push(`%${value}%`)
       }
